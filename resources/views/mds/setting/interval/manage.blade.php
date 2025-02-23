@@ -1,4 +1,4 @@
-@extends('mds.layout.dashboard')
+@extends('mds.admin.layout.dashboard')
 @section('main')
 
 
@@ -35,7 +35,7 @@
 
                         </div>
                         <div class="col-12 col-md-auto d-flex">
-                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#create_intervalss_modal"><button class="btn btn-phoenix-primary px-3 px-sm-5 me-2"><span class="fa-solid fa-edit me-sm-2"></span><span class="d-none d-sm-inline">Add </span></button></a>
+                            <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#create_intervalss_modal"><button class="btn btn-phoenix-primary px-3 px-sm-5 me-2"><span class="fa-solid fa-edit me-sm-2"></span><span class="d-none d-sm-inline">Add </span></button></a>
                             <button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2"><span class="fa-solid fa-edit me-sm-2"></span><span class="d-none d-sm-inline">Edit </span></button>
                             <button class="btn btn-phoenix-danger me-2"><span class="fa-solid fa-trash me-2"></span><span>Delete</span></button>
                             <div>
@@ -49,8 +49,12 @@
                             </div>
                         </div>
                     </div>
-                    <span class="mb-3"><h4 class="mb-0">{{format_date($schedule->regime_start_date)}} to {{format_date($schedule->regime_end_date)}}</h4></span>
-                    <span class="mb-3"><h4 class="mb-0">{{$schedule->rsp->title}} Timeslots: {{$schedule->time_slots}}</h4></span>
+                    <span class="mb-3">
+                        <h4 class="mb-0">{{format_date($schedule->regime_start_date)}} to {{format_date($schedule->regime_end_date)}}</h4>
+                    </span>
+                    <span class="mb-3">
+                        <h4 class="mb-0">{{$schedule->rsp->title}} Timeslots: {{$schedule->time_slots}}</h4>
+                    </span>
 
                     <!-- <div class="col-xl-7 col-xxl-12 mt-3">
                         <div class="card mb-3">
@@ -61,7 +65,7 @@
                     </div> -->
 
                     <div class="mb-0 mt-4">
-                        <x-interval-card :intervals="$intervals" :schedule="$schedule"/>
+                        <x-setting.interval-card :intervals="$intervals" :schedule="$schedule" />
                     </div>
                 </div>
             </div>
@@ -78,19 +82,19 @@
         <!-- ===============================================-->
         <!-- modal land -->
 
-
+        @include('mds.admin.partials.scheduel_interval_modals')
         <!-- this is the Add Attachement Modal for events -->
 
 
         <!-- Modal to show the overview of the task and notes and attachment with tasks and  -->
         <script>
-        var label_update = '<?= get_label('update', 'Update') ?>';
-        var label_delete = '<?= get_label('delete', 'Delete') ?>';
-        var label_not_assigned = '<?= get_label('not_assigned', 'Not assigned') ?>';
-        var label_duplicate = '<?= get_label('duplicate', 'Duplicate') ?>';
-        var label_intervals = '<?= get_label('intervals', 'Intervals') ?>';
-    </script>
-    <script src="{{asset('assets/js/pages/interval.js')}}"></script>
+            var label_update = '<?= get_label('update', 'Update') ?>';
+            var label_delete = '<?= get_label('delete', 'Delete') ?>';
+            var label_not_assigned = '<?= get_label('not_assigned', 'Not assigned') ?>';
+            var label_duplicate = '<?= get_label('duplicate', 'Duplicate') ?>';
+            var label_intervals = '<?= get_label('intervals', 'Intervals') ?>';
+        </script>
+        <script src="{{asset('assets/js/pages/mds/interval.js')}}"></script>
 
         @endsection
 

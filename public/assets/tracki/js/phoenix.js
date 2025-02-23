@@ -6802,7 +6802,7 @@
     docReady(anchorJSInit);
     docReady(popoverInit);
     docReady(formValidationInit);
-    docReady(docComponentInit);
+    // docReady(docComponentInit);
     docReady(swiperInit);
     docReady(productDetailsInit);
     docReady(ratingInit);

@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DeliveryBooking;
-use App\Models\DeliveryBookingNote;
-use App\Models\DeliveryCargoType;
-use App\Models\DeliveryRsp;
-use App\Models\DeliverySchedule;
-use App\Models\DeliverySchedulePeriod;
-use App\Models\DeliveryType;
-use App\Models\DeliveryVehicle;
-use App\Models\DeliveryVehicleType;
-use App\Models\DeliveryVenue;
-use App\Models\DeliveryZone;
+use App\Models\Mds\DeliveryBooking;
+use App\Models\Mds\DeliveryBookingNote;
+use App\Models\Mds\DeliveryCargoType;
+use App\Models\Mds\DeliveryRsp;
+use App\Models\Mds\DeliverySchedule;
+use App\Models\Mds\DeliverySchedulePeriod;
+use App\Models\Mds\DeliveryType;
+use App\Models\Mds\DeliveryVehicle;
+use App\Models\Mds\DeliveryVehicleType;
+use App\Models\Mds\DeliveryVenue;
+use App\Models\Mds\DeliveryZone;
 use App\Models\FunctionalArea;
-use App\Models\MdsDriver;
+use App\Models\Mds\MdsDriver;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -405,7 +405,7 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         //
-        // dd($request);
+        dd($request);
         $user_id = Auth::user()->id;
         $venue = new DeliveryBooking();
         $timeslots = DeliverySchedulePeriod::findOrFail($request->schedule_period_id);
@@ -484,7 +484,7 @@ class BookingController extends Controller
         );
 
         // return redirect()->route('mds.booking.add')->with($notification);
-        return view('mds.booking.confirmation', ['data' => $venue]);
+        return view('mds.admin.booking.confirmation', ['data' => $venue]);
 
 
         // return response()->json(['error' => $error, 'message' => $message]);

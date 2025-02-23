@@ -49,6 +49,9 @@
 <script src="{{ asset('assets/js/code/code.js') }}"></script>
 <script src="{{ asset('assets/vendors/spin/spin.js') }}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+
 <!-- Include SmartWizard JavaScript source -->
 <!-- <script type="text/javascript" src="{{ asset('assets/smartwizard/dist/js/jquery.smartWizard.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/smartwizard/js/demo.js') }}"></script>

@@ -1,4 +1,4 @@
-@extends('mds.layout.dashboard')
+@extends('mds.admin.layout.dashboard')
 @section('main')
 
 

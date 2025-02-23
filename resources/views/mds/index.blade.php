@@ -1,4 +1,4 @@
-@extends('tracki.layout.dashboard')
+@extends('mds.admin.layout.dashboard')
 @section('main')
 
 
