@@ -83,8 +83,6 @@ Route::get('/ganttok', function () {
 //     return view('tracki/users/create-new');
 // });
 
-Route::get('tracki/users/create-new', [ProjectController::class, 'test'])->name('tracki.users.createnew');
-
 // Route::get('/manualupdateadminuser', function () {
 //     return view('manualupdateadminuser');
 // });
