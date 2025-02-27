@@ -1,9 +1,9 @@
-@extends('mds.admin.layout.dashboard')
+@extends('mds.admin.layout.admin_template')
 @section('main')
 
 
 <!-- ***************************************************************************** */ -->
-<div class="content">
+{{-- <div class="content"> --}}
 
     <!-- <div class="pb-9"> -->
     <nav aria-label="breadcrumb">

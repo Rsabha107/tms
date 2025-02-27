@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.dashboard')
+@extends('mds.admin.layout.admin_template')
 @section('main')
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
@@ -7,7 +7,7 @@
 <!--    Main Content-->
 <!-- ===============================================-->
 
-<div class="content">
+{{-- <div class="content"> --}}
 
     <div class="d-flex justify-content-between m-2">
         <div>

@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.dashboard')
+@extends('mds.admin.layout.admin_template')
 @section('main')
 
 
@@ -6,7 +6,7 @@
 <!--    Main Content-->
 <!-- ===============================================-->
 
-<div class="content">
+{{-- <div class="content"> --}}
     <div class="container-fluid">
         <div class="d-flex justify-content-between m-2">
             <div>
