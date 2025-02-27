@@ -37,7 +37,7 @@
         $(window).load(function() {
             console.log('spinner')
             // $(".se-pre-con").fadeOut("slow");
-            $("#cover-spin").fadeOut("slow");
+            $("#cover-spin").fadeOut(100);
         });
     </script>
 
