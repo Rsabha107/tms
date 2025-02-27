@@ -7,6 +7,11 @@
     </script>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <!-- scrollbar removed-->
+
+
+
+
+        
         <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
 
@@ -109,41 +114,41 @@
                     @endif
 
                     @if (Auth::user()->can('roles.permissions.menu'))
-                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator {{ Request::is('tracki/sec/permissions/*')||Request::is('tracki/sec/roles/*') ? '' : 'collapsed' }} label-1" href="#nv-roleperm" role="button" data-bs-toggle="collapse" aria-expanded="{{ Request::is('tracki/sec/permissions/*')||Request::is('tracki/sec/roles/*') ? 'true' : 'false' }}" aria-controls="nv-roleperm">
+                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator {{ Request::is('sec/permissions/*')||Request::is('sec/roles/*') ? '' : 'collapsed' }} label-1" href="#nv-roleperm" role="button" data-bs-toggle="collapse" aria-expanded="{{ Request::is('sec/permissions/*')||Request::is('sec/roles/*') ? 'true' : 'false' }}" aria-controls="nv-roleperm">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
                                 <span class="nav-link-icon"><span data-feather="trello"></span></span><span class="nav-link-text">Role & Permission</span><span class="fa-solid fa-circle text-info ms-1 new-page-indicator" style="font-size: 6px"></span>
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent {{ Request::is('tracki/sec/permissions/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-roleperm">
+                            <ul class="nav collapse parent {{ Request::is('sec/permissions/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-roleperm">
                                 <li class="collapsed-nav-item-title d-none">All Permissions
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('tracki/sec/permissions/list') ? 'active' : '' }}" href="{{route('tracki.sec.perm.list')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('sec/permissions/list') ? 'active' : '' }}" href="{{route('sec.perm.list')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">All Permissions</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('tracki/sec/roles/roles/list') ? 'active' : '' }}" href="{{route('tracki.sec.roles.list')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('sec/roles/roles/list') ? 'active' : '' }}" href="{{route('sec.roles.list')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">All Roles</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('tracki/sec/rolesetup/list') ? 'active' : '' }}"" href=" {{route('tracki.sec.rolesetup.list')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('sec/rolesetup/list') ? 'active' : '' }}"" href=" {{route('sec.rolesetup.list')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">List Roles in Permission</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('tracki.sec.rolesetup.add')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link" href="{{route('sec.rolesetup.add')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Role in Permission</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('tracki.sec.groups.list')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link" href="{{route('sec.groups.list')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Groups</span>
                                         </div>
                                     </a>
@@ -164,16 +169,16 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent  {{ Request::is('tracki/sec/adminuser/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-adminuser">
+                            <ul class="nav collapse parent  {{ Request::is('sec/adminuser/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-adminuser">
                                 <li class="collapsed-nav-item-title d-none">Manage Users
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('tracki.sec.adminuser.list')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link" href="{{route('sec.adminuser.list')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">All Users</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{{route('tracki.sec.adminuser.add')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link" href="{{route('sec.adminuser.add')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Add User</span>
                                         </div>
                                     </a>
@@ -215,14 +220,14 @@
                             </ul>
                         </div>
                     </div>  -->
-                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{route('tracki.auth.signup')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{route('auth.signup')}}" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="user-plus"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Add Users</span></span>
                             </div>
                         </a>
                     </div>
                     @endif
                     @if (Auth::user()->can('calendar.menux'))
-                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{route('tracki.project.show.calendar')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="nav-item-wrapper"><a class="nav-link label-1" href="{{route('project.show.calendar')}}" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="calendar"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Calendar</span></span>
                             </div>
                         </a>

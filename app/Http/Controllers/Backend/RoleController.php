@@ -28,14 +28,14 @@ class RoleController extends Controller
     {
         $dataDetails = Permission::all();
 
-        return view('tracki.sec.permissions.list', compact('dataDetails'));
+        return view('sec.permissions.list', compact('dataDetails'));
     }
 
     public function importPermission()
     {
         $dataDetails = Permission::all();
 
-        return view('tracki.sec.permissions.import');
+        return view('sec.permissions.import');
     }
 
     public function ImportNowPermission(Request $request){
@@ -48,14 +48,14 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.perm.list')->with($notification);
+        return Redirect::route('sec.perm.list')->with($notification);
     }
 
     public function addPermission(){
 
         $groups = PermissionGroup::all();
 
-        return view ('tracki.sec.permissions.add', compact('groups'));
+        return view ('sec.permissions.add', compact('groups'));
     }
     public function createPermission(Request $request)
     {
@@ -68,7 +68,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::route('tracki.sec.perm.list')
+            return Redirect::route('sec.perm.list')
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -87,7 +87,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.perm.list')->with($notification);
+        return Redirect::route('sec.perm.list')->with($notification);
     } // saveEvent
 
     public function editPermission($id)
@@ -97,7 +97,7 @@ class RoleController extends Controller
         $groups = PermissionGroup::all();
         $status = GlobalStatus::all();
 
-        return view ('tracki.sec.permissions.edit', compact('permissions', 'groups', 'status'));
+        return view ('sec.permissions.edit', compact('permissions', 'groups', 'status'));
 
     } // editaudience
 
@@ -112,7 +112,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::route('tracki.sec.perm.list')
+            return Redirect::route('sec.perm.list')
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -130,7 +130,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.perm.list')->with($notification);
+        return Redirect::route('sec.perm.list')->with($notification);
         // return view('');
 
     }
@@ -146,7 +146,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.perm.list')->with($notification);
+        return Redirect::route('sec.perm.list')->with($notification);
     }
 
     // *********************************************** Group Name *********************************************************************
@@ -172,7 +172,7 @@ class RoleController extends Controller
     {
         $dataDetails = PermissionGroup::all();
 
-        return view('tracki.sec.groups.list', compact('dataDetails'));
+        return view('sec.groups.list', compact('dataDetails'));
     }
 
     public function createGroup(Request $request)
@@ -186,7 +186,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::route('tracki.sec.groups.list')
+            return Redirect::route('sec.groups.list')
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -206,7 +206,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.groups.list')->with($notification);
+        return Redirect::route('sec.groups.list')->with($notification);
     } // saveEvent
 
     public function editGroup($id)
@@ -232,7 +232,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.groups.list')->with($notification);
+        return Redirect::route('sec.groups.list')->with($notification);
 
 
     }
@@ -248,7 +248,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        // return Redirect::route('tracki.sec.groups.list')->with($notification);
+        // return Redirect::route('sec.groups.list')->with($notification);
         return redirect()->back()->with($notification);
 
     }
@@ -258,7 +258,7 @@ class RoleController extends Controller
     {
         $dataDetails = Role::all();
 
-        return view('tracki.sec.roles.list', compact('dataDetails'));
+        return view('sec.roles.list', compact('dataDetails'));
     }
 
     public function createRole(Request $request)
@@ -272,7 +272,7 @@ class RoleController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return Redirect::route('tracki.sec.roles.list')
+            return Redirect::route('sec.roles.list')
                 ->withInput()
                 ->withErrors($validator);
         }
@@ -295,7 +295,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.roles.list')->with($notification);
+        return Redirect::route('sec.roles.list')->with($notification);
     } // saveEvent
 
     public function editRole($id)
@@ -321,7 +321,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        return Redirect::route('tracki.sec.roles.list')->with($notification);
+        return Redirect::route('sec.roles.list')->with($notification);
 
 
     }
@@ -337,7 +337,7 @@ class RoleController extends Controller
         );
 
         // Toastr::success('Has been add successfully :)','Success');
-        // return Redirect::route('tracki.sec.roles.list')->with($notification);
+        // return Redirect::route('sec.roles.list')->with($notification);
         return redirect()->back()->with($notification);
     }
 
@@ -349,7 +349,7 @@ class RoleController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view ('tracki.sec.rolesetup.add', compact('roles', 'permissions', 'permission_groups'));
+        return view ('sec.rolesetup.add', compact('roles', 'permissions', 'permission_groups'));
     }
 
     public function createRolePermission(Request $request){
@@ -368,14 +368,14 @@ class RoleController extends Controller
             'message'       => 'Role Permission added successfully',
             'alert-type'    => 'success'
         );
-        return redirect()->route('tracki.sec.rolesetup.list')->with($notification);
+        return redirect()->route('sec.rolesetup.list')->with($notification);
     }
 
     public function listRolePermission(){
 
         $roles = Role::all();
         // dd($roles);
-        return view('tracki.sec.rolesetup.list', compact('roles'));
+        return view('sec.rolesetup.list', compact('roles'));
 
     }
 
@@ -383,7 +383,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view ('tracki.sec.rolesetup.edit', compact('role', 'permissions', 'permission_groups'));
+        return view ('sec.rolesetup.edit', compact('role', 'permissions', 'permission_groups'));
     } // editRolePermission
 
     public function updateRolePermission(Request $request){
@@ -401,7 +401,7 @@ class RoleController extends Controller
             'message'       => 'Role Permission updated successfully',
             'alert-type'    => 'success'
         );
-        return redirect()->route('tracki.sec.rolesetup.list')->with($notification);
+        return redirect()->route('sec.rolesetup.list')->with($notification);
     } //updateRolePermission
 
     public function deleteRolePermission($id){
@@ -426,14 +426,14 @@ class RoleController extends Controller
         $userdata = User::all();
         // dd($userdata);
 
-        return view ('tracki.sec.adminuser.list', compact('userdata'));
+        return view ('sec.adminuser.list', compact('userdata'));
     } //listAdminUser
 
     public function addAdminUser(){
         $roles = Role::all();
         $workspace = Workspace::all();
         $departments = Department::all();
-        return view ('tracki.sec.adminuser.add', compact('roles', 'workspace','departments'));
+        return view ('sec.adminuser.add', compact('roles', 'workspace','departments'));
     }  // addAdminUser
 
     public function createAdminUser(Request $request){
@@ -476,7 +476,7 @@ class RoleController extends Controller
             'message'       => 'New user inserted successfully',
             'alert-type'    => 'success'
         );
-        return redirect()->route('tracki.sec.adminuser.list')->with($notification);
+        return redirect()->route('sec.adminuser.list')->with($notification);
 
     }
 
@@ -486,7 +486,7 @@ class RoleController extends Controller
         $workspace = Workspace::all();
         $departments = Department::all();
 
-        return view ('tracki.sec.adminuser.edit', compact('user', 'roles', 'workspace', 'departments'));
+        return view ('sec.adminuser.edit', compact('user', 'roles', 'workspace', 'departments'));
 
     }
 
@@ -522,7 +522,7 @@ class RoleController extends Controller
             'message'       => 'User updated successfully',
             'alert-type'    => 'success'
         );
-        return redirect()->route('tracki.sec.adminuser.list')->with($notification);
+        return redirect()->route('sec.adminuser.list')->with($notification);
 
     }
 
@@ -542,7 +542,7 @@ class RoleController extends Controller
         //     'message'       => 'Admin user updated successfully',
         //     'alert-type'    => 'success'
         // );
-        // return redirect()->route('tracki.sec.adminuser.list')->with($notification);
+        // return redirect()->route('sec.adminuser.list')->with($notification);
 
         return('ok now??');
 

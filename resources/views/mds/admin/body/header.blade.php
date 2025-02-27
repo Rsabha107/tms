@@ -14,9 +14,9 @@
             <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('assets/img/icons/sparkle_hrms.jpg') }}" alt="{{ __('traki.page_title') }}"
+                        <img src="{{ asset('assets/img/icons/mds.jpg') }}" alt="{{ __('mds.page_title') }}"
                             width="27" />
-                        <h5 class="logo-text ms-2 d-none d-sm-block">{{ __('traki.page_title') }}</h5>
+                        <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }}</h6>
                     </div>
                 </div>
             </a>

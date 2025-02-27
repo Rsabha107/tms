@@ -1,77 +1,30 @@
-<?php
-
-use App\Models\Workspace;
-use Illuminate\Support\Facades\Log;
-
-// $user_workspace = auth()->user()->workspaces;
-if (auth()->user()->usertype == 'admin'  && !session()->has('workspace_id')) {
-    Log::info('no session here.  (topmenu)');
-    $all_ws = Workspace::all();
-    $current_ws = null;
-    $set_ws_message = "All workspaces";
-    $badge_color = "primary";
-} elseif (!session()->has('workspace_id')) {
-    Log::info('no session here.  (topmenu)');
-    // $all_ws = Workspace::all();
-    $current_ws = null;
-    $set_ws_message = "Please choose a workspace first";
-    $badge_color = "danger";
-} else {
-    $current_ws = session()->get('workspace_id');
-    $ws = Workspace::findOrFail($current_ws);
-    $all_ws = Workspace::all();
-    $set_ws_message = $ws->title;
-    $badge_color = "success";
-}
-
-?>
-
 <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
     <div class="collapse navbar-collapse justify-content-between">
         <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds') }}">
+            <a class="navbar-brand me-1 me-sm-3" href="{{ route('main.dashboard') }}">
                 <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center"><img src="{{ asset ('assets/img/icons/Marktoneems.jpg') }}" alt="phoenix" width="40" height="20" />
-                        <p class="logo-text ms-2 d-none d-sm-block">{{__('mds.page_titlexx')}}</p>
+                    <div class="d-flex align-items-center"><img src="{{ asset ('assets/img/icons/sparckle_hrms.jpg') }}" alt="phoenix" width="40" height="20" />
+                        <p class="logo-text ms-2 d-none d-sm-block">{{__('traki.page_title')}}</p>
                     </div>
                 </div>
             </a>
+            <div class="btn-group dropdown mt-2">
+
+<button class="badge badge-phoenix fs-10 badge-phoenix-primary me-1 mb-1 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropend</button>
+<div class="dropdown-menu">
+    @foreach ($user_workspace as $uws)
+    <a class="dropdown-item" href="#">{{ $uws->title}}</a>
+    @endforeach
+    <!-- <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">Separated link</a> -->
+</div>
+</div>
         </div>
 
         <ul class="navbar-nav navbar-nav-icons flex-row">
 
-            {{-- <div class="btn-group dropdown mt-2">
-
-                <button class="badge badge-phoenix fs-10 badge-phoenix-{{$badge_color}} me-1 mb-1 dropdown-toggle" id="activeLinkExample" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{$set_ws_message}}</button>
-                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="activeLinkExample">
-                @if (auth()->user()->usertype == 'admin')
-
-                    @foreach ($all_ws as $uws)
-                    <!--  logger ('uws id: '. $uws->id. ' ******* '.'current session id: '.$current_ws)  -->
-                    <?php
-                    ($uws->id == $current_ws) ? $active = "active" : $active = "";
-                    ?>
-                    <a class="dropdown-item {{$active}} disabled" href="{{route('tracki.setup.workspace.switch',$uws->id)}}">{{ $uws->title}}</a>
-                    @endforeach
-
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{route('tracki.setup.workspace.switch',0)}}">Show All</a>
-                @else
-                    @foreach (auth()->user()->workspaces as $uws)
-                    <!-- logger ('uws id: '. $uws->id. ' ******* '.'current session id: '.$current_ws) -->
-                    <?php
-                    ($uws->id == $current_ws) ? $active = "active" : $active = "";
-                    ?>
-                    <a class="dropdown-item {{$active}}" href="{{route('tracki.setup.workspace.switch',$uws->id)}}">{{ $uws->title}}</a>
-                    @endforeach
-
-                    <!-- <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a> -->
-                @endif
-                </div>
-            </div> --}}
             <li class="nav-item">
                 <div class="theme-control-toggle fa-icon-wait px-2">
                     <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
@@ -307,8 +260,8 @@ if (auth()->user()->usertype == 'admin'  && !session()->has('workspace_id')) {
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
-                                <li class="nav-item"><a class="nav-link px-3" href="{{route('mds')}}"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="{{ route('mds')}}"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
+                                <li class="nav-item"><a class="nav-link px-3" href="{{route('main.profile')}}"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
+                                <li class="nav-item"><a class="nav-link px-3" href="{{ route('main.dashboard')}}"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="lock"></span>Posts &amp; Activity</a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings &amp; Privacy </a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="help-circle"></span>Help Center</a></li>
@@ -320,7 +273,7 @@ if (auth()->user()->usertype == 'admin'  && !session()->has('workspace_id')) {
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
                             </ul>
                             <hr />
-                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{{ route('mds.logout')}}"> <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
+                            <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{{ route('main.logout')}}"> <span class="me-2" data-feather="log-out"> </span>Sign out</a></div>
                             <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
                         </div>
                     </div>

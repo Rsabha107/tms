@@ -319,334 +319,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         //     return view('/mds/admin/booking');
         // });
 
-        // Route::middleware(['auth', 'role:showGantt'])->group(function () {
-        //     Route::get('/gantt', function () {
-        //         return view('gantt');
-        //     })->name('gantt');
-        // });
-
-        // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        // Route::get('/tracki/dashboard', [AdminController::class, 'trackiDashboard'])->name('tracki.dashboard');
-        // Route::get('/tracki/logout', [AdminController::class, 'logout'])->name('tracki.logout');
-        // Route::get('/tracki/profile', [AdminController::class, 'userProfile'])->name('tracki.profile');
-        // Route::get('/tracki/orderform', [AdminController::class, 'orderForm'])->name('tracki.orderform');
-        // Route::post('/tracki/profile/store', [AdminController::class, 'trackiProfileStore'])->name('tracki.profile.store');
-
-        // // Calendar
-        // Route::middleware(['auth', 'role:showCalendar'])->group(function () {
-        //     Route::get('/tracki/calendar/calendar', [EventController::class, 'showCalendar'])->name('tracki.project.show.calendar');
-        //     Route::get('/tracki/calendar/calendardata', [EventController::class, 'showCalendarData'])->name('tracki.project.calendar.data');
-        // });
-
-        // // kanban
-        // Route::get('/tracki/kanban/{id}/list', [KanbanController::class, 'index'])->name('tracki.kanban.show');
-        // Route::get('/tracki/kanban/{task_id}/update-status/{status_id}/', [KanbanController::class, 'updateStatus'])->name('tracki.kanban.status.change');
-
-        // Route::get('/tracki/project/card/{status?}', [ProjectController::class, 'showCard'])->name('tracki.project.show.card')->middleware('permission:project.show');
-        // Route::get('/tracki/project/list/{status?}', [ProjectController::class, 'showList'])->name('tracki.project.show.list')->middleware('permission:project.show');
-        // Route::get('/tracki/project/dtable/{project_id?}', [ProjectController::class, 'getProjectData'])->name('tracki.project.dtable');
-
-        //Project
-        // Route::middleware(['auth',  'role:Admin|SuperAdmin|Functional Admin', 'roles:admin', 'prevent-back-history'])->group(function () {
-
-        //     Route::get('Exportnowprojects', [ProjectController::class, 'ExportNowProjects'])->name('tracki.project.export.now');
-        //     Route::get('/tracki/project/archive', [ProjectController::class, 'showArchive'])->name('tracki.project.show.archive');
-        //     Route::get('/tracki/project/{id}/get', [ProjectController::class, 'getProject'])->name('tracki.project.get');
-        //     Route::get('/tracki/project/getwsuser', [ProjectController::class, 'getWsUsers'])->name('tracki.project.get.wsuser');
-        //     Route::get('/tracki/project/{id}/getprojov', [ProjectController::class, 'getProjectOv'])->name('tracki.project.get.getprojov');
-        //     Route::get('tracki/project/add', [ProjectController::class, 'addProject'])->name('tracki.project.add');
-        //     Route::post('/tracki/project/store', [ProjectController::class, 'createProject'])->name('tracki.project.create');
-        //     Route::post('/tracki/project/update', [ProjectController::class, 'updateProject'])->name('tracki.project.update');
-        //     Route::get('/tracki/project/{id}/edit/{source?}', [ProjectController::class, 'editProject'])->name('tracki.project.edit');
-        //     Route::get('/tracki/project/{id}/delete', [ProjectController::class, 'deleteProject'])->name('tracki.project.delete');
-        //     Route::get('/tracki/project/{id}/restore', [ProjectController::class, 'restoreProject'])->name('tracki.project.restore');
-        //     Route::get('/tracki/project/mv/cards/{id?}', [ProjectController::class, 'getProjectCards'])->name('tracki.project.vw.cards');
-
-
-        //     //add project note
-        //     Route::post('eventnotestore', [ProjectController::class, 'noteStore'])->name('tracki.event.note.store');
-        //     Route::get('tracki/event/note/{id}/delete', [ProjectController::class, 'deleteEventNote'])->name('tracki.event.delete.note');
-
-        //     //file project upload
-        //     Route::post('eventfilestore', [ProjectController::class, 'fileStore'])->name('tracki.event.file.store');
-        //     Route::get('tracki/event/file/{id}/delete', [ProjectController::class, 'fileDelete'])->name('tracki.event.file.delete');
-
-        //     //budget
-        //     Route::get('tracki/budget/utilization', [BudgetController::class, 'budgetUtilization'])->name('tracki.budget.utilization');
-        //     Route::get('tracki/budget/list', [BudgetController::class, 'showBudget'])->name('tracki.budget.list');
-        //     Route::get('tracki/budget/add', [BudgetController::class, 'addBudget'])->name('tracki.budget.add');
-        //     Route::get('tracki/budget/{id}/edit', [BudgetController::class, 'editBudget'])->name('tracki.budget.edit');
-        //     Route::get('tracki/budget/{id}/delete', [BudgetController::class, 'deleteBudget'])->name('tracki.budget.delete');
-        //     Route::post('budgetcreate', [BudgetController::class, 'createBudget'])->name('tracki.budget.create');
-        //     Route::post('budgetupdate', [BudgetController::class, 'updateBudget'])->name('tracki.budget.update');
-        //     Route::post('budgethrocreate', [BudgetController::class, 'createHROrganization'])->name('tracki.budget.create.hrorganization');
-        //     Route::post('budgetnamecreate', [BudgetController::class, 'createBudgetName'])->name('tracki.budget.create.budgetname');
-
-        //     //buaget to FA mapping
-        //     Route::get('tracki/budget/fam-list', [BudgetController::class, 'showFamBudget'])->name('tracki.budget.fam.list');
-        //     Route::get('tracki/budget/fam-add', [BudgetController::class, 'addFamBudget'])->name('tracki.budget.fam.add');
-        //     Route::get('tracki/budget/{id}/fam-edit', [BudgetController::class, 'editFamBudget'])->name('tracki.budget.fam.edit');
-        //     Route::get('tracki/budget/{id}/fam-delete', [BudgetController::class, 'deleteFamBudget'])->name('tracki.budget.fam.delete');
-        //     Route::post('fambudgetcreate', [BudgetController::class, 'createFamBudget'])->name('tracki.budget.fam.create');
-        //     Route::post('fambudgetupdate', [BudgetController::class, 'updateFamBudget'])->name('tracki.budget.fam.update');
-        // });
-
-        // // Employees
-        // Route::get('/tracki/employee/', [EmployeeController::class, 'index'])->name('tracki.employee')->middleware('permission:employee.show');
-        // Route::get('/tracki/employee/add', [EmployeeController::class, 'add'])->name('tracki.employee.add')->middleware('permission:employee.create');
-        // Route::get('/tracki/employee/list', [EmployeeController::class, 'list'])->name('tracki.employee.show')->middleware('permission:employee.show');
-        // Route::post('/tracki/employee/store', [EmployeeController::class, 'store'])->name('tracki.employee.store');
-        // Route::get('/tracki/employee/profile/{id}', [EmployeeController::class, 'profile'])->name('tracki.employee.profile');
-        // Route::get('tracki/employee/{id}/delete', [EmployeeController::class, 'delete'])->name('tracki.employee.delete');
-        // Route::post('/tracki/employee/update', [EmployeeController::class, 'update'])->name('tracki.employee.update');
-        // Route::get('/tracki/employee/mv/edit/{id}', [EmployeeController::class, 'getEmpEditView'])->name('tracki.employee.rv.edit');
-        // Route::get('/tracki/employee/create', [EmployeeController::class, 'create'])->name('tracki.employee.create');
-        // Route::get('/tracki/employee/project/{id?}', [EmployeeController::class, 'getProjectData'])->name('tracki.employee.project');
-        // Route::get('/tracki/employee/task/{id?}', [EmployeeController::class, 'getTaskData'])->name('tracki.employee.task');
-
-
-        // // Employee Address
-        // Route::get('/tracki/employee/address/{id}', [EmployeeAddressController::class, 'index'])->name('tracki.employee.address')->middleware('permission:employee.show');
-        // Route::get('/tracki/employee/address/add', [EmployeeAddressController::class, 'add'])->name('tracki.employee.address.add')->middleware('permission:employee.create');
-        // Route::get('/tracki/employee/address/list/{id?}', [EmployeeAddressController::class, 'list'])->name('tracki.employee.address.show')->middleware('permission:employee.show');
-        // // Route::get('/tracki/employee/address/show', [EmployeeAddressController::class, 'list'])->name('tracki.employee.address.show')->middleware('permission:employee.show');
-        // Route::post('/tracki/employee/address/store', [EmployeeAddressController::class, 'store'])->name('tracki.employee.address.store');
-        // Route::get('tracki/employee/address/delete/{id}', [EmployeeAddressController::class, 'delete'])->name('tracki.employee.address.delete');
-        // Route::post('/tracki/employee/address/address/update', [EmployeeAddressController::class, 'update'])->name('tracki.employee.address.update');
-        // Route::get('/tracki/employee/address/mv/edit/{id}', [EmployeeAddressController::class, 'getEmpEditView'])->name('tracki.employee.address.rv.edit');
-        // // Route::get('/tracki/employee/address/create', [EmployeeAddressController::class, 'create'])->name('tracki.employee.address.create');
-
-        // // Tasks
-        // Route::get('/tracki/task/{id}/add/{modal_yn?}', [TaskController::class, 'addTask'])->name('tracki.task.add')->middleware('permission:task.create');
-        // Route::get('/tracki/task/{id}/edit', [TaskController::class, 'editTask'])->name('tracki.task.edit')->middleware('permission:task.edit');
-        // Route::get('/tracki/task/get/{id}', [TaskController::class, 'getTask'])->name('tracki.task.get');
-        // Route::get('/tracki/task/{id}/getprojectuser', [TaskController::class, 'getProjectUsers'])->name('tracki.project.get.prjoectuser');
-        // Route::post('createtask', [TaskController::class, 'createTask'])->name('tracki.event.task.create');
-        // Route::post('/tracki/task/update', [TaskController::class, 'updateTask'])->name('tracki.task.update');
-
-
-        // Route::get('/tracki/task/notes/{id}', [TaskController::class, 'getTaskNotesView'])->name('tracki.task.notes');
-        // Route::get('/tracki/task/subtask/{id}', [TaskController::class, 'getTaskSubView'])->name('tracki.task.subtask');
-        // Route::get('/tracki/task/files/{id}', [TaskController::class, 'getTaskFilesView'])->name('tracki.task.files');
-
-
-        // // Route::post('updatetask', [TaskController::class, 'updateTask'])->name('tracki.task.update');
-        // Route::get('tracki/task/{id}/delete', [TaskController::class, 'deleteTask'])->name('tracki.task.delete');
-        // Route::get('tracki/task/{id}/list', [TaskController::class, 'taskDetails'])->name('tracki.task.list');
-        // Route::get('tracki/task/mv/edit/{id}', [TaskController::class, 'getTaskView'])->name('tracki.task.mv.edit');
-        // Route::post('tracki/task/store', [TaskController::class, 'taskStore'])->name('tracki.task.store');
-        // Route::get('tracki/task/overview/{id}', [TaskController::class, 'taskOverview'])->name('tracki.task.overview');
-        // Route::get('tracki/task/file/{id}/get', [TaskController::class, 'getTaskFiles'])->name('tracki.task.file.get');
-        // Route::get('tracki/task/note/{id}/get', [TaskController::class, 'getTaskNotes'])->name('tracki.task.note.get');
-        // Route::get('tracki/task/progress/{id}/edit', [TaskController::class, 'editTaskProgress'])->name('tracki.task.progress.edit');
-        // Route::post('updatetaskprogress', [TaskController::class, 'updateTaskProgress'])->name('tracki.task.progress.update');
-        // Route::get('tracki/task/status/{id}/edit', [TaskController::class, 'editTaskStatus'])->name('tracki.task.status.edit');
-        // Route::post('tracki/task/status/update', [TaskController::class, 'updateTaskStatus'])->name('tracki.task.status.update');
-        // Route::get('tracki/task/lt', [TaskController::class, 'ltTaskDetails'])->name('tracki.task.lt');
-        // Route::get('tracki/task/manage', [TaskController::class, 'index'])->name('tracki.task.manage');
-
-        // // Route::get('tracki/task/all', [TaskController::class, 'allTaskDetails'])->name('tracki.task.all');
-        // Route::get('tracki/task/empdtable/{id?}', [TaskController::class, 'allTaskDt'])->name('tracki.task.dtable');
-        // Route::get('tracki/task/est', [TaskController::class, 'endingSoonTaskDetails'])->name('tracki.task.est');
-        // Route::get('tracki/task/sst', [TaskController::class, 'startingSoonTaskDetails'])->name('tracki.task.sst');
-
-
-        // Route::get('/taskdetailpdf/{id}', [TaskController::class, 'taskDetailsPDF'])->name('tracki.task.pdf');
-        // // Route::get('/tracki/task/pdflist/', [EventController::class, 'taskOverviewSa'])->name('tracki.task.overview.sa');
-
-        // Route::get('/mds/task/pdflist', function () {
-        //     return view('/mds/task/pdflist');
-        // })->name('mds.task.pdflist');
-
-
-        // // todo
-        // Route::get('tracki/todo/manage', [TodoController::class, 'index'])->name('tracki.todo.manage');
-        // Route::post('tracki/todo/store', [TodoController::class, 'store'])->name('tracki.todo.store');
-        // Route::get('/tracki/todo/{id}/delete', [TodoController::class, 'destroy'])->name('tracki.todo.delete');
-        // Route::put('tracki/todo/update_status', [TodoController::class, 'updateStatus'])->name('tracki.todo.update_status');
-
-
-        // //task file upload
-        // Route::post('tracki/task/file/store', [TaskController::class, 'taskFileStore'])->name('tracki.task.file.store');
-        // Route::delete('tracki/task/file/{id}/delete', [TaskController::class, 'taskFileDelete'])->name('tracki.task.file.delete');
-
-
-        // //add task note
-        // Route::post('tracki/task/note/store', [TaskController::class, 'taskNoteStore'])->name('tracki.task.note.store');
-        // Route::delete('tracki/task/note/{id}/delete', [TaskController::class, 'deleteTaskNote'])->name('tracki.task.note.delete');
-
-        // // Route::get('/tracki/event/{id}/edit', [EventController::class, 'editEvent'])->name('tracki.event.edit');
-
-        // //************************************ Subtask Methods *************************************************** */
-        // Route::post('tracki/task/subtask', [SubtaskController::class, 'store'])->name('tracki.task.subtask.store');
-        // Route::get('tracki/task/subtask/{id}/overview', [SubtaskController::class, 'overview'])->name('tracki.task.subtask.overview');
-        // Route::put('tracki/task/subtask/update_status', [SubtaskController::class, 'updateStatus'])->name('tracki.task.subtask.update_status');
-
-        // //************************************ Setup Methods *************************************************** */
-        // // Event Category
-        // Route::get('/tracki/setup/category-list', [SetupController::class, 'catEvent'])->name('tracki.setup.category');
-        // Route::post('updatecat', [SetupController::class, 'updateEventCategory'])->name('tracki.setup.category.update');
-        // Route::post('createcat', [SetupController::class, 'createEventCategory'])->name('tracki.setup.category.create');
-        // Route::get('/tracki/setup/category/{id}/edit', [SetupController::class, 'editCategory'])->name('tracki.setup.category.show.edit');
-        // Route::get('/tracki/setup/category/{id}/delete', [SetupController::class, 'deleteCategory'])->name('tracki.setup.category.delete');
-
-        // // Event Audience
-        // Route::get('/tracki/setup/audience-list', [SetupController::class, 'eventAudience'])->name('tracki.setup.audience');
-        // Route::post('updateaudience', [SetupController::class, 'updateAudience'])->name('tracki.setup.audience.update');
-        // Route::post('createaudience', [SetupController::class, 'createAudience'])->name('tracki.setup.audience.create');
-        // Route::get('/tracki/setup/audience/{id}/edit', [SetupController::class, 'editAudience'])->name('tracki.setup.audience.show.edit');
-        // Route::get('/tracki/setup/audience/{id}/delete', [SetupController::class, 'deleteAudience'])->name('tracki.setup.audience.delete');
-
-        // // Event Planner
-        // Route::get('/tracki/setup/planner-list', [SetupController::class, 'eventPlanner'])->name('tracki.setup.planner');
-        // Route::post('updateplanner', [SetupController::class, 'updatePlanner'])->name('tracki.setup.planner.update');
-        // Route::post('createplanner', [SetupController::class, 'createPlanner'])->name('tracki.setup.planner.create');
-        // Route::get('/tracki/setup/planner/{id}/edit', [SetupController::class, 'editPlanner'])->name('tracki.setup.planner.show.edit');
-        // Route::get('/tracki/setup/planner/{id}/delete', [SetupController::class, 'deletePlanner'])->name('tracki.setup.planner.delete');
-
-
-        // // Project Type
-        // Route::get('/tracki/setup/projecttype-list', [SetupController::class, 'projectType'])->name('tracki.setup.projecttype');
-        // Route::post('updateprojecttype', [SetupController::class, 'updateProjectType'])->name('tracki.setup.projecttype.update');
-        // Route::post('createprojecttype', [SetupController::class, 'createProjectType'])->name('tracki.setup.projecttype.create');
-        // Route::get('/tracki/setup/projecttype/{id}/edit', [SetupController::class, 'editProjectType'])->name('tracki.setup.projecttype.show.edit');
-        // Route::get('/tracki/setup/projecttype/{id}/delete', [SetupController::class, 'deleteProjectType'])->name('tracki.setup.projecttype.delete');
-
-        // // Event Status
-        // Route::get('/tracki/setup/eventstatus-list', [SetupController::class, 'eventStatus'])->name('tracki.setup.eventstatus');
-        // Route::post('updateeventstatus', [SetupController::class, 'updateEventStatus'])->name('tracki.setup.eventstatus.update');
-        // Route::post('createeventstatus', [SetupController::class, 'createEventStatus'])->name('tracki.setup.eventstatus.create');
-        // Route::get('/tracki/setup/eventstatus/{id}/edit', [SetupController::class, 'editEventStatus'])->name('tracki.setup.eventstatus.show.edit');
-        // Route::get('/tracki/setup/eventstatus/{id}/delete', [SetupController::class, 'deleteEventStatus'])->name('tracki.setup.eventstatus.delete');
-
-        // //Status
-        // Route::get('/tracki/setup/status/manage', [StatusController::class, 'index'])->name('tracki.setup.status.manage');
-        // Route::get('/tracki/setup/status/list', [StatusController::class, 'list'])->name('tracki.setup.status.list');
-        // Route::get('/tracki/setup/status/{id}/get', [StatusController::class, 'get'])->name('tracki.setup.status.get');
-        // Route::post('tracki/setup/status/update', [StatusController::class, 'update'])->name('tracki.setup.status.update');
-        // Route::delete('/tracki/setup/status/{id}/delete', [StatusController::class, 'delete'])->name('tracki.setup.status.delete');
-        // Route::post('/tracki/setup/status/store', [StatusController::class, 'store'])->name('tracki.setup.status.store');
-
-        // //Address Type
-        // Route::get('/tracki/setup/address_type', [AddressTypeController::class, 'index'])->name('tracki.setup.address_type');
-        // Route::get('/tracki/setup/address_type/list', [AddressTypeController::class, 'list'])->name('tracki.setup.address_type.list');
-        // Route::get('/tracki/setup/address_type/{id}/get', [AddressTypeController::class, 'get'])->name('tracki.setup.address_type.get');
-        // Route::post('tracki/setup/address_type/update', [AddressTypeController::class, 'update'])->name('tracki.setup.address_type.update');
-        // Route::delete('/tracki/setup/address_type/delete/{id}', [AddressTypeController::class, 'delete'])->name('tracki.setup.address_type.delete');
-        // Route::post('/tracki/setup/address_type/store', [AddressTypeController::class, 'store'])->name('tracki.setup.address_type.store');
-
-        // // Priority
-        // Route::get('/tracki/setup/priority/manage', [PriorityController::class, 'index'])->name('tracki.setup.priority.manage');
-        // Route::get('/tracki/setup/priority/list', [PriorityController::class, 'list'])->name('tracki.setup.priority.list');
-        // Route::get('/tracki/setup/priority/{id}/get', [PriorityController::class, 'get'])->name('tracki.setup.priority.get');
-        // Route::post('tracki/setup/priority/update', [PriorityController::class, 'update'])->name('tracki.setup.priority.update');
-        // Route::delete('/tracki/setup/priority/{id}/delete', [PriorityController::class, 'delete'])->name('tracki.setup.priority.delete');
-        // Route::post('/tracki/setup/priority/store', [PriorityController::class, 'store'])->name('tracki.setup.priority.store');
-
-        // // Tags
-        // Route::get('/tracki/setup/tags', [TagsController::class, 'index'])->name('tracki.setup.tags');
-        // Route::get('/tracki/setup/tags/list', [TagsController::class, 'list'])->name('tracki.setup.tags.list');
-        // Route::get('/tracki/setup/tags/{id}/get', [TagsController::class, 'get'])->name('tracki.setup.tags.get');
-        // Route::post('tracki/setup/tags/update', [TagsController::class, 'update'])->name('tracki.setup.tags.update');
-        // Route::delete('/tracki/setup/tags/{id}/delete', [TagsController::class, 'delete'])->name('tracki.setup.tags.delete');
-        // Route::post('/tracki/setup/tags/store', [TagsController::class, 'store'])->name('tracki.setup.tags.store');
-
-        // Users
-        // Route::get('/tracki/users/{id}/details', [UserController::class, 'details'])->name('tracki.users.details');
-
-        // Route::get('/tracki/users/create', [ClientController::class, 'create'])->name('tracki.users.create');
-        // Route::post('/tracki/users/store', [UserController::class, 'store'])->name('tracki.users.store');
-        // Route::post('/tracki/users/manage', [ClientController::class, 'index'])->name('tracki.users.manage');
-
-
-        // //clients
-        // Route::get('/tracki/clients/manage', [ClientController::class, 'index'])->name('tracki.client.manage');
-        // Route::get('/tracki/clients/create', [ClientController::class, 'create'])->name('tracki.client.create');
-        // Route::post('/tracki/clients/store', [ClientController::class, 'store'])->name('tracki.client.store');
-        // Route::get('tracki/clients/all', [ClientController::class, 'get'])->name('tracki.client.all');
-
-
-        // // Workspace
-        // Route::get('/tracki/setup/workspace', [WorkspaceController::class, 'index'])->name('tracki.setup.workspace');
-        // Route::get('/tracki/setup/workspace/list', [WorkspaceController::class, 'list'])->name('tracki.setup.workspace.list');
-        // Route::get('/tracki/setup/workspace/{id}/get', [WorkspaceController::class, 'get'])->name('tracki.setup.workspace.get');
-        // Route::post('tracki/setup/workspace/update', [WorkspaceController::class, 'update'])->name('tracki.setup.workspace.update');
-        // Route::get('/tracki/setup/workspace/{id}/delete', [WorkspaceController::class, 'delete'])->name('tracki.setup.workspace.delete');
-        // Route::post('/tracki/setup/workspace/store', [WorkspaceController::class, 'store'])->name('tracki.setup.workspace.store');
-        // Route::get('/tracki/setup/workspace/{id}/switch', [WorkspaceController::class, 'switch'])->name('tracki.setup.workspace.switch');
-
-        // Functional Area
-        // Route::get('/tracki/setup/fa-list', [SetupController::class, 'fa'])->name('tracki.setup.fa');
-        // Route::post('updatefa', [SetupController::class, 'updateFA'])->name('tracki.setup.fa.update');
-        // Route::post('createfa', [SetupController::class, 'createFA'])->name('tracki.setup.fa.create');
-        // Route::get('/tracki/setup/fa/{id}/edit', [SetupController::class, 'editFA'])->name('tracki.setup.fa.show.edit');
-        // Route::get('/tracki/setup/fa/{id}/delete', [SetupController::class, 'deleteFA'])->name('tracki.setup.fa.delete');
-        // Route::get('/tracki/setup/fa-add', [SetupController::class, 'addFA'])->name('tracki.setup.fa.add');
-
-        // Route::get('/tracki/setup/usertype-list', [SetupController::class, 'UserType'])->name('tracki.setup.usertype');
-        // Route::post('updateusertype', [SetupController::class, 'updateUserType'])->name('tracki.setup.usertype.update');
-        // Route::post('createusertype', [SetupController::class, 'createUserType'])->name('tracki.setup.usertype.create');
-        // Route::get('/tracki/setup/usertype/{id}/edit', [SetupController::class, 'editUserType'])->name('tracki.setup.usertype.show.edit');
-        // Route::get('/tracki/setup/usertype/{id}/delete', [SetupController::class, 'deleteUserType'])->name('tracki.setup.usertype.delete');
-        // // Route::get('/tracki/setup/fa-add', [SetupController::class, 'addFA'])->name('tracki.setup.fa.add');
-
-
-        // // Operations Type
-        // Route::get('/tracki/setup/operation-list', [SetupController::class, 'operation'])->name('tracki.setup.operation');
-        // Route::post('updateoperation', [SetupController::class, 'updateOperation'])->name('tracki.setup.operation.update');
-        // Route::post('createoperation', [SetupController::class, 'createOperation'])->name('tracki.setup.operation.create');
-        // Route::get('/tracki/setup/operation/{id}/edit', [SetupController::class, 'editOperation'])->name('tracki.setup.operation.show.edit');
-        // Route::get('/tracki/setup/operation/{id}/delete', [SetupController::class, 'deleteOperation'])->name('tracki.setup.operation.delete');
-
-        // // Budget Names
-        // Route::get('/tracki/setup/budget-list', [SetupController::class, 'budget'])->name('tracki.setup.budget');
-        // Route::post('updatebudget', [SetupController::class, 'updateBudget'])->name('tracki.setup.budget.update');
-        // Route::post('createbudget', [SetupController::class, 'createBudget'])->name('tracki.setup.budget.create');
-        // Route::get('/tracki/setup/budget/{id}/edit', [SetupController::class, 'editBudget'])->name('tracki.setup.budget.show.edit');
-        // Route::get('/tracki/setup/budget/{id}/delete', [SetupController::class, 'deleteBudget'])->name('tracki.setup.budget.delete');
-
-        // // Segments Type
-        // Route::get('/tracki/setup/segment-list', [SetupController::class, 'segment'])->name('tracki.setup.segment');
-        // Route::post('updatesegment', [SetupController::class, 'updateSegment'])->name('tracki.setup.segment.update');
-        // Route::post('createsegment', [SetupController::class, 'createSegment'])->name('tracki.setup.segment.create');
-        // Route::get('/tracki/setup/segment/{id}/edit', [SetupController::class, 'editSegment'])->name('tracki.setup.segment.show.edit');
-        // Route::get('/tracki/setup/segment/{id}/delete', [SetupController::class, 'deleteSegment'])->name('tracki.setup.segment.delete');
-
-        // // Department
-        // Route::get('/tracki/setup/departments', [DepartmentController::class, 'index'])->name('tracki.setup.departments');
-        // Route::get('/tracki/setup/departments/list', [DepartmentController::class, 'list'])->name('tracki.setup.departments.list');
-        // Route::get('/tracki/setup/departments/{id}/get', [DepartmentController::class, 'get'])->name('tracki.setup.departments.get');
-        // Route::post('tracki/setup/departments/update', [DepartmentController::class, 'update'])->name('tracki.setup.departments.update');
-        // Route::delete('/tracki/setup/departments/{id}/delete', [DepartmentController::class, 'delete'])->name('tracki.setup.departments.delete');
-        // Route::post('/tracki/setup/departments/store', [DepartmentController::class, 'store'])->name('tracki.setup.departments.store');
-
-        // // Designation
-        // Route::get('/tracki/setup/designations', [DesignationController::class, 'index'])->name('tracki.setup.designations');
-        // Route::get('/tracki/setup/designations/list', [DesignationController::class, 'list'])->name('tracki.setup.designations.list');
-        // Route::get('/tracki/setup/designations/{id}/get', [DesignationController::class, 'get'])->name('tracki.setup.designations.get');
-        // Route::post('tracki/setup/designations/update', [DesignationController::class, 'update'])->name('tracki.setup.designations.update');
-        // Route::delete('/tracki/setup/designations/{id}/delete', [DesignationController::class, 'delete'])->name('tracki.setup.designations.delete');
-        // Route::post('/tracki/setup/designations/store', [DesignationController::class, 'store'])->name('tracki.setup.designations.store');
-
-
-        // // Location
-        // Route::get('/tracki/setup/locations', [LocationController::class, 'index'])->name('tracki.setup.locations');
-        // Route::get('/tracki/setup/locations/list', [LocationController::class, 'list'])->name('tracki.setup.locations.list');
-        // Route::get('/tracki/setup/locations/{id}/get', [LocationController::class, 'get'])->name('tracki.setup.locations.get');
-        // Route::post('tracki/setup/locations/update', [LocationController::class, 'update'])->name('tracki.setup.locations.update');
-        // Route::delete('/tracki/setup/locations/{id}/delete', [LocationController::class, 'delete'])->name('tracki.setup.locations.delete');
-        // Route::post('/tracki/setup/locations/store', [LocationController::class, 'store'])->name('tracki.setup.locations.store');
-
-        // // Functional Area
-        // Route::get('/mds/setting/funcareas', [FunctionalAreaController::class, 'index'])->name('mds.setting.funcareas');
-        // Route::get('/mds/setting/funcareas/list', [FunctionalAreaController::class, 'list'])->name('mds.setting.funcareas.list');
-        // Route::get('/mds/setting/funcareas/get/{id}', [FunctionalAreaController::class, 'get'])->name('mds.setting.funcareas.get');
-        // Route::post('mds/setting/funcareas/update', [FunctionalAreaController::class, 'update'])->name('mds.setting.funcareas.update');
-        // Route::delete('/mds/setting/funcareas/delete/{id}', [FunctionalAreaController::class, 'delete'])->name('mds.setting.funcareas.delete');
-        // Route::post('/mds/setting/funcareas/store', [FunctionalAreaController::class, 'store'])->name('mds.setting.funcareas.store');
-
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 
         Route::get('/mds/admin/booking/confirmation', function () {
@@ -669,24 +341,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // yajra datatabels
         Route::get('/mds/booking/test', [BookingController::class, 'test'])->name('mds.booking.test');
 
-        // // Drivers
-        // Route::get('/mds/setting/driver', [DeliveryDriverController::class, 'index'])->name('mds.setting.driver');
-        // Route::get('/mds/setting/driver/list', [DeliveryDriverController::class, 'list'])->name('mds.setting.driver.list');
-        // Route::get('/mds/setting/driver/get/{id}', [DeliveryDriverController::class, 'get'])->name('mds.setting.driver.get');
-        // Route::post('mds/setting/driver/update', [DeliveryDriverController::class, 'update'])->name('mds.setting.driver.update');
-        // Route::delete('/mds/setting/driver/delete/{id}',  [DeliveryDriverController::class, 'delete'])->name('mds.setting.driver.delete');
-        // Route::post('/mds/setting/driver/store', [DeliveryDriverController::class, 'store'])->name('mds.setting.driver.store');
-        // Route::post('mds/driver/status/update', [DeliveryDriverController::class, 'updateStatus'])->name('mds.driver.status.update');
-        // Route::get('mds/driver/status/edit/{id}', [DeliveryDriverController::class, 'editStatus'])->name('mds.driver.status.edit');
-
-        // //Driver Status
-        // Route::get('/mds/setup/drvstatus/manage', [DriverStatusController::class, 'index'])->name('mds.setup.drvstatus.manage');
-        // Route::get('/mds/setup/drvstatus/list', [DriverStatusController::class, 'list'])->name('mds.setup.drvstatus.list');
-        // Route::get('/mds/setup/drvstatus/{id}/get', [DriverStatusController::class, 'get'])->name('mds.setup.drvstatus.get');
-        // Route::post('mds/setup/drvstatus/update', [DriverStatusController::class, 'update'])->name('mds.setup.drvstatus.update');
-        // Route::delete('/mds/setup/drvstatus/{id}/delete', [DriverStatusController::class, 'delete'])->name('mds.setup.drvstatus.delete');
-        // Route::post('/mds/setup/drvstatus/store', [DriverStatusController::class, 'store'])->name('mds.setup.drvstatus.store');
-
         //Status
         Route::get('/mds/setup/status/manage', [StatusController::class, 'index'])->name('mds.setup.status.manage');
         Route::get('/mds/setup/status/list', [StatusController::class, 'list'])->name('mds.setup.status.list');
@@ -694,60 +348,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::post('mds/setup/status/update', [StatusController::class, 'update'])->name('mds.setup.status.update');
         Route::delete('/mds/setup/status/{id}/delete', [StatusController::class, 'delete'])->name('mds.setup.status.delete');
         Route::post('/mds/setup/status/store', [StatusController::class, 'store'])->name('mds.setup.status.store');
-
-        // Fund Category
-        // Route::get('/tracki/setup/fundcategory-list', [SetupController::class, 'fundCategory'])->name('tracki.setup.fundcategory');
-        // Route::post('updateFundCategory', [SetupController::class, 'updateFundCategory'])->name('tracki.setup.fundcategory.update');
-        // Route::post('createFundCategory', [SetupController::class, 'createFundCategory'])->name('tracki.setup.fundcategory.create');
-        // Route::get('/tracki/setup/fundcategory/{id}/edit', [SetupController::class, 'editFundCategory'])->name('tracki.setup.fundcategory.show.edit');
-        // Route::get('/tracki/setup/fundcategory/{id}/delete', [SetupController::class, 'deleteFundCategory'])->name('tracki.setup.fundcategory.delete');
-
-        // // Person
-        // Route::get('/tracki/setup/person-list', [SetupController::class, 'person'])->name('tracki.setup.person');
-        // Route::post('updateperson', [SetupController::class, 'updatePerson'])->name('tracki.setup.person.update');
-        // Route::post('createperson', [SetupController::class, 'createPerson'])->name('tracki.setup.person.create');
-        // Route::get('/tracki/setup/person/{id}/edit', [SetupController::class, 'editPerson'])->name('tracki.setup.person.show.edit');
-        // Route::get('/tracki/setup/person/{id}/delete', [SetupController::class, 'deletePerson'])->name('tracki.setup.person.delete');
-
-        // color
-        // Route::get('/tracki/setup/color-list', [SetupController::class, 'color'])->name('tracki.setup.color');
-        // Route::post('updatecolor', [SetupController::class, 'updateColor'])->name('tracki.setup.color.update');
-        // Route::post('createcolor', [SetupController::class, 'createColor'])->name('tracki.setup.color.create');
-        // Route::get('/tracki/setup/color/{id}/edit', [SetupController::class, 'editColor'])->name('tracki.setup.color.show.edit');
-        // Route::get('/tracki/setup/color/{id}/delete', [SetupController::class, 'deleteColor'])->name('tracki.setup.color.delete');
-
-        // attendance
-        // Route::get('/tracki/attendance/list', [AttendanceController::class, 'attendance'])->name('tracki.attendance.list')->middleware('permission:attendance.show');
-        // Route::get('/tracki/attendance/listinf', [AttendanceController::class, 'attendanceInf'])->name('tracki.attendance.listinf');
-        // Route::get('/tracki/attendance/listvip', [AttendanceController::class, 'attendanceVIP'])->name('tracki.attendance.listvip');
-        // Route::get('/tracki/attendance/listvic', [AttendanceController::class, 'attendanceVIC'])->name('tracki.attendance.listvic');
-        // Route::post('updateattendance', [AttendanceController::class, 'updateAttendance'])->name('tracki.attendance.list.update')->middleware('permission:attendance.edit');
-        // Route::post('createattendance', [AttendanceController::class, 'createAttendance'])->name('tracki.attendance.list.create')->middleware('permission:attendance.create');
-        // Route::get('/tracki/attendance/list/{id}/edit', [AttendanceController::class, 'editAttendance'])->name('tracki.attendance.list.edit')->middleware('permission:attendance.edit');
-        // Route::get('/tracki/attendance/list/{id}/delete', [AttendanceController::class, 'deleteAttendance'])->name('tracki.attendance.list.delete')->middleware('permission:attendance.delete');
-
-        // Route::get('/tracki/attendance/import', [AttendanceController::class, 'ImportAttendance'])->name('tracki.attendance.import')->middleware('permission:attendance.import');
-        // Route::post('importattendancenow', [AttendanceController::class, 'ImportNowAttendance'])->name('tracki.attendance.import.now')->middleware('permission:attendance.import');
-
-        // // attendance assgignment
-        // Route::get('/tracki/attendance/assignment', [AttendanceController::class, 'attendanceAssignment'])->name('tracki.attendance.assignment')->middleware('permission:project.attendance.assign');
-        // Route::get('/tracki/attendance/{id}/eventassignment', [AttendanceController::class, 'eventAttendanceAssignment'])->name('tracki.event.attendance.assignment')->middleware('permission:project.attendance.assign');
-        // Route::post('attendanceassignment', [AttendanceController::class, 'assignAttendanceEvents'])->name('tracki.attendance.assignevents')->middleware('permission:project.attendance.assign');
-        // Route::get('/tracki/attendance/assignment/{id}/delete', [AttendanceController::class, 'deleteEventAssignment'])->name('tracki.attendance.assignment.delete')->middleware('permission:project.attendance.delete');
-
-        // // scanning
-        // Route::get('/tracki/attendance/scanme', function () {
-        //     return view('/tracki/attendance/scanme');
-        // })->name('tracki.attendance.scanme');
-
-        // // scanning
-        // Route::get('/tracki/attendance/checkin', function () {
-        //     return view('/tracki/attendance/checkin');
-        // })->name('tracki.attendance.checkin');
-
-        // Route::post('showattendanceresults', [AttendanceController::class, 'markAttendance'])->name('tracki.attendance.mark');
-        // Route::post('/tracki/attendance/info', [AttendanceController::class, 'attendanceInfo'])->name('tracki.attendance.info');
-
 
         // Charts
         Route::get('/charts/piechart', [ChartsController::class, 'pieChart'])->name('charts.pie');
@@ -787,6 +387,60 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/whatsapp', [CommunicationChannels::class, 'sendWhatsapp'])->name('whatsapp.send');
     });
 
+        // HR Security Settings all routes
+        Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
+
+            Route::controller(RoleController::class)->group(function () {
+                //Admin User
+                Route::get('/sec/adminuser/list', 'listAdminUser')->name('sec.adminuser.list');
+                Route::post('updateadminuser', 'updateAdminUser')->name('sec.adminuser.update');
+                Route::post('createadminuser', 'createAdminUser')->name('sec.adminuser.create');
+                Route::get('/sec/adminuser/{id}/edit', 'editAdminUser')->name('sec.adminuser.edit');
+                Route::get('/sec/adminuser/{id}/delete', 'deleteAdminUser')->name('sec.adminuser.delete');
+                Route::get('/sec/adminuser/add', 'addAdminUser')->name('sec.adminuser.add');
+                Route::get('/sec/adminuser/add2', 'addAdminUser2')->name('sec.adminuser.add2');
+    
+                // Roles
+                Route::get('/sec/roles/add', function () {
+                    return view('/sec/roles/add');
+                })->name('sec.roles.add');
+                Route::get('/sec/roles/roles/list', 'listRole')->name('sec.roles.list');
+                Route::post('updaterole', 'updateRole')->name('sec.roles.update');
+                Route::post('createrole', 'createRole')->name('sec.roles.create');
+                Route::get('/sec/roles/{id}/edit', 'editRole')->name('sec.roles.edit');
+                Route::get('/sec/roles/{id}/delete', 'deleteRole')->name('sec.roles.delete');
+    
+                // group
+                Route::get('/sec/groups/add', function () {
+                    return view('/sec/groups/add');
+                })->name('sec.groups.add');
+                Route::get('/sec/groups/groups/list', 'listGroup')->name('sec.groups.list');
+                Route::post('updategroup', 'updateGroup')->name('sec.groups.update');
+                Route::post('creategroup', 'createGroup')->name('sec.groups.create');
+                Route::get('/sec/groups/{id}/edit', 'editGroup')->name('sec.groups.edit');
+                Route::get('/sec/groups/{id}/delete', 'deleteGroup')->name('sec.groups.delete');
+    
+                // Permission
+                Route::get('/sec/permissions/list', 'listPermission')->name('sec.perm.list');
+                Route::post('updatepermission', 'updatePermission')->name('sec.perm.update');
+                Route::post('createpermission', 'createPermission')->name('sec.perm.create');
+                Route::get('/sec/perm/{id}/edit', 'editPermission')->name('sec.perm.edit');
+                Route::get('/sec/perm/{id}/delete', 'deletePermission')->name('sec.perm.delete');
+                Route::get('/sec/permissions/add', 'addPermission')->name('sec.perm.add');
+    
+                Route::get('/sec/perm/import', 'ImportPermission')->name('sec.perm.import');
+                Route::post('importnow', 'ImportNowPermission')->name('sec.perm.import.now');
+    
+    
+                // Roles in Permission
+                Route::get('/sec/rolesetup/list', 'listRolePermission')->name('sec.rolesetup.list');
+                Route::post('updaterolesetup', 'updateRolePermission')->name('sec.rolesetup.update');
+                Route::post('createrolesetup', 'createRolePermission')->name('sec.rolesetup.create');
+                Route::get('/sec/rolesetup/{id}/edit', 'editRolePermission')->name('sec.rolesetup.edit');
+                Route::get('/sec/rolesetup/{id}/delete', 'deleteRolePermission')->name('sec.rolesetup.delete');
+                Route::get('/sec/rolesetup/add', 'addRolePermission')->name('sec.rolesetup.add');
+            });  //
+        });  //
     // Route::get('/run-migration', function () {
     //     Artisan::call('optimize:clear');
 
