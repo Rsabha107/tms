@@ -11,7 +11,7 @@ class FunctionalArea extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    protected $table='functional_areas';
+    protected $table='mds_functional_areas';
 
 
     public function venues()

@@ -80,12 +80,12 @@ $(document).ready(function () {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
             events: "/mds/admin/booking/schedule/" + venue_id,
-            dateClick: function (info) {
-                console.log("dateClick", info);
-                // alert('clicked on '+info.dateStr);
-                // $("#add_booking_date").val(info.dateStr);
-                // $("#booking_calendar_modal").modal("hide");
-            },
+            // dateClick: function (info) {
+            //     console.log("dateClick", info);
+            //     alert('clicked on '+info.dateStr);
+            //     // $("#add_booking_date").val(info.dateStr);
+            //     // $("#booking_calendar_modal").modal("hide");
+            // },
             dateClick: function (info) {
                 console.log("dateClick", info);
                 $.ajax({
@@ -106,10 +106,7 @@ $(document).ready(function () {
                         );
                         // var len = response.length;
 
-                        $("#add_schedule_times").html(
-                            '<option value="">-- Select time --</option>'
-                        );
-                        $("#add_schedule_times_cal").empty("")
+                        $("#add_schedule_times_cal").empty("").html('<option value="">-- Select time --</option>');
                         $.each(response.venue, function (key, value) {
                             var grey = null;
                             if (value.available_slots == 0) {
@@ -118,6 +115,63 @@ $(document).ready(function () {
                                 grey = null;
                             }
 
+                            $("#add_booking_date").val(convertedDate);
+                            $("#add_schedule_times_cal").append(
+                                '<option value="' +
+                                    value.id +
+                                    '" ' +
+                                    grey +
+                                    ">" +
+                                    value.period +
+                                    " (" +
+                                    value.available_slots +
+                                    ")</option>"
+                            );
+                        });
+                    },
+                }).done(function () {
+                    // $("#delivery_schedule_times_modal").modal("show");
+                });
+
+                // $("#delivery_schedule_times_modal").modal("show");
+            },
+            eventClick: function (info) {
+                console.log("eventClick", info);
+                var eventObj = info.event;
+                console.log("eventObj start", eventObj.start);
+                console.log("venue_id id", venue_id);
+                var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
+                var convertedDateDMY = moment(eventObj.start).format("DD/MM/YYYY");
+                console.log("convertedDate", convertedDate);
+                console.log("eventObj id", eventObj.id);
+                $.ajax({
+                    url:
+                        "/mds/admin/booking/times/cal/" +
+                        convertedDate +
+                        "/" +
+                        venue_id,
+                    type: "get",
+                    headers: {
+                        "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        console.log(
+                            "response length: " + response.venue.length
+                        );
+                        // var len = response.length;
+
+                        $("#add_schedule_times_cal").empty("").html('<option value="">-- Select time --</option>');
+                        $.each(response.venue, function (key, value) {
+                            var grey = null;
+                            if (value.available_slots == 0) {
+                                grey = "disabled";
+                            } else {
+                                grey = null;
+                            }
+
+                            $("#add_booking_date").val(convertedDate);
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
                                     value.id +
@@ -235,6 +289,23 @@ $(document).ready(function () {
         });
 
         // $("#delivery_schedule_times_modal").modal("show");
+    });
+
+    // calendar based reservation
+    $("body").on("click", "#select_time_cal_btn", function () {
+        console.log(
+            "click get time selected " + $("#add_schedule_times_cal").val()
+        );
+        var schedule_period_id_value = $("#add_schedule_times_cal").val();
+        var schedule_period_id_text = $("#add_schedule_times_cal option:selected").text();
+        $("#add_schedule_period_id").val(schedule_period_id_value);
+        $("#booking_calendar_modal").modal("hide");
+        $("#time_alert").html(
+            "Here are your times(click Get times again to change)<br>" +
+                $("#add_booking_date").val() +' '+ schedule_period_id_text
+        );
+        $("#time_alert").removeClass("alert-subtle-secondary");
+        $("#time_alert").addClass("alert-subtle-success");
     });
 
     $("body").on("click", "#select_time_btn", function () {

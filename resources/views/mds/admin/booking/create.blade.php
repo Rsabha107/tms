@@ -68,12 +68,12 @@
                     <form class="row g-3  px-3 needs-validation" action="{{route('mds.admin.booking.store')}}" id="form-1" novalidate method="POST">
                         @csrf
                         <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="" required>
-                        <!-- <input type="hidden" id="add_schedule_id" name="schedule_id" value="" required> -->
+                        <input id="add_booking_date" name="booking_date" type="hidden" required>
 
-                        <div class="col-md-10 mb-3" style="margin:0 auto;">
+                        <!-- <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="inputEmail4">Date</label>
                             <input class="form-control datetimepicker" id="add_booking_date" data-target="#floatingInputStartDate" name="booking_date" type="date" placeholder="dd/mm/yyyy" data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' required>
-                        </div>
+                        </div> -->
                         <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="bootstrap-wizard-validation-gender">Delivery Areas</label>
                             <select class="form-select" name="venue_id" id="add_delivery_area" required="required">
@@ -86,9 +86,9 @@
                             </select>
                         </div>
                         <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-secondary" style="margin:0 auto;" role="alert">No time slot has been selected!</div>
-                        <div class="col-md-6 mb-3" style="margin:0 auto;">
+                        <!-- <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="show_shcedule_times_modal" style="margin:0 auto;" type="button">Get times</button>
-                        </div>
+                        </div> -->
                         <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="booking_schedule_availability" style="margin:0 auto;" type="button">Get times Modal</button>
                         </div>
@@ -273,25 +273,6 @@
     </div>
     <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
 
-    {{-- <script>
-        $("#booking_calendar_modal").on("shown.bs.modal", function (e) {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: "dayGridMonth",
-            themeSystem: 'bootstrap5',
-            events: `{{ route('mds.admin.booking.schedule') }}`,
-            eventRender: function(event, element) {
-                // Create the icon
-                let icon = document.createElement("i");
-                icon.classList.add('fa', 'fa-bus-alt');
-                // Add icon before the title
-                element.querySelector(".fc-day").prepend(icon);
-              },
-        });
-        calendar.setOption("locale", "en");
-        calendar.render();
-    });
-        </script> --}}
 
     <!-- Confirm Modal -->
     <!-- <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">

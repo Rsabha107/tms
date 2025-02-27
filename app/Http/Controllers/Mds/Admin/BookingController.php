@@ -171,7 +171,8 @@ class BookingController extends Controller
                 'rsp_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule->rsp->title . '</div>',
                 'client_group' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->client?->title . '</div>',
                 'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . format_date($booking->booking_date) . '</div>',
-                'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . time_range_segment($booking->schedule_period->period, 'from') . '</div>',
+                // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . time_range_segment($booking->schedule_period->period, 'from') . '</div>',
+                'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule_period->period . '</div>',
                 // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . ($booking->schedule_period->period) . '</div>',
                 'booking_party_company_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->booking_party_company_name . '</div>',
                 'booking_party_contact_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->booking_party_contact_name . '</div>',
@@ -286,7 +287,8 @@ class BookingController extends Controller
                 $booking->booking_ref_number = 'MDS' . $booking->id;
                 $booking->schedule_id =  $timeslots->delivery_schedule_id;
                 $booking->schedule_period_id = $request->schedule_period_id;
-                $booking->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
+                $booking->booking_date = $request->booking_date;
+                // $booking->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
                 $booking->venue_id = $request->venue_id;
                 $booking->client_id = $request->client_id;
                 $booking->booking_party_company_name = $request->booking_party_company_name;
@@ -383,7 +385,7 @@ class BookingController extends Controller
         $rsps = DeliveryRsp::all();
         $drivers = MdsDriver::all();
         $vehicles = DeliveryVehicle::all();
-        $vehicle_types = DeliveryVehicle::all();
+        $vehicle_types = DeliveryVehicleType::all();
         $delivery_types = DeliveryType::all();
         $cargos = DeliveryType::all();
         $loading_zones = DeliveryZone::all();
@@ -407,9 +409,93 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
         //
+        // dd($request);
+        $user_id = Auth::user()->id;
+        $booking = DeliveryBooking::find($request->id);
+        $timeslots = DeliverySchedulePeriod::findOrFail($request->schedule_period_id);
+
+
+        $rules = [
+            'booking_date' => 'required',
+            'schedule_period_id' => 'required',
+            'venue_id' => 'required',
+            'driver_id' => 'required',
+            'vehicle_id' => 'required',
+            'vehicle_type_id' => 'required',
+            'receiver_name' => 'required',
+            'receiver_contact_number' => 'required',
+            'dispatch_id' => 'required',
+            'cargo_id' => 'required',
+            'loading_zone_id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            Log::info($validator->errors());
+            $error = true;
+            $message = 'Booking could not be created';
+        } else {
+
+            // check number of slots available.  if available slots = 0 then exit with a warning message.
+            // this is incase a user grabed the last slot with this user is waiting ..
+
+            if ($timeslots->available_slots > 0) {
+
+                $error = false;
+                $message = 'Booking updated succesfully.' . $booking->id;
+
+                $booking->booking_ref_number = 'MDS' . $booking->id;
+                $booking->schedule_id =  $timeslots->delivery_schedule_id;
+                $booking->schedule_period_id = $request->schedule_period_id;
+                // $booking->booking_date = Carbon::createFromFormat('Y/m/d', $request->booking_date)->toDateString();
+                $booking->booking_date = $request->booking_date;
+                $booking->venue_id = $request->venue_id;
+                $booking->client_id = $request->client_id;
+                $booking->booking_party_company_name = $request->booking_party_company_name;
+                $booking->booking_party_contact_name = $request->booking_party_contact_name;
+                $booking->booking_party_contact_email = $request->booking_party_contact_email;
+                $booking->booking_party_contact_number = $request->booking_party_contact_number;
+                $booking->delivering_party_company_name = $request->delivering_party_company_name;
+                $booking->delivering_party_contact_number = $request->delivering_party_contact_number;
+                $booking->delivering_party_contact_email = $request->delivering_party_contact_email;
+                $booking->driver_id = $request->driver_id;
+                $booking->vehicle_id = $request->vehicle_id;
+                $booking->vehicle_type_id = $request->vehicle_type_id;
+                $booking->receiver_name = $request->receiver_name;
+                $booking->receiver_contact_number = $request->receiver_contact_number;
+                $booking->dispatch_id = $request->dispatch_id;
+                $booking->loading_zone_id = $request->loading_zone_id;
+                $booking->cargo_id = $request->cargo_id;
+                $booking->active_flag = $request->active_flag;
+                $booking->created_by = $user_id;
+                $booking->updated_by = $user_id;
+                $booking->active_flag = 1;
+
+                $timeslots->available_slots = $timeslots->available_slots - 1;
+                $timeslots->used_slots = $timeslots->used_slots + 1;
+                $timeslots->save();
+
+                $booking->save();
+            } else {
+                $error = true;
+                $message = 'Time slot choosing has been used. please choose a different time slot.' . $booking->id;
+            }
+        }
+
+        $notification = array(
+            'message'       => $message,
+            'alert-type'    => $error
+        );
+
+        return redirect()->route('mds.admin.booking')->with($notification);
+        // return view('mds.admin.booking');
+
+
+        // return response()->json(['error' => $error, 'message' => $message]);
     }
 
     /**

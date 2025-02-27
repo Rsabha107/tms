@@ -66,10 +66,12 @@
                 <div class="p-4 code-to-copy">
                     <form class="row g-3  px-3 needs-validation" action="{{route('mds.admin.booking.update')}}" id="form-1" novalidate method="POST">
                         @csrf
-                        <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="" required>
+                        <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="{{ $booking->schedule_period_id }}">
+                        <input id="add_booking_date" name="booking_date" type="hidden" value="{{ $booking->booking_date }}">
+                        <input id="edit_booking_id" name="id" type="hidden" value="{{ $booking->id }}">
                         <!-- <input type="hidden" id="add_schedule_id" name="schedule_id" value="" required> -->
 
-                        <div class="col-md-10 mb-3" style="margin:0 auto;">
+                        <!-- <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="inputEmail4">Date</label>
                             <input 
                                 class="form-control datetimepicker" 
@@ -80,7 +82,7 @@
                                 placeholder="dd/mm/yyyy"
                                 value="{{ format_date($booking->booking_date) }}"
                                 data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' required>
-                        </div>
+                        </div> -->
                         <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="bootstrap-wizard-validation-gender">Delivery Areas</label>
                             <select class="form-select" name="venue_id" id="add_delivery_area" required="required">
@@ -93,10 +95,10 @@
                             </select>
                         </div>
 
-                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule_period->period_date) }} ({{ $booking->schedule_period->period }})</div>
+                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule_period->period_date, null, 'd/m/y') }} ({{ $booking->schedule_period->period }})</div>
                         
                         <div class="col-md-6 mb-3" style="margin:0 auto;">
-                            <button class="btn btn-subtle-primary d-grid gap-2" id="show_shcedule_times_modal" style="margin:0 auto;" type="button">Get times</button>
+                            <button class="btn btn-subtle-primary d-grid gap-2" id="booking_schedule_availability" style="margin:0 auto;" type="button">Get times</button>
                         </div>
                         <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="bootstrap-wizard-validation-gender">Clients</label>

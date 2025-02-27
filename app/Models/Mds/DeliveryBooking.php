@@ -46,6 +46,11 @@ class DeliveryBooking extends Model
         return $this->belongsTo(DeliveryRsp::class, 'rsp_id');
     }
 
+    public function client()
+    {
+        return $this->belongsTo(FunctionalArea::class, 'client_id');
+    }
+
     public function cargo()
     {
         return $this->belongsTo(DeliveryCargoType::class, 'cargo_id');

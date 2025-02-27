@@ -9,7 +9,6 @@
 </div>
 
 <div class="modal fade" id="booking_calendar_modal" tabindex="-1" aria-labelledby="bookingDetails_modal" aria-hidden="true">
-
     <div class="modal-dialog" role="document">
         <div class="modal-content bg-100">
             <div class="modal-header bg-modal-header">
@@ -17,27 +16,25 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body mb-3">
-
                 <div id="calendar"></div>
             </div>
             <div class="modal-body">
-
-            <h5>Available time slots (pick a date)</h5>
-            <input type="hidden" name="table" value="zones_table">
-            <div class="modal-body">
-                <div class="mb-3 col-md-12">
-                    <!-- <label class="form-label" for="bootstrap-wizard-validation-gender"></label> -->
-                    <select class="form-select" name="schedule_period_id" id="add_schedule_times_cal">
-                    </select>
+                <h5>Available time slots (pick a date)</h5>
+                <input type="hidden" name="table" value="zones_table">
+                <div class="modal-body">
+                    <div class="mb-3 col-md-12">
+                        <!-- <label class="form-label" for="bootstrap-wizard-validation-gender"></label> -->
+                        <select class="form-select" name="schedule_period_id" id="add_schedule_times_cal">
+                        </select>
+                    </div>
                 </div>
-            </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     <?= get_label('close', 'Close') ?></label>
                 </button>
                 <button type="submit" class="btn btn-primary"
-                    id="select_time_btn"><?= get_label('select', 'Select') ?></label></button>
+                    id="select_time_cal_btn"><?= get_label('select', 'Select') ?></label></button>
             </div>
         </div>
     </div>
