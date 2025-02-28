@@ -84,7 +84,7 @@
                             <div class="divider-content-center">or use email</div>
                             </div> -->
                         <div class="mb-3 text-start">
-                            <label class="form-label" for="email">Email/Name/Phone</label>
+                            <label class="form-label" for="email">Email</label>
                             <div class="form-icon-container">
                                 <input class="form-control form-icon-input" id="email" name="login" id="login" type="login" placeholder="name@example.com" /><span class="fas fa-user text-body fs-9 form-icon"></span>
                             </div>
@@ -106,7 +106,7 @@
                             <div class="col-auto"><a class="fs-9 fw-semibold" href="{{route('tracki.auth.forgot')}}">Forgot Password?</a></div>
                         </div>
                         <button class="btn btn-primary w-100 mb-3">Sign In</button>
-                        <div class="text-center"><a class="fs-9 fw-bold" href="{{ route('') }}">Create an account</a></div>
+                        <div class="text-center"><a class="fs-9 fw-bold" href="{{ route('mds.auth.signup') }}">Create an account</a></div>
                     </div>
                 </div>
             </form>
