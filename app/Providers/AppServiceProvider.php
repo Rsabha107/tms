@@ -55,11 +55,12 @@ class AppServiceProvider extends ServiceProvider
             $priorities = Priority::all();
             // $user_workspace = auth()->user()->workspaces;
             $workspaces = Workspace::all();
+            // $user_events = auth()->user()->events;
 
             // dd($workspaces);
 
             $data = [   'statuses' => $statuses,
-                        'priorities' => $priorities,
+                        // 'user_events' => $user_events,
                         'workspaces' => $workspaces,
                     ];
 

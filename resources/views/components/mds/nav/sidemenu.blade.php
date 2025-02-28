@@ -8,10 +8,6 @@
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <!-- scrollbar removed-->
 
-
-
-
-        
         <div class="navbar-vertical-content">
             <ul class="navbar-nav flex-column" id="navbarVerticalNav">
 

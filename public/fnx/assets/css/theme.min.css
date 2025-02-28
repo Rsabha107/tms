@@ -24043,7 +24043,7 @@ fieldset:disabled .table-list .page,
 /*                                    Logo                                    */
 /* -------------------------------------------------------------------------- */
 .logo-text {
-  font-size: 1.63625rem;
+  font-size: 1.3625rem;
   color: var(--phoenix-logo-text);
   font-weight: 600;
   letter-spacing: -0.04em;

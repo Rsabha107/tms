@@ -15,6 +15,7 @@ use App\Models\Mds\DeliveryVehicleType;
 use App\Models\Mds\DeliveryVenue;
 use App\Models\Mds\DeliveryZone;
 use App\Models\Mds\MdsDriver;
+use App\Models\Mds\MdsEvent;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,7 +30,16 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $bookings = DeliveryBooking::all();
+        // dd(session()->get('EVENT_ID'));
+        if (session()->has('EVENT_ID')) {
+            $current_event_id = session()->get('EVENT_ID');
+            $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)->get();
+        } else {
+            return view('mds.admin.booking.pick');
+        }
+
+
+        // $bookings = DeliveryBooking::all();
         $intervals = DeliverySchedulePeriod::all();
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
@@ -62,19 +72,19 @@ class BookingController extends Controller
         $end = date('Y-m-d', strtotime($request->end));
 
         $events = DeliverySchedulePeriod::where('venue_id', $id)
-        ->where('available_slots', '>', 0)
-        ->distinct()
-        ->get('period_date')
+            ->where('available_slots', '>', 0)
+            ->distinct()
+            ->get('period_date')
 
-        // dd($events);
-        ->map( fn ($item) => [
-            // 'id' => $item->id,
-            // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
-            'start' => $item->period_date,
-            'end' => date('Y-m-d',strtotime($item->period_date. '+1 days')),
-            // 'category' => $item->category,
-            'className' => ['bg-warning']
-        ]);
+            // dd($events);
+            ->map(fn($item) => [
+                // 'id' => $item->id,
+                // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
+                'start' => $item->period_date,
+                'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
+                // 'category' => $item->category,
+                'className' => ['bg-warning']
+            ]);
 
         return response()->json($events);
     }
@@ -94,6 +104,10 @@ class BookingController extends Controller
         //             ->orWhere('id', 'like', '%' . $search . '%');
         //     });
         // }
+        if (session()->has('EVENT_ID')) {
+            $current_event_id = session()->get('EVENT_ID');
+            $bookings = $booking->where('event_id', '=', $current_event_id);
+        }
 
         if ($search) {
 
@@ -154,7 +168,7 @@ class BookingController extends Controller
                 $booking->id .
                 '" data-table="bookings_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Generate Pass">' .
                 '<i class="fas fa-passport text-success"></i></a>' .
-                '<a href="'.route('mds.admin.booking.edit', $booking->id).'" class="btn btn-sm" id="editBooking" data-id="' .
+                '<a href="' . route('mds.admin.booking.edit', $booking->id) . '" class="btn btn-sm" id="editBooking" data-id="' .
                 $booking->id .
                 '" data-table="bookings_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Update">' .
                 '<i class="fa-solid fa-pen-to-square text-primary"></i></a>' .
@@ -569,5 +583,53 @@ class BookingController extends Controller
         // $venue = DeliverySchedulePeriod::all();
 
         return response()->json(['venue' => $venue]);
+    }
+
+    public function switch($id)
+    {
+        if ($id) {
+            if (MdsEvent::findOrFail($id) && !session()->has('EVENT_ID')) {
+                Log::info('Event ID: ' . $id);
+
+                session()->put('EVENT_ID', $id);
+                Log::info('Event ID: ' . session()->get('EVENT_ID'));
+                // return redirect()->route('tracki.project.show.card')->with('message', 'Workspace switched successfully.');
+                return redirect()->route('mds.admin.booking')->with('message', 'Event Switched.');
+                // return back()->with('message', 'Event Switched.');
+            } else {
+                // return back()->with('error', 'Workspace not found.');
+                // return redirect()->route('tracki.project.show.card')->with('error', 'Workspace not found.');
+                return back()->with('error', 'Event not found.');
+            }
+        } else {
+            session()->forget('EVENT_ID');
+            // return redirect()->route('tracki.project.show.card')->with('message', 'Workspace switched successfully. now showing all workspace data');
+            return back()->withInput();
+        }
+    }
+
+    public function pickEvent(Request $request)
+    {
+        // $events = MdsEvent::all();
+        // $this->switch($request->event_id);
+        // return view('mds.admin.booking.pick', compact('events'));
+        if ($request->event_id) {
+            Log::info('Event ID: ' . $request->event_id);
+            if (MdsEvent::findOrFail($request->event_id) && !session()->has('EVENT_ID')) {
+                Log::info('Event ID: ' . $request->event_id);
+
+                session()->put('EVENT_ID', $request->event_id);
+                Log::info('Event ID: ' . session()->get('EVENT_ID'));
+                // return redirect()->route('tracki.project.show.card')->with('message', 'Workspace switched successfully.');
+                return redirect()->route('mds.admin.booking')->with('message', 'Event Switched.');
+                // return back()->with('message', 'Event Switched.');
+            }
+        }
+        //  else {
+        // return back()->with('error', 'Workspace not found.');
+        // return redirect()->route('tracki.project.show.card')->with('error', 'Workspace not found.');
+        Log::info('event_id is null');
+        return redirect()->route('mds.admin.booking')->with('error', 'Event not found.');
+        // }
     }
 }

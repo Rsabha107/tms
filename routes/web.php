@@ -123,6 +123,9 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('/mds/admin/booking/store', 'store')->name('mds.admin.booking.store');
             Route::get('/mds/admin/booking/mv/detail/{id}', 'detail')->name('mds.admin.mv.detail');
             Route::get('/mds/admin/booking/pass/pdf/{id?}', 'passPdf')->name('mds.admin.booking.pass.pdf');
+
+            Route::get('/mds/admin/events/{id}/switch',  'switch')->name('mds.admin.booking.switch');
+            Route::post('/mds/admin/events/switch',  'pickEvent')->name('mds.admin.booking.event.switch');
         });
 
         Route::controller(VehicleTypeController::class)->group(function () {
@@ -321,6 +324,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 
+        // Add User
+        Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
+        Route::post('/signup/store', [AuthAdminController::class, 'store'])->name('admin.signup.store');
+
         Route::get('/mds/admin/booking/confirmation', function () {
             return view('/mds/admin/booking/confirmation');
         })->name('mds.admin.booking.confirmation');
@@ -387,60 +394,60 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/whatsapp', [CommunicationChannels::class, 'sendWhatsapp'])->name('whatsapp.send');
     });
 
-        // HR Security Settings all routes
-        Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
+    // HR Security Settings all routes
+    Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
 
-            Route::controller(RoleController::class)->group(function () {
-                //Admin User
-                Route::get('/sec/adminuser/list', 'listAdminUser')->name('sec.adminuser.list');
-                Route::post('updateadminuser', 'updateAdminUser')->name('sec.adminuser.update');
-                Route::post('createadminuser', 'createAdminUser')->name('sec.adminuser.create');
-                Route::get('/sec/adminuser/{id}/edit', 'editAdminUser')->name('sec.adminuser.edit');
-                Route::get('/sec/adminuser/{id}/delete', 'deleteAdminUser')->name('sec.adminuser.delete');
-                Route::get('/sec/adminuser/add', 'addAdminUser')->name('sec.adminuser.add');
-                Route::get('/sec/adminuser/add2', 'addAdminUser2')->name('sec.adminuser.add2');
-    
-                // Roles
-                Route::get('/sec/roles/add', function () {
-                    return view('/sec/roles/add');
-                })->name('sec.roles.add');
-                Route::get('/sec/roles/roles/list', 'listRole')->name('sec.roles.list');
-                Route::post('updaterole', 'updateRole')->name('sec.roles.update');
-                Route::post('createrole', 'createRole')->name('sec.roles.create');
-                Route::get('/sec/roles/{id}/edit', 'editRole')->name('sec.roles.edit');
-                Route::get('/sec/roles/{id}/delete', 'deleteRole')->name('sec.roles.delete');
-    
-                // group
-                Route::get('/sec/groups/add', function () {
-                    return view('/sec/groups/add');
-                })->name('sec.groups.add');
-                Route::get('/sec/groups/groups/list', 'listGroup')->name('sec.groups.list');
-                Route::post('updategroup', 'updateGroup')->name('sec.groups.update');
-                Route::post('creategroup', 'createGroup')->name('sec.groups.create');
-                Route::get('/sec/groups/{id}/edit', 'editGroup')->name('sec.groups.edit');
-                Route::get('/sec/groups/{id}/delete', 'deleteGroup')->name('sec.groups.delete');
-    
-                // Permission
-                Route::get('/sec/permissions/list', 'listPermission')->name('sec.perm.list');
-                Route::post('updatepermission', 'updatePermission')->name('sec.perm.update');
-                Route::post('createpermission', 'createPermission')->name('sec.perm.create');
-                Route::get('/sec/perm/{id}/edit', 'editPermission')->name('sec.perm.edit');
-                Route::get('/sec/perm/{id}/delete', 'deletePermission')->name('sec.perm.delete');
-                Route::get('/sec/permissions/add', 'addPermission')->name('sec.perm.add');
-    
-                Route::get('/sec/perm/import', 'ImportPermission')->name('sec.perm.import');
-                Route::post('importnow', 'ImportNowPermission')->name('sec.perm.import.now');
-    
-    
-                // Roles in Permission
-                Route::get('/sec/rolesetup/list', 'listRolePermission')->name('sec.rolesetup.list');
-                Route::post('updaterolesetup', 'updateRolePermission')->name('sec.rolesetup.update');
-                Route::post('createrolesetup', 'createRolePermission')->name('sec.rolesetup.create');
-                Route::get('/sec/rolesetup/{id}/edit', 'editRolePermission')->name('sec.rolesetup.edit');
-                Route::get('/sec/rolesetup/{id}/delete', 'deleteRolePermission')->name('sec.rolesetup.delete');
-                Route::get('/sec/rolesetup/add', 'addRolePermission')->name('sec.rolesetup.add');
-            });  //
+        Route::controller(RoleController::class)->group(function () {
+            //Admin User
+            Route::get('/sec/adminuser/list', 'listAdminUser')->name('sec.adminuser.list');
+            Route::post('updateadminuser', 'updateAdminUser')->name('sec.adminuser.update');
+            Route::post('createadminuser', 'createAdminUser')->name('sec.adminuser.create');
+            Route::get('/sec/adminuser/{id}/edit', 'editAdminUser')->name('sec.adminuser.edit');
+            Route::get('/sec/adminuser/{id}/delete', 'deleteAdminUser')->name('sec.adminuser.delete');
+            Route::get('/sec/adminuser/add', 'addAdminUser')->name('sec.adminuser.add');
+            Route::get('/sec/adminuser/add2', 'addAdminUser2')->name('sec.adminuser.add2');
+
+            // Roles
+            Route::get('/sec/roles/add', function () {
+                return view('/sec/roles/add');
+            })->name('sec.roles.add');
+            Route::get('/sec/roles/roles/list', 'listRole')->name('sec.roles.list');
+            Route::post('updaterole', 'updateRole')->name('sec.roles.update');
+            Route::post('createrole', 'createRole')->name('sec.roles.create');
+            Route::get('/sec/roles/{id}/edit', 'editRole')->name('sec.roles.edit');
+            Route::get('/sec/roles/{id}/delete', 'deleteRole')->name('sec.roles.delete');
+
+            // group
+            Route::get('/sec/groups/add', function () {
+                return view('/sec/groups/add');
+            })->name('sec.groups.add');
+            Route::get('/sec/groups/groups/list', 'listGroup')->name('sec.groups.list');
+            Route::post('updategroup', 'updateGroup')->name('sec.groups.update');
+            Route::post('creategroup', 'createGroup')->name('sec.groups.create');
+            Route::get('/sec/groups/{id}/edit', 'editGroup')->name('sec.groups.edit');
+            Route::get('/sec/groups/{id}/delete', 'deleteGroup')->name('sec.groups.delete');
+
+            // Permission
+            Route::get('/sec/permissions/list', 'listPermission')->name('sec.perm.list');
+            Route::post('updatepermission', 'updatePermission')->name('sec.perm.update');
+            Route::post('createpermission', 'createPermission')->name('sec.perm.create');
+            Route::get('/sec/perm/{id}/edit', 'editPermission')->name('sec.perm.edit');
+            Route::get('/sec/perm/{id}/delete', 'deletePermission')->name('sec.perm.delete');
+            Route::get('/sec/permissions/add', 'addPermission')->name('sec.perm.add');
+
+            Route::get('/sec/perm/import', 'ImportPermission')->name('sec.perm.import');
+            Route::post('importnow', 'ImportNowPermission')->name('sec.perm.import.now');
+
+
+            // Roles in Permission
+            Route::get('/sec/rolesetup/list', 'listRolePermission')->name('sec.rolesetup.list');
+            Route::post('updaterolesetup', 'updateRolePermission')->name('sec.rolesetup.update');
+            Route::post('createrolesetup', 'createRolePermission')->name('sec.rolesetup.create');
+            Route::get('/sec/rolesetup/{id}/edit', 'editRolePermission')->name('sec.rolesetup.edit');
+            Route::get('/sec/rolesetup/{id}/delete', 'deleteRolePermission')->name('sec.rolesetup.delete');
+            Route::get('/sec/rolesetup/add', 'addRolePermission')->name('sec.rolesetup.add');
         });  //
+    });  //
     // Route::get('/run-migration', function () {
     //     Artisan::call('optimize:clear');
 

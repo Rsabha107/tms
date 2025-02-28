@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('tracki.auth.sign-in');
+        return view('mds.auth.sign-in');
     }
 
     /**

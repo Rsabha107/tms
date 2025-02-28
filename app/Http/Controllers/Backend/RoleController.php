@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use PHPUnit\Util\GlobalState;
 use App\Imports\PermissionImport;
 use App\Models\Department;
+use App\Models\Mds\MdsEvent;
 use App\Models\Workspace;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -431,15 +432,16 @@ class RoleController extends Controller
 
     public function addAdminUser(){
         $roles = Role::all();
-        $workspace = Workspace::all();
-        $departments = Department::all();
-        return view ('sec.adminuser.add', compact('roles', 'workspace','departments'));
+        $events = MdsEvent::all();
+        // $workspace = Workspace::all();
+        // $departments = Department::all();
+        return view ('sec.adminuser.add', compact('roles', 'events'));
     }  // addAdminUser
 
     public function createAdminUser(Request $request){
 
         $rules = [
-            'username' => 'required|unique:users',
+            'name' => 'required',
             'password' => 'required|confirmed|min:8|max:16',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -456,20 +458,26 @@ class RoleController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        $user->address = $request->address;
+        $user->employee_id = 0;
+        // $user->address = $request->address;
         $user->password = Hash::make($request->password);
-        $user->department_assignment_id = $request->department_id;
-        $user->workspace_id = $request->workspace_id;
+        // $user->department_assignment_id = $request->department_id;
+        // $user->workspace_id = $request->workspace_id;
         $user->usertype = $request->usertype;
         $user->role = 'admin';
-        $user->status = '1';
+        $user->status = $request->status;
         $user->address = 'doha';
-
 
         $user->save();
 
         if ($request->roles){
             $user->assignRole($request->roles);
+        }
+
+        if ($request->event_id) {
+            foreach ($request->event_id as $key => $data) {
+                $user->events()->attach($request->event_id[$key]);
+            }
         }
 
         $notification = array(

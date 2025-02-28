@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Mds\MdsEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,26 +71,9 @@ class User extends Authenticatable
         }
     }
 
-    public function workspaces(){
-        return $this->belongsToMany(Workspace::class, 'user_workspace');
-    }
-
-    public function departments(){
-        return $this->belongsTo(Department::class, 'department_assignment_id');
-    }
-
-    public function tasks()
+    public function events()
     {
-        return $this->belongsToMany(Task::class, 'user_task');
+        return $this->belongsToMany(MdsEvent::class, 'user_event', 'user_id', 'event_id');
     }
 
-    public function todos()
-    {
-        return $this->belongsToMany(Todo::class, 'user_todo');
-    }
-
-    public function porjects()
-    {
-        return $this->belongsToMany(Task::class, 'user_project');
-    }
 }

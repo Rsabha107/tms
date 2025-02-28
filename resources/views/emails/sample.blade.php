@@ -8,12 +8,13 @@
     -->
 </head>
 <body>
-    <p>Dear {{ $content['name'] }}</p>
+    <p>This is a test email </p>
+    {{-- <p>Dear {{ $content['name'] }}</p>
     <p>{{ $content['body'] }}</p>
     <p>Start Date: {{ $content['start_date'] }}</p>
     <p>Due Date: {{ $content['due_date'] }}</p>
     <p>Task Description: </p>
     <p>{{ $content['description']}}</p>
-    <p> Let's finish meshwarna! </p>
+    <p> Let's finish meshwarna! </p> --}}
 </body>
 </html>

@@ -18,11 +18,11 @@ class SendMailController extends Controller
     public function index()
     {
         $content = [
-            'subject' => 'Trak: Event monitoring reminder',
+            'subject' => 'Traki: Event monitoring reminder',
             'body' => 'You have an event/task that needs your attention.  Ya walad!!!'
         ];
 
-        Mail::to('angie.aldakroury@dohaoasis.com')->cc('rsabha@gmail.com')->send(new SampleMail($content));
+        Mail::to('rsabha@gmail.com')->cc('rsabha@gmail.com')->send(new SampleMail($content));
 
         return "Email has been sent.";
     }

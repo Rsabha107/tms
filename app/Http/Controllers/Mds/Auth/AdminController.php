@@ -23,6 +23,8 @@ use App\Models\VenueType;
 use App\Models\Department;
 use App\Models\Event;
 use App\Models\FunctionalArea;
+use App\Models\Mds\FunctionalArea as MdsFunctionalArea;
+use App\Models\Mds\MdsEvent;
 use App\Models\OrganizationBudget;
 use App\Models\Task;
 use Beta\Microsoft\Graph\Model\Storage as ModelStorage;
@@ -345,9 +347,8 @@ class AdminController extends Controller
 
     public function signUp()
     {
-        $departments = Department::all();
-        $fa = FunctionalArea::all();
-        return view('tracki.auth.sign-up', compact(['departments', 'fa']));
+        $events = MdsEvent::all();
+        return view('mds.auth.sign-up', compact('events'));
     }
 
     public function forgotPassword()
@@ -497,6 +498,56 @@ class AdminController extends Controller
         //mainProfileStore
 
     }
+
+    public function store(Request $request)
+    {
+
+        $rules = [
+            'username' => 'required|unique:users',
+            'password' => 'required|confirmed|min:8|max:16',
+        ];
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            //return ($request->get('password').' - '.$request->get('password_confirmation'));
+            //return ($request->input());
+            return redirect()->back()
+                ->withInput()
+                ->withErrors($validator);
+        }
+
+        $activate_value = sha1(time() . config('global.key'));
+
+        // $id = Auth::user()->id;
+        $data = new User;
+
+        $data->username = $request->username;
+        $data->name = $request->name;
+        $data->email = $request->email;
+        $data->address = $request->address;
+        $data->phone = $request->phone;
+        $data->department_assignment_id = $request->department_id;
+        $data->password = Hash::make($request->password);
+        $data->department_assignment_id = $request->department_id;
+        $data->functional_area_id = $request->functional_area_id;
+        $data->status = 'active';
+        $data->role = 'admin';
+        $data->address = 'doha';
+
+
+        $data->save();
+
+        $notification = array(
+            'message'       => 'User created successfully',
+            'alert-type'    => 'success'
+        );
+
+        // Toastr::success('Has been add successfully :)','Success');
+        // return redirect()->back()->with($notification);
+        return Redirect::route('tracki.auth.signup')->with($notification);
+        //mainProfileStore
+
+    } // store
 
     public function reportList()
     {
