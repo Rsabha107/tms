@@ -75,6 +75,11 @@ $(document).ready(function () {
         $("#booking_calendar_modal").modal("show");
     });
 
+    $('#booking_calendar_modal').on('hidden.bs.modal', function() {
+        $("select#add_schedule_times_cal").val("");
+        calendar.destroy();
+      });
+
     $("#booking_calendar_modal").on("shown.bs.modal", function (e) {
         if (calendar) {
             console.log("calendar exists");
@@ -82,7 +87,7 @@ $(document).ready(function () {
         }
         var venue_id = $("#add_delivery_area").val();
         var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+             calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
             events: "/mds/admin/booking/schedule/" + venue_id,
@@ -125,7 +130,7 @@ $(document).ready(function () {
                                 grey = null;
                             }
 
-                            $("#add_booking_date").val(convertedDate);
+                            $("#add_booking_date").val(info.dateStr);
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
                                     value.id +
@@ -322,6 +327,7 @@ $(document).ready(function () {
             "#add_schedule_times_cal option:selected"
         ).text();
         $("#add_schedule_period_id").val(schedule_period_id_value);
+        $("select#add_schedule_times_cal").val("");
         $("#booking_calendar_modal").modal("hide");
         $("#time_alert").html(
             "Here are your times(click Get times again to change)<br>" +

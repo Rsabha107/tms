@@ -588,7 +588,7 @@ class BookingController extends Controller
     public function switch($id)
     {
         if ($id) {
-            if (MdsEvent::findOrFail($id) && !session()->has('EVENT_ID')) {
+            if (MdsEvent::findOrFail($id)) {
                 Log::info('Event ID: ' . $id);
 
                 session()->put('EVENT_ID', $id);

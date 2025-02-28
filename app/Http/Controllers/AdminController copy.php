@@ -60,6 +60,8 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
+        Auth::logoutOtherDevices($request->password);
+        
         return redirect('/main/login');
     } // End method
 
