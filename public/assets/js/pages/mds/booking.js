@@ -18,6 +18,8 @@ function refreshNotes(val) {
     return g_response;
 }
 
+let calendar;
+
 $(document).ready(function () {
     // calendar init
     // $('#calendar').fullCalendar({
@@ -74,6 +76,10 @@ $(document).ready(function () {
     });
 
     $("#booking_calendar_modal").on("shown.bs.modal", function (e) {
+        if (calendar) {
+            console.log("calendar exists");
+            calendar.destroy();
+        }
         var venue_id = $("#add_delivery_area").val();
         var calendarEl = document.getElementById("calendar");
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -106,7 +112,11 @@ $(document).ready(function () {
                         );
                         // var len = response.length;
 
-                        $("#add_schedule_times_cal").empty("").html('<option value="">-- Select time --</option>');
+                        $("#add_schedule_times_cal")
+                            .empty("")
+                            .html(
+                                '<option value="">-- Select time --</option>'
+                            );
                         $.each(response.venue, function (key, value) {
                             var grey = null;
                             if (value.available_slots == 0) {
@@ -141,7 +151,9 @@ $(document).ready(function () {
                 console.log("eventObj start", eventObj.start);
                 console.log("venue_id id", venue_id);
                 var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
-                var convertedDateDMY = moment(eventObj.start).format("DD/MM/YYYY");
+                var convertedDateDMY = moment(eventObj.start).format(
+                    "DD/MM/YYYY"
+                );
                 console.log("convertedDate", convertedDate);
                 console.log("eventObj id", eventObj.id);
                 $.ajax({
@@ -162,7 +174,11 @@ $(document).ready(function () {
                         );
                         // var len = response.length;
 
-                        $("#add_schedule_times_cal").empty("").html('<option value="">-- Select time --</option>');
+                        $("#add_schedule_times_cal")
+                            .empty("")
+                            .html(
+                                '<option value="">-- Select time --</option>'
+                            );
                         $.each(response.venue, function (key, value) {
                             var grey = null;
                             if (value.available_slots == 0) {
@@ -194,6 +210,11 @@ $(document).ready(function () {
         });
         calendar.setOption("locale", "en");
         calendar.render();
+
+        const myModal = document.querySelector("#booking_calendar_modal");
+        myModal.addEventListener("shown.bs.modal", () => {
+            calendar.render();
+        });
     });
 
     $("body").on("click", "#bookingDetails", function () {
@@ -297,12 +318,16 @@ $(document).ready(function () {
             "click get time selected " + $("#add_schedule_times_cal").val()
         );
         var schedule_period_id_value = $("#add_schedule_times_cal").val();
-        var schedule_period_id_text = $("#add_schedule_times_cal option:selected").text();
+        var schedule_period_id_text = $(
+            "#add_schedule_times_cal option:selected"
+        ).text();
         $("#add_schedule_period_id").val(schedule_period_id_value);
         $("#booking_calendar_modal").modal("hide");
         $("#time_alert").html(
             "Here are your times(click Get times again to change)<br>" +
-                $("#add_booking_date").val() +' '+ schedule_period_id_text
+                $("#add_booking_date").val() +
+                " " +
+                schedule_period_id_text
         );
         $("#time_alert").removeClass("alert-subtle-secondary");
         $("#time_alert").addClass("alert-subtle-success");
