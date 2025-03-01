@@ -302,6 +302,7 @@ class BookingController extends Controller
                 $booking->schedule_id =  $timeslots->delivery_schedule_id;
                 $booking->schedule_period_id = $request->schedule_period_id;
                 $booking->booking_date = $request->booking_date;
+                $booking->event_id = session()->get('EVENT_ID');
                 // $booking->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
                 $booking->venue_id = $request->venue_id;
                 $booking->client_id = $request->client_id;
