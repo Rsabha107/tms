@@ -18,10 +18,10 @@
                                         <div class="text-center mb-5"><a
                                                 class="d-flex flex-center text-decoration-none mb-4"
                                                 href="{{ route('mds') }}">
-                                                <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                                                {{-- <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                                                     <img src="../../../assets/img/icons/LogoPrintemps_2022_vert.png"
                                                         alt="Printemps" width="58" />
-                                                </div>
+                                                </div> --}}
                                             </a>
                                             <h3 class="text-body-highlight">Create User</h3>
                                             <p class="text-body-tertiary">Create account today</p>
@@ -118,8 +118,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 gy-3 mb-3">
-                                                {{-- <div class="form-floating form-floating-advance-select"> --}}
-                                                <label class="form-label" for="inputAddress2">Assigned to
+                                                <label class="form-label" for="inputAddress2">Events
                                                     (multiple)</label>
                                                 <select class="form-select js-select-event-assign-multiple"
                                                     id="add_event_assigned_to" name="event_id[]"
@@ -131,7 +130,6 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                {{-- </div> --}}
                                             </div>
                                             <div class="row g-3 mb-3">
                                                 <div class="col-xl-6">
@@ -179,7 +177,7 @@
 
     @push('script')
     <script src="{{ asset('assets/js/pages/sec/users.js') }}"></script>
-        <script>
+        {{-- <script>
             $(document).ready(function() {
                 console.log('fauser checked ')
                 $("#WorkspaceSelect").show();
@@ -202,5 +200,5 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
     @endpush

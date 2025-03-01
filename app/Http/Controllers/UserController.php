@@ -18,10 +18,21 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     //
+    protected $UtilController;
+
+    public function __construct(UtilController $UtilController)
+    {
+        $this->UtilController = $UtilController;
+    }
 
     public function index(UsersDataTable $dataTable)
     {
         return $dataTable->render('users.index');
+    }
+
+    public function profile()
+    {
+        return view('mds/users/profile');
     }
 
     public function details($id){
@@ -60,7 +71,6 @@ class UserController extends Controller
     {
 
         $rules = [
-            'username' => 'required|unique:users',
             'password' => 'required|confirmed|min:8|max:16',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -78,21 +88,22 @@ class UserController extends Controller
         // $id = Auth::user()->id;
         $data = new User();
 
-        $data->username = $request->username;
+        // $data->username = $request->username;
         $data->name = $request->name;
         $data->email = $request->email;
-        $data->address = $request->address;
+        // $data->address = $request->address;
         $data->phone = $request->phone;
-        $data->department_assignment_id = $request->department_id;
+        // $data->department_assignment_id = $request->department_id;
         $data->password = Hash::make($request->password);
-        $data->department_assignment_id = $request->department_id;
-        $data->functional_area_id = $request->functional_area_id;
-        $data->status = 'active';
-        $data->role = 'admin';
+        // $data->department_assignment_id = $request->department_id;
+        // $data->functional_area_id = $request->functional_area_id;
+        $data->status = '0';
+        $data->employee_id = 0;
+        $data->role = 'user';
         $data->address = 'doha';
-
-
         $data->save();
+
+        $this->UtilController->save_files($request, $data->id);
 
         $notification = array(
             'message'       => 'User created successfully',
@@ -101,7 +112,7 @@ class UserController extends Controller
 
         // Toastr::success('Has been add successfully :)','Success');
         // return redirect()->back()->with($notification);
-        return Redirect::route('tracki.auth.signup')->with($notification);
+        return Redirect::route('mds.auth.signup')->with($notification);
         //mainProfileStore
 
     }

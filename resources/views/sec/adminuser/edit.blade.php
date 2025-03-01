@@ -17,9 +17,9 @@
                             <div class="col mx-auto">
                                 <div class="auth-form-box">
                                     <div class="text-center mb-5"><a class="d-flex flex-center text-decoration-none mb-4" href="{{route('mds')}}">
-                                            <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                                            {{-- <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                                                 <img src="{{asset('assets/img/icons/LogoPrintemps_2022_vert.png')}}" alt="Printemps" width="58" />
-                                            </div>
+                                            </div> --}}
                                         </a>
                                         <h3 class="text-body-highlight">Edit User</h3>
                                         <p class="text-body-tertiary">Edit account today</p>
@@ -36,10 +36,10 @@
                                     <form method="POST" action="{{ route('sec.adminuser.update') }}" class="needs-validation validatedForm" novalidate>
                                         @csrf
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                        <div class="mb-3 text-start">
+                                        <!-- <div class="mb-3 text-start">
                                             <label class="form-label" for="name">User Name</label>
                                             <input class="form-control" name="username" id="user_name" type="text" placeholder="User Name" value="{{ $user->username }}" required>
-                                        </div>
+                                        </div> -->
                                         <div class="mb-3 text-start">
                                             <label class="form-label" for="name">Name</label>
                                             <input class="form-control" id="name" name="name" type="text" placeholder="Name" value="{{ $user->name }}" required>
@@ -78,7 +78,48 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 mt-4 mb-3">
+                                        <div class="col-12 mt-4">
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" id="userUser" type="radio"
+                                                    name="usertype" value="user" checked="checked" required />
+                                                <label class="form-check-label" for="inlineRadio2">User</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" id="adminUser" type="radio"
+                                                    name="usertype" value="admin" required />
+                                                <label class="form-check-label" for="inlineRadio2">Admin</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 gy-3 mb-3">
+                                            <label class="form-label" for="inputAddress2">Events
+                                                (multiple)</label>
+                                            <select class="form-select js-select-event-assign-multiple"
+                                                id="add_event_assigned_to" name="event_id[]"
+                                                multiple="multiple" data-with="100%"
+                                                data-placeholder="<?= get_label('type_to_search', 'Type to search') ?>">
+                                                <!-- <select name="assignment_to_id[]" class="form-select" data-choices="data-choices" size="1" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' id="floatingSelectRating" required> -->
+                                                @foreach ($events as $event)
+                                                    <option value="{{ $event->id }}">{{ $event->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-xl-6">
+                                                <label class="form-label" for="password">Password</label>
+                                                <input class="form-control form-icon-input" name="password"
+                                                    id="password" type="password" placeholder="Password" >
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <label class="form-label" for="password_confirmation">Confirm
+                                                    Password</label>
+                                                <input class="form-control form-icon-input" type="password"
+                                                    id="password_confirmation" name="password_confirmation"
+                                                    placeholder="Confirm Password" >
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-12 mt-4 mb-3">
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" id="faUser" type="radio" name="usertype" value="functional" {{($user->usertype == 'functional')? "checked":""}} />
                                                 <label class="form-check-label" for="inlineRadio1">Functional
@@ -115,7 +156,7 @@
                                                 </option>
                                                 @endforeach
                                             </select>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-sm-6 col-md-9">
                                             @foreach ($roles as $key => $item )
                                             <div class="form-check form-check-inline">
@@ -143,7 +184,8 @@
     @endsection
 
     @push('script')
-    <script>
+    <script src="{{ asset('assets/js/pages/sec/users.js') }}"></script>
+    {{-- <script>
         $(document).ready(function() {
             console.log('fauser checked ')
             console.log('user type: ' + $("input[name=usertype]:checked").val());
@@ -182,6 +224,6 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 
     @endpush

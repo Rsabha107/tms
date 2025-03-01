@@ -85,10 +85,10 @@
 
                                                     <td class="text-end">
                                                         <div class="actions">
-                                                            <a href="{{route('tracki.sec.adminuser.edit', $item->id)}}" class="btn btn-sm" data-toggle="modal" data-target='#editModal' data-route="perm" data-id="{{ $item->id }}">
+                                                            <a href="{{route('sec.adminuser.edit', $item->id)}}" class="btn btn-sm" data-toggle="modal" data-target='#editModal' data-route="perm" data-id="{{ $item->id }}">
                                                                 <i class="fa-solid fa-pen-to-square"></i>
                                                             </a>
-                                                            <a href="{{ route('tracki.sec.adminuser.delete',$item->id)}} " class="btn btn-sm delete" id="delete">
+                                                            <a href="{{ route('sec.adminuser.delete',$item->id)}} " class="btn btn-sm delete" id="delete">
                                                                 <i class="fa-solid fa-trash" style="color: #f33061;"></i>
                                                             </a>
                                                         </div>

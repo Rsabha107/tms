@@ -10,7 +10,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>Tracki</title>
+    <title>MDS</title>
 
 
     <!-- ===============================================-->
@@ -103,7 +103,7 @@
                                     <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
                                 </div>
                             </div>
-                            <div class="col-auto"><a class="fs-9 fw-semibold" href="{{route('tracki.auth.forgot')}}">Forgot Password?</a></div>
+                            <div class="col-auto"><a class="fs-9 fw-semibold" href="{{route('mds.auth.forgot')}}">Forgot Password?</a></div>
                         </div>
                         <button class="btn btn-primary w-100 mb-3">Sign In</button>
                         <div class="text-center"><a class="fs-9 fw-bold" href="{{ route('mds.auth.signup') }}">Create an account</a></div>

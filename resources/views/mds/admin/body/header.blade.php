@@ -337,7 +337,7 @@
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
+                                <li class="nav-item"><a class="nav-link px-3 d-block" href="{{ route('mds.users.profile') }}"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span

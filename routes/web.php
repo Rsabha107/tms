@@ -26,6 +26,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\DriverStatusController;
 use App\Http\Controllers\EmployeeAddressController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GeneralSettings\AttachmentController;
 use App\Http\Controllers\Mds\Setting\FunctionalAreaController;
 use App\Http\Controllers\Mds\Setting\IntervalController;
 use App\Http\Controllers\KanbanController;
@@ -250,72 +251,76 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
 // ****************** ADMIN *********************
 Route::group(['middleware' => 'prevent-back-history'], function () {
-    Route::middleware(['auth', 'roles:admin', 'role:SuperAdmin', 'prevent-back-history'])->group(function () {
+    //     Route::middleware(['auth', 'roles:admin', 'role:SuperAdmin', 'prevent-back-history'])->group(function () {
 
-        Route::get('/tracki/test', function () {
-            return view('tracki/test');
-        });
+    //         Route::get('/tracki/test', function () {
+    //             return view('tracki/test');
+    //         });
 
-        Route::get('/tracki/users/create', function () {
-            return view('tracki/users/create');
-        });
-
-
-        // Role
-        Route::get('/tracki/sec/roles/add', function () {
-            return view('/tracki/sec/roles/add');
-        })->name('tracki.sec.roles.add');
-        Route::get('/tracki/sec/roles/roles/list', [RoleController::class, 'listRole'])->name('tracki.sec.roles.list');
-        Route::post('updaterole', [RoleController::class, 'updateRole'])->name('tracki.sec.roles.update');
-        Route::post('createrole', [RoleController::class, 'createRole'])->name('tracki.sec.roles.create');
-        Route::get('/tracki/sec/roles/{id}/edit', [RoleController::class, 'editRole'])->name('tracki.sec.roles.edit');
-        Route::get('/tracki/sec/roles/{id}/delete', [RoleController::class, 'deleteRole'])->name('tracki.sec.roles.delete');
-
-        // group
-        Route::get('/tracki/sec/groups/add', function () {
-            return view('/tracki/sec/groups/add');
-        })->name('tracki.sec.groups.add');
-        Route::get('/tracki/sec/groups/groups/list', [RoleController::class, 'listGroup'])->name('tracki.sec.groups.list');
-        Route::post('updategroup', [RoleController::class, 'updateGroup'])->name('tracki.sec.groups.update');
-        Route::post('creategroup', [RoleController::class, 'createGroup'])->name('tracki.sec.groups.create');
-        Route::get('/tracki/sec/groups/{id}/edit', [RoleController::class, 'editGroup'])->name('tracki.sec.groups.edit');
-        Route::get('/tracki/sec/groups/{id}/delete', [RoleController::class, 'deleteGroup'])->name('tracki.sec.groups.delete');
-
-        // Permission
-        Route::get('/tracki/sec/permissions/list', [RoleController::class, 'listPermission'])->name('tracki.sec.perm.list');
-        Route::post('updatepermission', [RoleController::class, 'updatePermission'])->name('tracki.sec.perm.update');
-        Route::post('createpermission', [RoleController::class, 'createPermission'])->name('tracki.sec.perm.create');
-        Route::get('/tracki/sec/perm/{id}/edit', [RoleController::class, 'editPermission'])->name('tracki.sec.perm.edit');
-        Route::get('/tracki/sec/perm/{id}/delete', [RoleController::class, 'deletePermission'])->name('tracki.sec.perm.delete');
-        Route::get('/tracki/sec/permissions/add', [RoleController::class, 'addPermission'])->name('tracki.sec.perm.add');
-
-        Route::get('/tracki/sec/perm/import', [RoleController::class, 'ImportPermission'])->name('tracki.sec.perm.import');
-        Route::post('importnow', [RoleController::class, 'ImportNowPermission'])->name('tracki.sec.perm.import.now');
+    //         Route::get('/tracki/users/create', function () {
+    //             return view('tracki/users/create');
+    //         });
 
 
-        // Roles in Permission
-        Route::get('/tracki/sec/rolesetup/list', [RoleController::class, 'listRolePermission'])->name('tracki.sec.rolesetup.list');
-        Route::post('updaterolesetup', [RoleController::class, 'updateRolePermission'])->name('tracki.sec.rolesetup.update');
-        Route::post('createrolesetup', [RoleController::class, 'createRolePermission'])->name('tracki.sec.rolesetup.create');
-        Route::get('/tracki/sec/rolesetup/{id}/edit', [RoleController::class, 'editRolePermission'])->name('tracki.sec.rolesetup.edit');
-        Route::get('/tracki/sec/rolesetup/{id}/delete', [RoleController::class, 'deleteRolePermission'])->name('tracki.sec.rolesetup.delete');
-        Route::get('/tracki/sec/rolesetup/add', [RoleController::class, 'addRolePermission'])->name('tracki.sec.rolesetup.add');
+    //         // Role
+    //         Route::get('/tracki/sec/roles/add', function () {
+    //             return view('/tracki/sec/roles/add');
+    //         })->name('tracki.sec.roles.add');
+    //         Route::get('/tracki/sec/roles/roles/list', [RoleController::class, 'listRole'])->name('tracki.sec.roles.list');
+    //         Route::post('updaterole', [RoleController::class, 'updateRole'])->name('tracki.sec.roles.update');
+    //         Route::post('createrole', [RoleController::class, 'createRole'])->name('tracki.sec.roles.create');
+    //         Route::get('/tracki/sec/roles/{id}/edit', [RoleController::class, 'editRole'])->name('tracki.sec.roles.edit');
+    //         Route::get('/tracki/sec/roles/{id}/delete', [RoleController::class, 'deleteRole'])->name('tracki.sec.roles.delete');
 
-        // Add User
-        Route::get('/tracki/auth/signup', [AdminController::class, 'signUp'])->name('tracki.auth.signup');
-        Route::post('/admin/signup/create', [AdminController::class, 'createUser'])->name('admin.signup.create');
-    });  // End group Admin middleware
+    //         // group
+    //         Route::get('/tracki/sec/groups/add', function () {
+    //             return view('/tracki/sec/groups/add');
+    //         })->name('tracki.sec.groups.add');
+    //         Route::get('/tracki/sec/groups/groups/list', [RoleController::class, 'listGroup'])->name('tracki.sec.groups.list');
+    //         Route::post('updategroup', [RoleController::class, 'updateGroup'])->name('tracki.sec.groups.update');
+    //         Route::post('creategroup', [RoleController::class, 'createGroup'])->name('tracki.sec.groups.create');
+    //         Route::get('/tracki/sec/groups/{id}/edit', [RoleController::class, 'editGroup'])->name('tracki.sec.groups.edit');
+    //         Route::get('/tracki/sec/groups/{id}/delete', [RoleController::class, 'deleteGroup'])->name('tracki.sec.groups.delete');
 
-    Route::middleware(['auth',  'role:Admin|SuperAdmin|Functional Admin', 'roles:admin', 'prevent-back-history'])->group(function () {
-        // Admin User
-        Route::get('/tracki/sec/adminuser/list', [RoleController::class, 'listAdminUser'])->name('tracki.sec.adminuser.list');
-        Route::post('updateadminuser', [RoleController::class, 'updateAdminUser'])->name('tracki.sec.adminuser.update');
+    //         // Permission
+    //         Route::get('/tracki/sec/permissions/list', [RoleController::class, 'listPermission'])->name('tracki.sec.perm.list');
+    //         Route::post('updatepermission', [RoleController::class, 'updatePermission'])->name('tracki.sec.perm.update');
+    //         Route::post('createpermission', [RoleController::class, 'createPermission'])->name('tracki.sec.perm.create');
+    //         Route::get('/tracki/sec/perm/{id}/edit', [RoleController::class, 'editPermission'])->name('tracki.sec.perm.edit');
+    //         Route::get('/tracki/sec/perm/{id}/delete', [RoleController::class, 'deletePermission'])->name('tracki.sec.perm.delete');
+    //         Route::get('/tracki/sec/permissions/add', [RoleController::class, 'addPermission'])->name('tracki.sec.perm.add');
 
-        Route::post('createadminuser', [RoleController::class, 'createAdminUser'])->name('tracki.sec.adminuser.create');
-        Route::get('/tracki/sec/adminuser/{id}/edit', [RoleController::class, 'editAdminUser'])->name('tracki.sec.adminuser.edit');
-        Route::get('/tracki/sec/adminuser/{id}/delete', [RoleController::class, 'deleteAdminUser'])->name('tracki.sec.adminuser.delete');
-        Route::get('/tracki/sec/adminuser/add', [RoleController::class, 'addAdminUser'])->name('tracki.sec.adminuser.add');
-    });  //
+    //         Route::get('/tracki/sec/perm/import', [RoleController::class, 'ImportPermission'])->name('tracki.sec.perm.import');
+    //         Route::post('importnow', [RoleController::class, 'ImportNowPermission'])->name('tracki.sec.perm.import.now');
+
+
+    //         // Roles in Permission
+    //         Route::get('/tracki/sec/rolesetup/list', [RoleController::class, 'listRolePermission'])->name('tracki.sec.rolesetup.list');
+    //         Route::post('updaterolesetup', [RoleController::class, 'updateRolePermission'])->name('tracki.sec.rolesetup.update');
+    //         Route::post('createrolesetup', [RoleController::class, 'createRolePermission'])->name('tracki.sec.rolesetup.create');
+    //         Route::get('/tracki/sec/rolesetup/{id}/edit', [RoleController::class, 'editRolePermission'])->name('tracki.sec.rolesetup.edit');
+    //         Route::get('/tracki/sec/rolesetup/{id}/delete', [RoleController::class, 'deleteRolePermission'])->name('tracki.sec.rolesetup.delete');
+    //         Route::get('/tracki/sec/rolesetup/add', [RoleController::class, 'addRolePermission'])->name('tracki.sec.rolesetup.add');
+
+    //         // Add User
+    //         Route::get('/tracki/auth/signup', [AdminController::class, 'signUp'])->name('tracki.auth.signup');
+    //         Route::post('/admin/signup/create', [AdminController::class, 'createUser'])->name('admin.signup.create');
+    //     });  // End group Admin middleware
+
+    //     Route::middleware(['auth',  'role:Admin|SuperAdmin|Functional Admin', 'roles:admin', 'prevent-back-history'])->group(function () {
+    //         // Admin User
+    //         Route::get('/tracki/sec/adminuser/list', [RoleController::class, 'listAdminUser'])->name('tracki.sec.adminuser.list');
+    //         Route::post('updateadminuser', [RoleController::class, 'updateAdminUser'])->name('tracki.sec.adminuser.update');
+
+    //         Route::post('createadminuser', [RoleController::class, 'createAdminUser'])->name('tracki.sec.adminuser.create');
+    //         Route::get('/tracki/sec/adminuser/{id}/edit', [RoleController::class, 'editAdminUser'])->name('tracki.sec.adminuser.edit');
+    //         Route::get('/tracki/sec/adminuser/{id}/delete', [RoleController::class, 'deleteAdminUser'])->name('tracki.sec.adminuser.delete');
+    //         Route::get('/tracki/sec/adminuser/add', [RoleController::class, 'addAdminUser'])->name('tracki.sec.adminuser.add');
+    //     });  //
+
+    // Add User
+    Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
+    Route::post('/signup/store', [UserController::class, 'store'])->name('admin.signup.store');
 
     Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         // Route::get('/', function () {
@@ -323,10 +328,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // });
 
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
-
-        // Add User
-        Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
-        Route::post('/signup/store', [AuthAdminController::class, 'store'])->name('admin.signup.store');
 
         Route::get('/mds/admin/booking/confirmation', function () {
             return view('/mds/admin/booking/confirmation');
@@ -344,6 +345,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::delete('mds/admin/booking/file/{id}/delete', [BookingController::class, 'fileDelete'])->name('mds.admin.booking.file.delete');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/mds/users/profile', [UserController::class, 'profile'])->name('mds.users.profile');
 
         // yajra datatabels
         Route::get('/mds/booking/test', [BookingController::class, 'test'])->name('mds.booking.test');
@@ -364,6 +366,17 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     require __DIR__ . '/auth.php';
 
+        // file manager routes
+        Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin|Procurement', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
+            Route::controller(AttachmentController::class)->group(function () {
+                Route::post('file/store', 'store')->name('file.store');
+                Route::get('/global/files/list/{id?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
+                // Route::get('/global/files/list/{project?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
+                Route::get('/global/file/serve/{file}', 'serve')->name('global.file.serve');
+                Route::delete('/global/files/delete/{id}', 'delete')->name('global.files.delete');
+            });
+        });
+
     // Admin Group Middleware
     Route::middleware(['auth', 'role:admin', 'prevent-back-history'])->group(function () {
         Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])->name('admin.dashboard');
@@ -381,7 +394,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Route::get('/tracki/auth/login', [AdminController::class, 'login'])->name('tracki.auth.login')->middleware('prevent-back-history');
         Route::get('/mds/auth/login', [AuthAdminController::class, 'login'])->name('mds.auth.login')->middleware('prevent-back-history');
 
-        Route::get('/tracki/auth/forgot', [AdminController::class, 'forgotPassword'])->name('tracki.auth.forgot');
+        Route::get('/mds/auth/forgot', [AdminController::class, 'forgotPassword'])->name('mds.auth.forgot');
         Route::post('forget-password', [AdminController::class, 'submitForgetPasswordForm'])->name('forgot.password.post');
         Route::get('tracki/auth/reset/{token}', [AdminController::class, 'showResetPasswordForm'])->name('reset.password.get');
         Route::post('reset-password', [AdminController::class, 'submitResetPasswordForm'])->name('reset.password.post');

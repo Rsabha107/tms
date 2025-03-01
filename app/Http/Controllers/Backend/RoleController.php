@@ -491,10 +491,9 @@ class RoleController extends Controller
     public function editAdminUser($id){
         $user = User::findOrFail($id);
         $roles = Role::all();
-        $workspace = Workspace::all();
-        $departments = Department::all();
+        $events = MdsEvent::all();
 
-        return view ('sec.adminuser.edit', compact('user', 'roles', 'workspace', 'departments'));
+        return view ('sec.adminuser.edit', compact('user', 'roles', 'events'));
 
     }
 

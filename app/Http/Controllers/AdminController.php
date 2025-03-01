@@ -351,7 +351,7 @@ class AdminController extends Controller
 
     public function forgotPassword()
     {
-        return view('tracki.auth.forgot');
+        return view('mds.auth.forgot');
     }
 
     public function submitForgetPasswordForm(Request $request): RedirectResponse
@@ -469,16 +469,16 @@ class AdminController extends Controller
         // $id = Auth::user()->id;
         $data = new User;
 
-        $data->username = $request->username;
+        // $data->username = $request->username;
         $data->name = $request->name;
         $data->email = $request->email;
         $data->address = $request->address;
         $data->phone = $request->phone;
         $data->department_assignment_id = $request->department_id;
         $data->password = Hash::make($request->password);
-        $data->department_assignment_id = $request->department_id;
-        $data->functional_area_id = $request->functional_area_id;
-        $data->status = 'active';
+        // $data->department_assignment_id = $request->department_id;
+        // $data->functional_area_id = $request->functional_area_id;
+        $data->status = 1;
         $data->role = 'admin';
         $data->address = 'doha';
 
