@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mds\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mds\BookingSlot;
 use App\Models\Mds\FunctionalArea;
 use App\Models\Mds\DeliveryBooking;
 use App\Models\Mds\DeliveryCargoType;
@@ -31,14 +32,16 @@ class BookingController extends Controller
     public function index()
     {
         // dd(session()->get('EVENT_ID'));
-        if (session()->has('EVENT_ID')) {
-            $current_event_id = session()->get('EVENT_ID');
-            $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)->get();
-        } else {
-            return view('mds.admin.booking.pick');
-        }
+        // if (session()->has('EVENT_ID')) {
+        //     $current_event_id = session()->get('EVENT_ID');
+        //     $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)->get();
+        // } else {
+        //     return view('mds.admin.booking.pick');
+        // }
 
+        $current_event_id = session()->get('EVENT_ID');
 
+        $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)->get();
         // $bookings = DeliveryBooking::all();
         $intervals = DeliverySchedulePeriod::all();
         $venues = DeliveryVenue::all();
@@ -71,20 +74,39 @@ class BookingController extends Controller
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
 
-        $events = DeliverySchedulePeriod::where('venue_id', $id)
-            ->where('available_slots', '>', 0)
-            ->distinct()
-            ->get('period_date')
+        // $events = DeliverySchedulePeriod::where('venue_id', $id)
+        //     ->where('available_slots', '>', 0)
+        //     ->distinct()
+        //     ->get('period_date')
 
-            // dd($events);
-            ->map(fn($item) => [
-                // 'id' => $item->id,
-                // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
-                'start' => $item->period_date,
-                'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
-                // 'category' => $item->category,
-                'className' => ['bg-warning']
-            ]);
+        //     // dd($events);
+        //     ->map(fn($item) => [
+        //         // 'id' => $item->id,
+        //         // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
+        //         'start' => $item->period_date,
+        //         'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
+        //         // 'category' => $item->category,
+        //         'className' => ['bg-warning']
+        //     ]);
+
+        $events = BookingSlot::where('venue_id', $id)
+        ->where('event_id', session()->get('EVENT_ID'))
+        ->where('bookings_slots_all', '>', 0)
+        ->distinct()
+        ->get('booking_date')
+
+        // dd($events);
+        ->map(fn($item) => [
+            // 'id' => $item->id,
+            // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
+            'start' => $item->booking_date,
+            'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
+            'display'=> 'block',
+            'backgroundColor' => 'green',
+            // 'eventColor'=> 'green',
+            // 'category' => $item->category,
+            'className' => ['bg-warning'],
+        ]);
 
         return response()->json($events);
     }
@@ -106,7 +128,7 @@ class BookingController extends Controller
         // }
         if (session()->has('EVENT_ID')) {
             $current_event_id = session()->get('EVENT_ID');
-            $bookings = $booking->where('event_id', '=', $current_event_id);
+            $booking = $booking->where('event_id', '=', $current_event_id);
         }
 
         if ($search) {
@@ -182,11 +204,11 @@ class BookingController extends Controller
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$booking->id. '</div>',
                 'delivery_status_id' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->status->title . '</div>',
                 'booking_ref_number' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' .  $booking->booking_ref_number . '</div>',
-                'rsp_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule->rsp->title . '</div>',
+                'rsp_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule->rsp?->title . '</div>',
                 'client_group' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->client?->title . '</div>',
                 'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . format_date($booking->booking_date) . '</div>',
                 // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . time_range_segment($booking->schedule_period->period, 'from') . '</div>',
-                'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule_period->period . '</div>',
+                'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->schedule->rsp_booking_slot . '</div>',
                 // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . ($booking->schedule_period->period) . '</div>',
                 'booking_party_company_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->booking_party_company_name . '</div>',
                 'booking_party_contact_name' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' . $booking->booking_party_contact_name . '</div>',
@@ -230,7 +252,11 @@ class BookingController extends Controller
     {
         $schedules = DeliverySchedule::all();
         $intervals = DeliverySchedulePeriod::all();
-        $venues = DeliveryVenue::all();
+        // $venues = DeliveryVenue::all();
+        $venues = BookingSlot::select('venue_id','venue_name')
+                        ->where('event_id', session()->get('EVENT_ID'))
+                        ->distinct()
+                        ->get();
         $rsps = DeliveryRsp::all();
         $drivers = MdsDriver::all();
         $vehicles = DeliveryVehicle::all();
@@ -239,7 +265,6 @@ class BookingController extends Controller
         $cargos = DeliveryCargoType::all();
         $loading_zones = DeliveryZone::all();
         $clients = FunctionalArea::all();
-
 
         return view('mds.admin.booking.create', compact(
             'schedules',
@@ -265,8 +290,8 @@ class BookingController extends Controller
         // dd($request);
         $user_id = Auth::user()->id;
         $booking = new DeliveryBooking();
-        $timeslots = DeliverySchedulePeriod::findOrFail($request->schedule_period_id);
-
+        $timeslots = BookingSlot::findOrFail($request->schedule_period_id);
+        // $timeslots = DeliverySchedulePeriod::findOrFail($request->schedule_period_id);
 
         $rules = [
             'booking_date' => 'required',
@@ -576,10 +601,15 @@ class BookingController extends Controller
         // $formated_date = Carbon::createFromFormat('dmY', $date)->toDateString();
         // LOG::info('formated_date: '.$formated_date);
         // LOG::info('venue_id: '.$venue_id);
-        $venue = DeliverySchedulePeriod::where('period_date', '=', $date)
-            ->where('venue_id', '=', $venue_id)
-            // ->where('available_slots', '>', '0')
-            ->get();
+        // $venue = DeliverySchedulePeriod::where('period_date', '=', $date)
+        //     ->where('venue_id', '=', $venue_id)
+        //     // ->where('available_slots', '>', '0')
+        //     ->get();
+
+        $venue = BookingSlot::where('booking_date', '=', $date)
+        ->where('venue_id', '=', $venue_id)
+        ->where('bookings_slots_all', '>', '0')
+        ->get();
 
         // $venue = DeliverySchedulePeriod::all();
 

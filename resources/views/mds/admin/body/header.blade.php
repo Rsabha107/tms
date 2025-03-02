@@ -1,13 +1,19 @@
 @php
-    use App\Models\Mds\MdsEvent;
+    // $session_set = false;
+    // if (session()->has('EVENT_ID')) {
+    //     $current_event_id = session()->get('EVENT_ID');
+    //     $event = App\Models\Mds\MdsEvent::findOrFail($current_event_id);
+    //     $set_ws_message = $event->name;
+    //     $badge_color = 'success';
+    //     $session_set = true;
+    // }
 
+    $current_event_id = session()->get('EVENT_ID');
+    $event = App\Models\Mds\MdsEvent::findOrFail($current_event_id);
+    
     $id = Auth::user()->id;
     $profileData = App\Models\User::find($id);
 
-    $current_event_id = session()->get('EVENT_ID');
-    $event = MdsEvent::findOrFail($current_event_id);
-    $set_ws_message = $event->name;
-    $badge_color = 'success';
 @endphp
 
 <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
@@ -23,8 +29,13 @@
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/img/icons/mds.jpg') }}" alt="{{ __('mds.page_title') }}"
                             width="27" />
+
+                        {{-- @if ($session_set) --}}
                         <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }} <span
                                 class="text-primary"> ({{ $event->name }}) </span> </h6>
+                        {{-- @else
+                        <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }}</h6>
+                            @endif --}}
                         {{-- <div class="theme-control-toggle fa-icon-wait px-2">
                             <h6 class="mt-2">({{ $event->name }})</h6>
                         </div> --}}
@@ -337,7 +348,8 @@
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="{{ route('mds.users.profile') }}"> <span
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                        href="{{ route('mds.users.profile') }}"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span

@@ -88,6 +88,7 @@
 
     <link href="{{ asset('fnx/vendors/glightbox/glightbox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('fnx/vendors/dropzone/dropzone.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/vendors/dropify/dist/css/dropify.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/long_text.css') }}" rel="stylesheet">
 
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/wizard.css') }}"> -->
@@ -179,6 +180,7 @@
     <script src="{{ asset ('fnx/vendors/glightbox/glightbox.min.js') }}"> </script>
     <script src="{{ asset ('fnx/vendors/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset ('fnx/vendors/dropzone/dropzone-min.js') }}"></script>
+    <script src="{{ asset('assets/vendors/dropify/src/js/dropify.js') }}"></script>
     <script src="{{ asset ('assets/js/toastr.min.js') }}"></script>
     <script src="{{ asset ('assets/jquery/dist/jquery.form.min.js') }}"></script>
     <script src="{{ asset ('assets/vendors/select2/js/select2.full.js') }}"></script>

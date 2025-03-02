@@ -25,6 +25,16 @@
                 <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#create_schedules_modal"><button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title=" <?= get_label('create_vehicle_type', 'Create Vehicle Type') ?>"><i class="bx bx-plus"></i></button></a>
             </div>
         </div>
+        <div class="col col-md-auto">
+                                    <nav class="nav nav-underline justify-content-start doc-tab-nav align-items-center" role="tablist">
+                                        <!-- <button class="btn btn-primary me-4" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop" aria-haspopup="true" aria-expanded="false"
+                                            data-bs-reference="parent"><span class="fas fa-plus me-2"></span>Add
+                                            Deal</button> -->
+                                        <a class="btn btn-sm btn-phoenix-warning preview-btn ms-2"  href="{{ route('mds.setting.schedule.import') }}"><span class="fa-solid fa-add"></span>Import</a>
+                                        <a class="btn btn-sm btn-phoenix-primary preview-btn ms-2"  href="{{ route('sec.perm.add') }}"><span class="fa-solid fa-add"></span>Add</a>
+                                    </nav>
+                                </div>
         <x-setting.schedule-card :schedules="$schedules" />
     {{-- </div> --}}
 

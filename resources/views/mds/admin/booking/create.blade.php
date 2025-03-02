@@ -79,8 +79,8 @@
                             <select class="form-select" name="venue_id" id="add_delivery_area" required="required">
                                 <option value="">Select delivery areas...</option>
                                 @foreach ($venues as $key => $item )
-                                <option value="{{ $item->id  }}">
-                                    {{ $item->title }}
+                                <option value="{{ $item->venue_id  }}">
+                                    {{ $item->venue_name }}
                                 </option>
                                 @endforeach
                             </select>

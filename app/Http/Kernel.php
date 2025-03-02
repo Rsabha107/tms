@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'otp' => \App\Http\Middleware\CheckOtpSession::class,
+        'mutli.event' => \App\Http\Middleware\CheckEventSelection::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         'XssSanitizer' => \App\Http\Middleware\XssSanitization::class,

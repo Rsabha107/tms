@@ -87,10 +87,12 @@ $(document).ready(function () {
         }
         var venue_id = $("#add_delivery_area").val();
         var calendarEl = document.getElementById("calendar");
-             calendar = new FullCalendar.Calendar(calendarEl, {
+            calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
             events: "/mds/admin/booking/schedule/" + venue_id,
+            eventBackgroundColor: "green",
+            eventDisplay: "block",
             // dateClick: function (info) {
             //     console.log("dateClick", info);
             //     alert('clicked on '+info.dateStr);
@@ -137,7 +139,7 @@ $(document).ready(function () {
                                     '" ' +
                                     grey +
                                     ">" +
-                                    value.period +
+                                    value.rsp_booking_slot +
                                     " (" +
                                     value.available_slots +
                                     ")</option>"
@@ -199,7 +201,7 @@ $(document).ready(function () {
                                     '" ' +
                                     grey +
                                     ">" +
-                                    value.period +
+                                    value.rsp_booking_slot +
                                     " (" +
                                     value.available_slots +
                                     ")</option>"

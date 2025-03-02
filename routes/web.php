@@ -33,6 +33,7 @@ use App\Http\Controllers\KanbanController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Mds\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
+use App\Http\Controllers\Mds\Setting\BookingSlotController;
 use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\Mds\Setting\ScheduleController;
 use App\Http\Controllers\StatusController;
@@ -103,7 +104,7 @@ Route::get('/dashboard', function () {
 
 Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function () {
     // PROJECT MANAGEMENT ******************************************************************** Admin All Route
-    Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin|SuperMDS', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
+    Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:SuperAdmin|SuperMDS', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
 
         // Projects Routes
         Route::controller(AdminBookingController::class)->group(function () {
@@ -112,7 +113,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/', 'index')->name('mds');
             Route::get('/mds/admin/booking', 'index')->name('mds.admin.booking');
             Route::get('/mds/admin/booking/list', 'list')->name('mds.booking.list');
-            Route::get('/mds/admin/booking/schedule/{id}', 'listEvent')->name('mds.admin.booking.schedule');
+            Route::get('/mds/admin/booking/schedule/{id}', 'listEvent')->name('mds.admin.booking.schedule'); // for calendar
             Route::get('/mds/admin/booking/create', 'create')->name('mds.admin.booking.create');
             Route::get('/mds/admin/booking/manage/{id}', 'manage')->name('mds.admin.booking.manage');
             Route::get('/mds/admin/booking/get/{id}', 'get')->name('mds.admin.booking.get');
@@ -126,7 +127,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/admin/booking/pass/pdf/{id?}', 'passPdf')->name('mds.admin.booking.pass.pdf');
 
             Route::get('/mds/admin/events/{id}/switch',  'switch')->name('mds.admin.booking.switch');
-            Route::post('/mds/admin/events/switch',  'pickEvent')->name('mds.admin.booking.event.switch');
+            
         });
 
         Route::controller(VehicleTypeController::class)->group(function () {
@@ -149,6 +150,13 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::delete('/mds/setting/schedule/delete/{id}', 'delete')->name('mds.setting.schedule.delete');
             Route::post('/mds/setting/schedule/store', 'store')->name('mds.setting.schedule.store');
         });
+
+                // schedules
+                Route::controller(BookingSlotController::class)->group(function () {
+                    Route::get('/mds/setting/schedule/import', 'showImportForm')->name('mds.setting.schedule.import');
+                    Route::post('/import', 'import')->name('mds.setting.scheudle.import');
+        
+                });
 
         // intervals
         Route::controller(IntervalController::class)->group(function () {
@@ -326,6 +334,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         // Route::get('/', function () {
         //     return view('/mds/admin/booking');
         // });
+
+        Route::get('/mds/admin/booking/pick', function () {
+            return view('/mds/admin/booking/pick');
+        })->name('mds.admin.booking.pick');
+
+        Route::post('/mds/admin/events/switch', [ AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch');
 
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 

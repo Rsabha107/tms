@@ -20,13 +20,13 @@
                         data-total-field="total"
                         data-trim-on-search="false"
                         data-data-field="rows"
-                        data-page-list="[5, 10, 20, 50, 100, 200]"
+                        data-page-list="[5, 10, 20, 50, 100, 200,4000]"
                         data-search="true"
                         data-side-pagination="server"
                         data-show-columns="true"
                         data-pagination="true"
                         data-sort-name="id"
-                        data-sort-order="desc"
+                        data-sort-order="asc"
                         data-mobile-responsive="true"
                         data-buttons-class="secondary"
                         data-query-params="queryParams">
@@ -34,12 +34,19 @@
                         <tr>
                         <!-- <th data-checkbox="true"></th> -->
                         <!-- <th data-sortable="true" data-field="id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('id', 'ID') ?></th> -->
-                        <th data-sortable="true" data-field="regime_start_date" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('regime_start_date', 'Regime Start Date') ?></th>
-                        <th data-sortable="true" data-field="regime_end_date" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('regime_end_date', 'Regime End Date') ?></th>
-                        <th data-sortable="true" data-field="venue_short_name" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('venue_short_name', 'Short Name') ?></th>
-                        <th data-sortable="true" data-field="venue" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('venue', 'Venue') ?></th>
-                        <th data-sortable="true" data-field="rsp" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('rsp', 'RSP') ?></th>
-                        <th data-sortable="true" data-field="time_slots" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('time_slots', 'Timeslots') ?></th>
+                        <th data-sortable="true" data-field="event" class="align-middle white-space-wrap fw-bold fs-9">Event</th>
+                        <th data-sortable="true" data-field="venue" class="align-middle white-space-wrap fw-bold fs-9">Venue</th>
+                        <th data-sortable="true" data-field="booking_date" class="align-middle white-space-wrap fw-bold fs-9">Booking Date</th>
+                        <th data-sortable="true" data-field="rsp_booking_slot" class="align-middle white-space-wrap fw-bold fs-9">RSP Booking Slot</th>
+                        <th data-sortable="true" data-field="venue_arrival_time" class="align-middle white-space-wrap fw-bold fs-9">Venue Arrival Time</th>
+                        <th data-sortable="true" data-field="bookings_slots_all" class="align-middle white-space-wrap fw-bold fs-9">Booking Slots (ALL)</th>
+                        <th data-sortable="true" data-field="available_slots" class="align-middle white-space-wrap fw-bold fs-9">Available Slots</th>
+                        <th data-sortable="true" data-field="used_slots" class="align-middle white-space-wrap fw-bold fs-9">Used Slots</th>
+                        <th data-sortable="true" data-field="bookings_slots_cat" class="align-middle white-space-wrap fw-bold fs-9">Booking Slots (CAT)</th>
+                        <th data-sortable="true" data-field="slot_visibility" class="align-middle white-space-wrap fw-bold fs-9">Slot Visibility</th>
+                        <th data-sortable="true" data-field="remote_search_park" class="align-middle white-space-wrap fw-bold fs-9">RSP</th>
+                        <th data-sortable="true" data-field="match_day" class="align-middle white-space-wrap fw-bold fs-9">Match Day</th>
+                        <th data-sortable="true" data-field="comments" class="align-middle white-space-wrap fw-bold fs-9">Comments</th>
                         <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                         <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
                         <th data-formatter="actionsFormatter" class="text-end"><?= get_label('actions', 'Actions') ?></th>

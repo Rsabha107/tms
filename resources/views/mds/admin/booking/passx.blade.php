@@ -228,7 +228,7 @@
             </tr>
             <tr class="item">
                 <td>Site Arrival Time:</td>
-                <td>{{time_range_segment($booking->schedule_period->period, 'from')}}</td>
+                <td>{{time_range_segment($booking->schedule?->rsp_booking_slot, 'from')}}</td>
             </tr>
             <tr class="item">
                 <td>Site Name:</td>

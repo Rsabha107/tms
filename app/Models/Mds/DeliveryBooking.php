@@ -56,14 +56,14 @@ class DeliveryBooking extends Model
         return $this->belongsTo(DeliveryCargoType::class, 'cargo_id');
     }
 
-    public function schedule_period()
-    {
-        return $this->belongsTo(DeliverySchedulePeriod::class, 'schedule_period_id');
-    }
+    // public function schedule_period()
+    // {
+    //     return $this->belongsTo(DeliverySchedulePeriod::class, 'schedule_period_id');
+    // }
 
     public function schedule()
     {
-        return $this->belongsTo(DeliverySchedule::class, 'schedule_id');
+        return $this->belongsTo(BookingSlot::class, 'schedule_period_id');
     }
 
     public function driver()

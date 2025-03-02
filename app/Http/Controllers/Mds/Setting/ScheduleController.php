@@ -7,6 +7,7 @@ use App\Models\Mds\DeliveryRsp;
 use App\Models\Mds\DeliverySchedule;
 use App\Models\Mds\DeliveryVenue;
 use App\Models\Location;
+use App\Models\Mds\BookingSlot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,31 +75,38 @@ class ScheduleController extends Controller
         $search = request('search');
         $sort = (request('sort')) ? request('sort') : "id";
         $order = (request('order')) ? request('order') : "DESC";
-        $venue = DeliverySchedule::orderBy($sort, $order);
+        $ops = BookingSlot::orderBy($sort, $order);
 
         if ($search) {
-            $venue = $venue->where(function ($query) use ($search) {
+            $ops = $ops->where(function ($query) use ($search) {
                 $query->where('title', 'like', '%' . $search . '%')
                     ->orWhere('short_name', 'like', '%' . $search . '%')
                     ->orWhere('id', 'like', '%' . $search . '%');
             });
         }
-        $total = $venue->count();
-        $venue = $venue->paginate(request("limit"))->through(function ($venue) {
+        $total = $ops->count();
+        $venue = $ops->paginate(request("limit"))->through(function ($ops) {
 
-        // $location = Location::find($venue->location_id);
+        // $location = Location::find($ops->location_id);
 
             return  [
-                'id' => $venue->id,
+                'id' => $ops->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
-                'regime_start_date' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' . format_date($venue->regime_start_date) . '</div>',
-                'regime_end_date' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .  format_date($venue->regime_end_date) . '</div>',
-                'venue_short_name' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' . $venue->venue->short_name . '</div>',
-                'venue' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' . $venue->venue->title . '</div>',
-                'rsp' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' . $venue->rsp->title . '</div>',
-                'time_slots' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' . $venue->time_slots . '</div>',
-                'created_at' => format_date($venue->created_at,  'H:i:s'),
-                'updated_at' => format_date($venue->updated_at, 'H:i:s'),
+                'event' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->event?->name . '</div>',
+                'venue' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->venue?->title . '</div>',
+                'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($ops->booking_date) . '</div>',
+                'rsp_booking_slot' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->rsp_booking_slot . '</div>',
+                'venue_arrival_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->venue_arrival_time . '</div>',
+                'bookings_slots_all' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->bookings_slots_all . '</div>',
+                'available_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->available_slots . '</div>',
+                'used_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->used_slots . '</div>',
+                'bookings_slots_cat' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->bookings_slots_cat . '</div>',
+                'slot_visibility' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($ops->slot_visibility) . '</div>',
+                'remote_search_park' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->remote_search_park . '</div>',
+                'match_day' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->match_day . '</div>',
+                'comments' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->comments . '</div>',
+                'created_at' => format_date($ops->created_at,  'H:i:s'),
+                'updated_at' => format_date($ops->updated_at, 'H:i:s'),
             ];
         });
 

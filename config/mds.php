@@ -10,4 +10,6 @@ return [
     'show_task_progress' => false,
     'project_strict_save' => false,
     'show_project_status_field' => false,
+    'check_event_selection' => true,
+    'check_event_selection' => env('MULTI_EVENT', true),
 ];

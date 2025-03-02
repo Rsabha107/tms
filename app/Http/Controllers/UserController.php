@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\DataTables\UsersDataTable;
 use App\Models\Department;
 use App\Models\Event;
+use App\Models\GeneralSettings\GlobalAttachment;
 use App\Models\Status;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\Finder\Glob;
 
 class UserController extends Controller
 {
@@ -32,7 +35,10 @@ class UserController extends Controller
 
     public function profile()
     {
-        return view('mds/users/profile');
+        $user = User::find(Auth::user()->id);
+        $file = $user->file_attach;
+    
+        return view('mds/users/profile', compact('user', 'file'));
     }
 
     public function details($id){

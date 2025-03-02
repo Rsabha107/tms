@@ -34,7 +34,7 @@
                                             data-bs-target="#staticBackdrop" aria-haspopup="true" aria-expanded="false"
                                             data-bs-reference="parent"><span class="fas fa-plus me-2"></span>Add
                                             Deal</button> -->
-                                        <a class="btn btn-sm btn-phoenix-primary preview-btn ms-2" href="{{ route('tracki.sec.adminuser.add')}}"><span class="fa-solid fa-add"></span>Add</a>
+                                        <a class="btn btn-sm btn-phoenix-primary preview-btn ms-2" href="{{ route('sec.adminuser.add')}}"><span class="fa-solid fa-add"></span>Add</a>
                                     </nav>
                                 </div>
                             </div>

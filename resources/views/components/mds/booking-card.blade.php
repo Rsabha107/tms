@@ -4,7 +4,6 @@
     <div class="card-body">
         <div class="table-responsive text-nowrap">
             {{$slot}}
-            @if (is_countable($bookings) && count($bookings) > 0)
             <input type="hidden" id="data_type" value="booking">
             <div class="mx-2 mb-2">
                 <table  id="bookings_table"
@@ -18,7 +17,6 @@
                         data-export-types =  "['csv', 'txt', 'doc', 'excel', 'xlsx', 'pdf']"
                         data-show-columns-toggle-all="true"
                         data-show-refresh="true"
-                        data-show-pagination-switch="true"
                         data-total-field="total"
                         data-trim-on-search="false"
                         data-data-field="rows"
@@ -75,11 +73,7 @@
                     </thead>
                 </table>
             </div>
-            @else
-            <?php
-            $type = 'Bookings'; ?>
-            <x-empty-state-card :type="$type" />
-            @endif
+            
         </div>
     </div>
 </div>
