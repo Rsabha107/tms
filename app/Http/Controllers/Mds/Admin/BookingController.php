@@ -89,10 +89,25 @@ class BookingController extends Controller
         //         'className' => ['bg-warning']
         //     ]);
 
+        // Log::info('BookingController::listEvent carbon yesterday: ' . Carbon::previous('2025-11-01')->setTime(17, 0, 0)->toDateTimeString());
+        // $date = Carbon::createFromFormat('Y-m-d',  '2025-03-04');
+        // $prevDate = $date->subDay()->setTimeFromTimeString('17:00:00');
+        // $now = Carbon::now();
+        $t = '7';
+        // Log::info('BookingController::listEvent carbon this date: ' . $date);
+        // Log::info('BookingController::listEvent carbon this now: ' . $now);
+        // Log::info('today is greator than ..'. ($date->gt($now)));
+        // Log::info('today is less than ..'. ($date->lt($now)));
+        // Log::info('BookingController::listEvent carbon subDay: ' . $prevDate);
         $events = BookingSlot::where('venue_id', $id)
         ->where('event_id', session()->get('EVENT_ID'))
         ->where('bookings_slots_all', '>', 0)
         ->where('slot_visibility', '<=', Carbon::now())
+        // ->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 7' DAY_HOUR) > NOW()")
+        ->where( function($query) use ($t) {
+            $query->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 $t' DAY_HOUR) > NOW()");
+        })
+        // ->where(Carbon::createFromFormat('Y-m-d','booking_date')->subDay()->setTimeFromTimeString('17:00:00')->gt(Carbon::now()))
         ->distinct()
         ->get('booking_date')
 
