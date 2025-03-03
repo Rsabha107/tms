@@ -33,72 +33,84 @@
 
                     <!-- ******************************** Setting menu ******************************** -->
                     @if (Auth::user()->can('setup.menu'))
-                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator {{ Request::is('mds/admin/setting/*')||Request::is('mds/admin/setting/*') ? '' : 'collapsed' }} label-1" href="#nv-settings" role="button" data-bs-toggle="collapse" aria-expanded="{{ Request::is('tracki/sec/permissions/*')||Request::is('tracki/sec/roles/*') ? 'true' : 'false' }}" aria-controls="nv-settings">
+                    <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator {{ Request::is('mds/setting/*')||Request::is('mds/setting/*') ? '' : 'collapsed' }} label-1" href="#nv-settings" role="button" data-bs-toggle="collapse" aria-expanded="{{ Request::is('tracki/sec/permissions/*')||Request::is('tracki/sec/roles/*') ? 'true' : 'false' }}" aria-controls="nv-settings">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
                                 <span class="nav-link-icon"><span data-feather="settings"></span></span><span class="nav-link-text">Settings</span><span class="fa-solid fa-circle text-info ms-1 new-page-indicator" style="font-size: 6px"></span>
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent {{ Request::is('mds/admin/setting/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-settings">
-                                <li class="collapsed-nav-item-title d-none">All Permissions
+                            <ul class="nav collapse parent {{ Request::is('mds/setting/*') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-settings">
+                                <li class="collapsed-nav-item-title d-none">Setting
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/vehicle_type') ? 'active' : '' }}" href="{{route('mds.setting.vehicle_type')}}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/event') ? 'active' : '' }}" href="{{route('mds.setting.event')}}" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Event</span>
+                                        </div>
+                                    </a>
+                                    <!-- more inner pages-->
+                                </li>
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/rsp') ? 'active' : '' }}" href="{{route('mds.setting.rsp')}}" data-bs-toggle="" aria-expanded="false">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Remote Search Park</span>
+                                        </div>
+                                    </a>
+                                    <!-- more inner pages-->
+                                </li>
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/vehicle_type') ? 'active' : '' }}" href="{{route('mds.setting.vehicle_type')}}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Vehicle Type</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/driver') ? 'active' : '' }}" href="{{ route('mds.setting.driver') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/driver') ? 'active' : '' }}" href="{{ route('mds.setting.driver') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Drivers</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/vehicle') ? 'active' : '' }}" href="{{ route('mds.setting.vehicle') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/vehicle') ? 'active' : '' }}" href="{{ route('mds.setting.vehicle') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Vehicles</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/delivery_type') ? 'active' : '' }}" href="{{ route('mds.setting.delivery_type') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/delivery_type') ? 'active' : '' }}" href="{{ route('mds.setting.delivery_type') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Dispatch Type</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/cargo') ? 'active' : '' }}" href="{{ route('mds.setting.cargo') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/cargo') ? 'active' : '' }}" href="{{ route('mds.setting.cargo') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Cargo</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/schedule') ? 'active' : '' }}" href="{{ route('mds.setting.schedule') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/schedule') ? 'active' : '' }}" href="{{ route('mds.setting.schedule') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Delivery Schedule </span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
 
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/funcareas') ? 'active' : '' }}" href="{{ route('mds.setting.funcareas') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/funcareas') ? 'active' : '' }}" href="{{ route('mds.setting.funcareas') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Functional Area</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/venue') ? 'active' : '' }}" href="{{ route('mds.setting.venue') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/venue') ? 'active' : '' }}" href="{{ route('mds.setting.venue') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Venue</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/zone') ? 'active' : '' }}" href="{{ route('mds.setting.zone') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/zone') ? 'active' : '' }}" href="{{ route('mds.setting.zone') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Loading Zone</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/admin/setting/status/booking') ? 'active' : '' }}" href="{{ route('mds.setting.status.booking') }}" data-bs-toggle="" aria-expanded="false">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/setting/status/booking') ? 'active' : '' }}" href="{{ route('mds.setting.status.booking') }}" data-bs-toggle="" aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Booking Status</span>
                                         </div>
                                     </a>

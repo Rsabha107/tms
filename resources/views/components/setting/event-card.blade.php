@@ -4,10 +4,9 @@
     <div class="card-body">
         <div class="table-responsive text-nowrap">
             {{$slot}}
-            @if (is_countable($statuses) && count($statuses) > 0)
             <input type="hidden" id="data_type" value="status">
             <div class="mx-2 mb-2">
-                <table  id="status_table"
+                <table  id="event_table"
                         data-toggle="table"
                         data-classes="table table-hover  fs-9 mb-0 border-top border-translucent"
                         data-loading-template="loadingTemplate"
@@ -39,19 +38,14 @@
                             <th data-sortable="true" data-field="id" data-visible="false"><?= get_label('id', 'ID') ?></th>
                             <th data-sortable="true" data-field="title"><?= get_label('title', 'Title') ?></th>
                             <th data-sortable="true" data-field="status"><?= get_label('preview', 'Status') ?></th>
+                            <th data-sortable="true" data-field="actions">Actions</th>
                             <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                             <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
-                            <th data-formatter="actionsFormatter"><?= get_label('actions', 'Actions') ?></th>
+                            {{-- <th data-formatter="actionsFormatter"><?= get_label('actions', 'Actions') ?></th> --}}
                         </tr>
                     </thead>
                 </table>
             </div>
-            @else
-            <?php
-            $type = 'Status'; ?>
-            <x-empty-state-card :type="$type" />
-
-            @endif
         </div>
     </div>
 </div>

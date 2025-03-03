@@ -92,6 +92,7 @@ class BookingController extends Controller
         $events = BookingSlot::where('venue_id', $id)
         ->where('event_id', session()->get('EVENT_ID'))
         ->where('bookings_slots_all', '>', 0)
+        ->where('slot_visibility', '<=', Carbon::now())
         ->distinct()
         ->get('booking_date')
 
@@ -378,6 +379,17 @@ class BookingController extends Controller
     {
         // LOG::info('inside delete');
         $op = DeliveryBooking::find($id);
+
+        // get the timeslot id
+        $timeslot_id = $op->schedule_period_id;
+        // get the timeslot
+        $timeslot = BookingSlot::find($timeslot_id);
+
+        $timeslot->available_slots = $timeslot->available_slots + 1;
+        $timeslot->used_slots = $timeslot->used_slots - 1;
+
+        $timeslot->save();
+
         $op->delete();
 
         $error = false;
@@ -609,6 +621,7 @@ class BookingController extends Controller
         $venue = BookingSlot::where('booking_date', '=', $date)
         ->where('venue_id', '=', $venue_id)
         ->where('bookings_slots_all', '>', '0')
+        ->where('slot_visibility', '<=', Carbon::now())
         ->get();
 
         // $venue = DeliverySchedulePeriod::all();

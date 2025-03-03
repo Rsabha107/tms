@@ -2,6 +2,7 @@
 
 namespace App\Models\Mds;
 
+use App\Models\GlobalStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,4 +12,9 @@ class DeliveryRsp extends Model
 
     protected $guarded = [];
     protected $table = 'mds_delivery_rsp';
+
+    public function active_status()
+    {
+        return $this->belongsTo(GlobalStatus::class, 'active_flag');
+    }
 }

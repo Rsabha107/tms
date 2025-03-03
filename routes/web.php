@@ -1,56 +1,32 @@
 <?php
 
-use App\Http\Controllers\AddressTypeController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\SetupController;
 use App\Http\Controllers\ChartsController;
-use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CommunicationChannels;
-// use App\Http\Controllers\GanttController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\Backend\RoleController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Mds\Setting\BookingStatusController;
-use App\Http\Controllers\BudgetController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Mds\Setting\DeliveryCargoController;
 use App\Http\Controllers\Mds\Setting\DeliveryDriverController;
 use App\Http\Controllers\Mds\Setting\DeliveryTypeController;
 use App\Http\Controllers\Mds\Setting\DeliveryVehicleController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\DriverStatusController;
-use App\Http\Controllers\EmployeeAddressController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\GeneralSettings\AttachmentController;
 use App\Http\Controllers\Mds\Setting\FunctionalAreaController;
 use App\Http\Controllers\Mds\Setting\IntervalController;
-use App\Http\Controllers\KanbanController;
-use App\Http\Controllers\LocationController;
 use App\Http\Controllers\Mds\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
+use App\Http\Controllers\Mds\Setting\BookingEventController;
+use App\Http\Controllers\Mds\Setting\BookingRspController;
 use App\Http\Controllers\Mds\Setting\BookingSlotController;
-use App\Http\Controllers\PriorityController;
 use App\Http\Controllers\Mds\Setting\ScheduleController;
 use App\Http\Controllers\StatusController;
-use App\Http\Controllers\SubtaskController;
-use App\Http\Controllers\TagsController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\TodoController;
+
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Mds\Setting\VehicleTypeController;
 use App\Http\Controllers\Mds\Setting\VenueController;
-use App\Http\Controllers\WorkspaceController;
 use App\Http\Controllers\Mds\Setting\ZoneController;
-use App\Models\AddressType;
-use App\Models\DeliveryCargoType;
-use App\Models\DeliveryType;
-
-// use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -127,7 +103,6 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/admin/booking/pass/pdf/{id?}', 'passPdf')->name('mds.admin.booking.pass.pdf');
 
             Route::get('/mds/admin/events/{id}/switch',  'switch')->name('mds.admin.booking.switch');
-            
         });
 
         Route::controller(VehicleTypeController::class)->group(function () {
@@ -151,12 +126,11 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('/mds/setting/schedule/store', 'store')->name('mds.setting.schedule.store');
         });
 
-                // schedules
-                Route::controller(BookingSlotController::class)->group(function () {
-                    Route::get('/mds/setting/schedule/import', 'showImportForm')->name('mds.setting.schedule.import');
-                    Route::post('/import', 'import')->name('mds.setting.scheudle.import');
-        
-                });
+        // schedules
+        Route::controller(BookingSlotController::class)->group(function () {
+            Route::get('/mds/setting/schedule/import', 'showImportForm')->name('mds.setting.schedule.import');
+            Route::post('/import', 'import')->name('mds.setting.scheudle.import');
+        });
 
         // intervals
         Route::controller(IntervalController::class)->group(function () {
@@ -242,6 +216,26 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('mds/setting/funcareas/update', 'update')->name('mds.setting.funcareas.update');
             Route::delete('/mds/setting/funcareas/delete/{id}', 'delete')->name('mds.setting.funcareas.delete');
             Route::post('/mds/setting/funcareas/store', 'store')->name('mds.setting.funcareas.store');
+        });
+
+        //Event
+        Route::controller(BookingEventController::class)->group(function () {
+            Route::get('/mds/setting/event', 'index')->name('mds.setting.event');
+            Route::get('/mds/setting/event/list', 'list')->name('mds.setting.event.list');
+            Route::get('/mds/setting/event/get/{id}', 'get')->name('mds.setting.event.get');
+            Route::post('mds/setting/event/update', 'update')->name('mds.setting.event.update');
+            Route::delete('/mds/setting/event/delete/{id}', 'delete')->name('mds.setting.event.delete');
+            Route::post('/mds/setting/event/store', 'store')->name('mds.setting.event.store');
+        });
+
+        //Event
+        Route::controller(BookingRspController::class)->group(function () {
+            Route::get('/mds/setting/rsp', 'index')->name('mds.setting.rsp');
+            Route::get('/mds/setting/rsp/list', 'list')->name('mds.setting.rsp.list');
+            Route::get('/mds/setting/rsp/get/{id}', 'get')->name('mds.setting.rsp.get');
+            Route::post('mds/setting/rsp/update', 'update')->name('mds.setting.rsp.update');
+            Route::delete('/mds/setting/rsp/delete/{id}', 'delete')->name('mds.setting.rsp.delete');
+            Route::post('/mds/setting/rsp/store', 'store')->name('mds.setting.rsp.store');
         });
 
         //Booking Status
@@ -339,7 +333,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             return view('/mds/admin/booking/pick');
         })->name('mds.admin.booking.pick');
 
-        Route::post('/mds/admin/events/switch', [ AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch');
+        Route::post('/mds/admin/events/switch', [AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch');
 
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 
@@ -380,16 +374,16 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     require __DIR__ . '/auth.php';
 
-        // file manager routes
-        Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin|Procurement', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
-            Route::controller(AttachmentController::class)->group(function () {
-                Route::post('file/store', 'store')->name('file.store');
-                Route::get('/global/files/list/{id?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
-                // Route::get('/global/files/list/{project?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
-                Route::get('/global/file/serve/{file}', 'serve')->name('global.file.serve');
-                Route::delete('/global/files/delete/{id}', 'delete')->name('global.files.delete');
-            });
+    // file manager routes
+    Route::middleware(['auth', 'otp', 'XssSanitizer', 'role:SuperAdmin|Procurement', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
+        Route::controller(AttachmentController::class)->group(function () {
+            Route::post('file/store', 'store')->name('file.store');
+            Route::get('/global/files/list/{id?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
+            // Route::get('/global/files/list/{project?}', 'list')->name('global.files.list')->middleware('permission:employee.file.list');
+            Route::get('/global/file/serve/{file}', 'serve')->name('global.file.serve');
+            Route::delete('/global/files/delete/{id}', 'delete')->name('global.files.delete');
         });
+    });
 
     // Admin Group Middleware
     Route::middleware(['auth', 'role:admin', 'prevent-back-history'])->group(function () {

@@ -115,7 +115,7 @@
             {{-- @if ((Request::is('projects/admin/setting/*')))
             @include('projects.admin.partials.setup-modals')
             @endif --}}
-            {{-- @include('projects.admin.partials.labels') --}}
+            @include('mds.admin.partials.labels')
             @include('mds.admin.body.footer')
         </div>
         {{-- // end of content --}}
