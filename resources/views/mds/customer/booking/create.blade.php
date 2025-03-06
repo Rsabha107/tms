@@ -271,7 +271,7 @@
             <!-- &nbsp; -->
         </div>
     </div>
-    <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
+    <script src="{{asset('assets/js/pages/mds/customer/booking.js')}}"></script>
 
 
     <!-- Confirm Modal -->

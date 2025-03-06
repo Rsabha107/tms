@@ -36,7 +36,7 @@
         var label_duplicate = '<?= get_label('duplicate', 'Duplicate') ?>';
         var label_generate_pass = '<?= get_label('label_generate_pass', 'Pass') ?>';
     </script>
-    <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
+    <script src="{{asset('assets/js/pages/mds/customer/booking.js')}}"></script>
     @endsection
 
     @push('script')

@@ -278,6 +278,9 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
             Route::get('/mds/customer/events/{id}/switch',  'switch')->name('mds.customer.booking.switch');
 
+            Route::get('/mds/customer/booking/confirmation', function () {
+                return view('/mds/customer/booking/confirmation');
+            })->name('mds.customer.booking.confirmation');
     
         });
 

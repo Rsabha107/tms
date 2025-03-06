@@ -96,7 +96,7 @@
                             </select>
                         </div>
 
-                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule_period->period_date, null, 'd/m/y') }} ({{ $booking->schedule_period->period }})</div>
+                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule->booking_date, null, 'd/m/y') }} ({{ $booking->schedule->rsp_booking_slot }})</div>
                         
                         <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="booking_schedule_availability" style="margin:0 auto;" type="button">Get times</button>
@@ -342,7 +342,7 @@
     </div>
 </div> -->
     @include('mds.customer.partials.booking_modals')
-    <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
+    <script src="{{asset('assets/js/pages/mds/customer/booking.js')}}"></script>
 
     @endsection
 

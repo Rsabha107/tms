@@ -123,7 +123,7 @@
     </div>
 </div> -->
 
-    <script src="{{asset('assets/js/pages/booking.js')}}"></script>
+    <script src="{{asset('assets/js/pages/customer/booking.js')}}"></script>
 
     @endsection
 

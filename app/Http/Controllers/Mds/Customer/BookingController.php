@@ -42,9 +42,9 @@ class BookingController extends Controller
         $current_event_id = session()->get('EVENT_ID');
 
         $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)
-                                    ->where('user_id', '=', Auth::user()->id)
-                                    ->orderBy('id', 'DESC')
-                                    ->get();
+            ->where('user_id', '=', Auth::user()->id)
+            ->orderBy('id', 'DESC')
+            ->get();
         // $bookings = DeliveryBooking::all();
         $intervals = DeliverySchedulePeriod::all();
         $venues = DeliveryVenue::all();
@@ -103,29 +103,29 @@ class BookingController extends Controller
         // Log::info('today is less than ..'. ($date->lt($now)));
         // Log::info('BookingController::listEvent carbon subDay: ' . $prevDate);
         $events = BookingSlot::where('venue_id', $id)
-        ->where('event_id', session()->get('EVENT_ID'))
-        ->where('bookings_slots_all', '>', 0)
-        ->where('slot_visibility', '<=', Carbon::now())
-        // ->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 7' DAY_HOUR) > NOW()")
-        ->where( function($query) use ($t) {
-            $query->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 $t' DAY_HOUR) > NOW()");
-        })
-        // ->where(Carbon::createFromFormat('Y-m-d','booking_date')->subDay()->setTimeFromTimeString('17:00:00')->gt(Carbon::now()))
-        ->distinct()
-        ->get('booking_date')
+            ->where('event_id', session()->get('EVENT_ID'))
+            ->where('bookings_slots_all', '>', 0)
+            ->where('slot_visibility', '<=', Carbon::now())
+            // ->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 7' DAY_HOUR) > NOW()")
+            ->where(function ($query) use ($t) {
+                $query->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 $t' DAY_HOUR) > NOW()");
+            })
+            // ->where(Carbon::createFromFormat('Y-m-d','booking_date')->subDay()->setTimeFromTimeString('17:00:00')->gt(Carbon::now()))
+            ->distinct()
+            ->get('booking_date')
 
-        // dd($events);
-        ->map(fn($item) => [
-            // 'id' => $item->id,
-            // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
-            'start' => $item->booking_date,
-            'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
-            'display'=> 'block',
-            'backgroundColor' => 'green',
-            // 'eventColor'=> 'green',
-            // 'category' => $item->category,
-            'className' => ['bg-warning'],
-        ]);
+            // dd($events);
+            ->map(fn($item) => [
+                // 'id' => $item->id,
+                // 'title' => $item->period.' - ('.$item->available_slots.' slots)',
+                'start' => $item->booking_date,
+                'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
+                'display' => 'block',
+                'backgroundColor' => 'green',
+                // 'eventColor'=> 'green',
+                // 'category' => $item->category,
+                'className' => ['bg-warning'],
+            ]);
 
         return response()->json($events);
     }
@@ -137,7 +137,7 @@ class BookingController extends Controller
         $order = (request('order')) ? request('order') : "DESC";
         $booking = DeliveryBooking::orderBy($sort, $order);
         $booking = $booking->where('user_id', '=', Auth::user()->id);
-        
+
         // if ($search) {
         //     $venue = $venue->where(function ($query) use ($search) {
         //         $query->where('status', 'like', '%' . $search . '%')
@@ -273,10 +273,10 @@ class BookingController extends Controller
         $schedules = DeliverySchedule::all();
         $intervals = DeliverySchedulePeriod::all();
         // $venues = DeliveryVenue::all();
-        $venues = BookingSlot::select('venue_id','venue_name')
-                        ->where('event_id', session()->get('EVENT_ID'))
-                        ->distinct()
-                        ->get();
+        $venues = BookingSlot::select('venue_id', 'venue_name')
+            ->where('event_id', session()->get('EVENT_ID'))
+            ->distinct()
+            ->get();
         $rsps = DeliveryRsp::all();
         $drivers = MdsDriver::all();
         $vehicles = DeliveryVehicle::all();
@@ -391,7 +391,7 @@ class BookingController extends Controller
             'alert-type'    => $type
         );
 
-        // return redirect()->route('mds.booking.add')->with($notification);
+        // return redirect()->route('mds.customer.booking.confirmation')->with($notification)->with('data', $booking);
         return view('mds.customer.booking.confirmation', ['data' => $booking]);
 
 
@@ -571,7 +571,9 @@ class BookingController extends Controller
                 $booking->active_flag = 1;
 
                 $timeslots->save();
-                $old_timeslot->save();
+                if (isset($old_timeslot)) {
+                    $old_timeslot->save();
+                }
                 $booking->save();
             } else {
                 $error = true;
@@ -661,10 +663,10 @@ class BookingController extends Controller
         //     ->get();
 
         $venue = BookingSlot::where('booking_date', '=', $date)
-        ->where('venue_id', '=', $venue_id)
-        ->where('bookings_slots_all', '>', '0')
-        ->where('slot_visibility', '<=', Carbon::now())
-        ->get();
+            ->where('venue_id', '=', $venue_id)
+            ->where('bookings_slots_all', '>', '0')
+            ->where('slot_visibility', '<=', Carbon::now())
+            ->get();
 
         // $venue = DeliverySchedulePeriod::all();
 

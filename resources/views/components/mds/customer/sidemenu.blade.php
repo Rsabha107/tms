@@ -19,13 +19,13 @@
                     <!-- parent pages-->
 
 
-                    <div class="nav-item-wrapper"><a class="nav-link {{ Request::is('mds/admin/booking') ? 'active' : '' }} label-1" href="{{route('mds.admin.booking')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="nav-item-wrapper"><a class="nav-link {{ Request::is('mds/customer/booking') ? 'active' : '' }} label-1" href="{{route('mds.customer.booking')}}" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">List of Bookings</span></span>
                             </div>
                         </a>
                     </div>
 
-                    <div class="nav-item-wrapper"><a class="nav-link {{ Request::is('mds/admin/booking/create') ? 'active' : '' }} label-1" href="{{route('mds.admin.booking.create')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <div class="nav-item-wrapper"><a class="nav-link {{ Request::is('mds/customer/booking/create') ? 'active' : '' }} label-1" href="{{route('mds.customer.booking.create')}}" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-book"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Make a Booking</span></span>
                             </div>
                         </a>
@@ -169,7 +169,7 @@
                     <!-- parent pages-->
 
                     <!-- ******************************** Manage Admin User ******************************** -->
-                    @if (Auth::user()->can('manage.admin.users.menu'))
+                    @if (Auth::user()->can('manage.customer.users.menu'))
                     <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator label-1" href="#nv-adminuser" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="nv-adminuser">
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon"><span class="fas fa-caret-right"></span></div>
