@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.admin_template')
+@extends('mds.customer.layout.customer_template')
 @section('main')
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{url('/mds/dashboard')}}"><?= get_label('home', 'Home') ?></a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{route('mds.admin.booking')}}">
+                    <li class="breadcrumb-item"><a href="{{route('mds.customer.booking')}}">
                             <?= get_label('booking', 'Booking') ?></a>
                     </li>
                     <li class="breadcrumb-item active">
@@ -65,7 +65,7 @@
             </div>
             <div class="card-body p-0">
                 <div class="p-4 code-to-copy">
-                    <form class="row g-3  px-3 needs-validation" action="{{route('mds.admin.booking.update')}}" id="form-1" novalidate method="POST">
+                    <form class="row g-3  px-3 needs-validation" action="{{route('mds.customer.booking.update')}}" id="form-1" novalidate method="POST">
                         @csrf
                         <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="{{ $booking->schedule_period_id }}">
                         <input id="add_booking_date" name="booking_date" type="hidden" value="{{ $booking->booking_date }}">
@@ -96,7 +96,7 @@
                             </select>
                         </div>
 
-                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule->booking_date, null, 'd/m/y') }} ({{ $booking->schedule->rsp_booking_slot }})</div>
+                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule_period->period_date, null, 'd/m/y') }} ({{ $booking->schedule_period->period }})</div>
                         
                         <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="booking_schedule_availability" style="margin:0 auto;" type="button">Get times</button>
@@ -341,7 +341,7 @@
         </div>
     </div>
 </div> -->
-    @include('mds.admin.partials.booking_modals')
+    @include('mds.customer.partials.booking_modals')
     <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
 
     @endsection

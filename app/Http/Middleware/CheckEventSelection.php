@@ -20,7 +20,12 @@ class CheckEventSelection
         if (config('mds.check_event_selection')) {
             // Log::info('CheckEventSelection: Checking event selection: '. session()->has('EVENT_ID'));
             if (!session()->has('EVENT_ID') && auth()->check()) {
-                return redirect()->route('mds.admin.booking.pick');
+                if (auth()->user()->is_admin) {
+                    return redirect()->route('mds.admin.booking.pick');
+                } else {
+                    return redirect()->route('mds.customer.booking.pick');
+                }
+                // return redirect()->route('mds.admin.booking.pick');
             }
         }
         return $next($request);

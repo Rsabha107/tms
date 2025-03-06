@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.admin_template')
+@extends('mds.customer.layout.customer_template')
 @section('main')
 
 
@@ -22,13 +22,13 @@
                 </nav>
             </div>
             <div>
-                <a href="{{route('mds.admin.booking.create')}}"><button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title=" <?= get_label('create_vehicle_type', 'Create Vehicle Type') ?>"><i class="bx bx-plus"></i></button></a>
+                <a href="{{route('mds.customer.booking.create')}}"><button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title=" <?= get_label('create_vehicle_type', 'Create Vehicle Type') ?>"><i class="bx bx-plus"></i></button></a>
             </div>
         </div>
-        <x-mds.admin.booking-card :bookings="$bookings" />
+        <x-mds.customer.booking-card :bookings="$bookings" />
     <!-- </div> -->
 
-    @include('mds.admin.partials.booking_modals')
+    @include('mds.customer.partials.booking_modals')
     <script>
         var label_update = '<?= get_label('update', 'Update') ?>';
         var label_delete = '<?= get_label('delete', 'Delete') ?>';

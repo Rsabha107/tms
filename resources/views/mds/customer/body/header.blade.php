@@ -64,7 +64,7 @@
         <ul class="navbar-nav navbar-nav-icons flex-row">
             <li class="nav-item">
                 <div class="theme-control-toggle fa-icon-wait px-2">
-                    <h6 class="mt-2">{{ $profileData->name }}</h6>
+                    <h6 class="mt-2">{{ $profileData->name }} (User)</h6>
                 </div>
                 <div class="theme-control-toggle fa-icon-wait px-2">
                     <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox"
@@ -95,7 +95,7 @@
                         </div> --}}
                         @foreach ($user_events as $event)
                             <a class="dropdown-item" id="offcanvas-add-project"
-                                href="{{ route('mds.admin.booking.switch', $event->id) }}"
+                                href="{{ route('mds.customer.booking.switch', $event->id) }}"
                                 data-table="project_table"><span
                                     class="fas fa-circle me-2"></span>{{ $event->name }}</a>
                         @endforeach

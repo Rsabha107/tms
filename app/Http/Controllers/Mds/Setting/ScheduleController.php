@@ -8,6 +8,7 @@ use App\Models\Mds\DeliverySchedule;
 use App\Models\Mds\DeliveryVenue;
 use App\Models\Location;
 use App\Models\Mds\BookingSlot;
+use App\Models\Mds\MdsEvent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,10 +23,11 @@ class ScheduleController extends Controller
     public function index()
     {
         $schedules = DeliverySchedule::all();
+        $events = MdsEvent::all();
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
 
-        return view('mds.setting.schedule.list', compact('schedules', 'venues', 'rsps'));
+        return view('mds.setting.schedule.list', compact('schedules', 'venues', 'rsps','events'));
     }
 
     public function get($id)
@@ -75,6 +77,11 @@ class ScheduleController extends Controller
         $search = request('search');
         $sort = (request('sort')) ? request('sort') : "id";
         $order = (request('order')) ? request('order') : "DESC";
+        $mds_schedule_event_filter = (request()->mds_schedule_event_filter) ? request()->mds_schedule_event_filter : "";
+        $mds_schedule_venue_filter = (request()->mds_schedule_venue_filter) ? request()->mds_schedule_venue_filter : "";
+        $mds_schedule_rsp_filter = (request()->mds_schedule_rsp_filter) ? request()->mds_schedule_rsp_filter : "";
+
+
         $ops = BookingSlot::orderBy($sort, $order);
 
         if ($search) {
@@ -84,6 +91,19 @@ class ScheduleController extends Controller
                     ->orWhere('id', 'like', '%' . $search . '%');
             });
         }
+
+        if ($mds_schedule_event_filter) {
+            $ops = $ops->where('event_id', $mds_schedule_event_filter);
+        }
+
+        if ($mds_schedule_venue_filter) {
+            $ops = $ops->where('venue_id', $mds_schedule_venue_filter);
+        }
+
+        if ($mds_schedule_rsp_filter) {
+            $ops = $ops->where('rsp_id', $mds_schedule_rsp_filter);
+        }
+
         $total = $ops->count();
         $venue = $ops->paginate(request("limit"))->through(function ($ops) {
 

@@ -17,6 +17,7 @@ use App\Http\Controllers\Mds\Setting\FunctionalAreaController;
 use App\Http\Controllers\Mds\Setting\IntervalController;
 use App\Http\Controllers\Mds\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
+use App\Http\Controllers\Mds\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Mds\Setting\BookingEventController;
 use App\Http\Controllers\Mds\Setting\BookingRspController;
 use App\Http\Controllers\Mds\Setting\BookingSlotController;
@@ -78,7 +79,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function () {
+
     // PROJECT MANAGEMENT ******************************************************************** Admin All Route
     Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:SuperAdmin|SuperMDS', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
 
@@ -88,7 +92,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             // booking routes
             Route::get('/', 'index')->name('mds');
             Route::get('/mds/admin/booking', 'index')->name('mds.admin.booking');
-            Route::get('/mds/admin/booking/list', 'list')->name('mds.booking.list');
+            Route::get('/mds/admin/booking/list', 'list')->name('mds.admin.booking.list');
             Route::get('/mds/admin/booking/schedule/{id}', 'listEvent')->name('mds.admin.booking.schedule'); // for calendar
             Route::get('/mds/admin/booking/create', 'create')->name('mds.admin.booking.create');
             Route::get('/mds/admin/booking/manage/{id}', 'manage')->name('mds.admin.booking.manage');
@@ -248,77 +252,41 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('/mds/setting/status/booking/store', 'store')->name('mds.setting.status.booking.store');
         });
     });
+
+    // PROJECT MANAGEMENT ******************************************************************** Admin All Route
+    Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:Customer', 'roles:user', 'prevent-back-history', 'auth.session'])->group(function () {
+
+        // Projects Routes
+        Route::controller(CustomerBookingController::class)->group(function () {
+
+            // booking routes
+            Route::get('/', 'index')->name('mds');
+            Route::get('/mds/customer/booking', 'index')->name('mds.customer.booking');
+            Route::get('/mds/customer/booking/list', 'list')->name('mds.customer.booking.list');
+            Route::get('/mds/customer/booking/schedule/{id}', 'listEvent')->name('mds.customer.booking.schedule'); // for calendar
+            Route::get('/mds/customer/booking/create', 'create')->name('mds.customer.booking.create');
+            Route::get('/mds/customer/booking/manage/{id}', 'manage')->name('mds.customer.booking.manage');
+            Route::get('/mds/customer/booking/get/{id}', 'get')->name('mds.customer.booking.get');
+            Route::get('/mds/customer/booking/get_times/{date}/{venue_id}', 'get_times')->name('mds.customer.booking.get_times');
+            Route::get('/mds/customer/booking/times/cal/{date}/{venue_id}', 'get_times_cal')->name('mds.customer.booking.times.cal');
+            Route::post('mds/customer/booking/update', 'update')->name('mds.customer.booking.update');
+            Route::get('mds/customer/booking/edit/{id}', 'edit')->name('mds.customer.booking.edit');
+            Route::delete('/mds/customer/booking/delete/{id}', 'delete')->name('mds.customer.booking.delete');
+            Route::post('/mds/customer/booking/store', 'store')->name('mds.customer.booking.store');
+            Route::get('/mds/customer/booking/mv/detail/{id}', 'detail')->name('mds.customer.mv.detail');
+            Route::get('/mds/customer/booking/pass/pdf/{id?}', 'passPdf')->name('mds.customer.booking.pass.pdf');
+
+            Route::get('/mds/customer/events/{id}/switch',  'switch')->name('mds.customer.booking.switch');
+
+    
+        });
+
+    });
 });
 
 
 // ****************** ADMIN *********************
 Route::group(['middleware' => 'prevent-back-history'], function () {
-    //     Route::middleware(['auth', 'roles:admin', 'role:SuperAdmin', 'prevent-back-history'])->group(function () {
-
-    //         Route::get('/tracki/test', function () {
-    //             return view('tracki/test');
-    //         });
-
-    //         Route::get('/tracki/users/create', function () {
-    //             return view('tracki/users/create');
-    //         });
-
-
-    //         // Role
-    //         Route::get('/tracki/sec/roles/add', function () {
-    //             return view('/tracki/sec/roles/add');
-    //         })->name('tracki.sec.roles.add');
-    //         Route::get('/tracki/sec/roles/roles/list', [RoleController::class, 'listRole'])->name('tracki.sec.roles.list');
-    //         Route::post('updaterole', [RoleController::class, 'updateRole'])->name('tracki.sec.roles.update');
-    //         Route::post('createrole', [RoleController::class, 'createRole'])->name('tracki.sec.roles.create');
-    //         Route::get('/tracki/sec/roles/{id}/edit', [RoleController::class, 'editRole'])->name('tracki.sec.roles.edit');
-    //         Route::get('/tracki/sec/roles/{id}/delete', [RoleController::class, 'deleteRole'])->name('tracki.sec.roles.delete');
-
-    //         // group
-    //         Route::get('/tracki/sec/groups/add', function () {
-    //             return view('/tracki/sec/groups/add');
-    //         })->name('tracki.sec.groups.add');
-    //         Route::get('/tracki/sec/groups/groups/list', [RoleController::class, 'listGroup'])->name('tracki.sec.groups.list');
-    //         Route::post('updategroup', [RoleController::class, 'updateGroup'])->name('tracki.sec.groups.update');
-    //         Route::post('creategroup', [RoleController::class, 'createGroup'])->name('tracki.sec.groups.create');
-    //         Route::get('/tracki/sec/groups/{id}/edit', [RoleController::class, 'editGroup'])->name('tracki.sec.groups.edit');
-    //         Route::get('/tracki/sec/groups/{id}/delete', [RoleController::class, 'deleteGroup'])->name('tracki.sec.groups.delete');
-
-    //         // Permission
-    //         Route::get('/tracki/sec/permissions/list', [RoleController::class, 'listPermission'])->name('tracki.sec.perm.list');
-    //         Route::post('updatepermission', [RoleController::class, 'updatePermission'])->name('tracki.sec.perm.update');
-    //         Route::post('createpermission', [RoleController::class, 'createPermission'])->name('tracki.sec.perm.create');
-    //         Route::get('/tracki/sec/perm/{id}/edit', [RoleController::class, 'editPermission'])->name('tracki.sec.perm.edit');
-    //         Route::get('/tracki/sec/perm/{id}/delete', [RoleController::class, 'deletePermission'])->name('tracki.sec.perm.delete');
-    //         Route::get('/tracki/sec/permissions/add', [RoleController::class, 'addPermission'])->name('tracki.sec.perm.add');
-
-    //         Route::get('/tracki/sec/perm/import', [RoleController::class, 'ImportPermission'])->name('tracki.sec.perm.import');
-    //         Route::post('importnow', [RoleController::class, 'ImportNowPermission'])->name('tracki.sec.perm.import.now');
-
-
-    //         // Roles in Permission
-    //         Route::get('/tracki/sec/rolesetup/list', [RoleController::class, 'listRolePermission'])->name('tracki.sec.rolesetup.list');
-    //         Route::post('updaterolesetup', [RoleController::class, 'updateRolePermission'])->name('tracki.sec.rolesetup.update');
-    //         Route::post('createrolesetup', [RoleController::class, 'createRolePermission'])->name('tracki.sec.rolesetup.create');
-    //         Route::get('/tracki/sec/rolesetup/{id}/edit', [RoleController::class, 'editRolePermission'])->name('tracki.sec.rolesetup.edit');
-    //         Route::get('/tracki/sec/rolesetup/{id}/delete', [RoleController::class, 'deleteRolePermission'])->name('tracki.sec.rolesetup.delete');
-    //         Route::get('/tracki/sec/rolesetup/add', [RoleController::class, 'addRolePermission'])->name('tracki.sec.rolesetup.add');
-
-    //         // Add User
-    //         Route::get('/tracki/auth/signup', [AdminController::class, 'signUp'])->name('tracki.auth.signup');
-    //         Route::post('/admin/signup/create', [AdminController::class, 'createUser'])->name('admin.signup.create');
-    //     });  // End group Admin middleware
-
-    //     Route::middleware(['auth',  'role:Admin|SuperAdmin|Functional Admin', 'roles:admin', 'prevent-back-history'])->group(function () {
-    //         // Admin User
-    //         Route::get('/tracki/sec/adminuser/list', [RoleController::class, 'listAdminUser'])->name('tracki.sec.adminuser.list');
-    //         Route::post('updateadminuser', [RoleController::class, 'updateAdminUser'])->name('tracki.sec.adminuser.update');
-
-    //         Route::post('createadminuser', [RoleController::class, 'createAdminUser'])->name('tracki.sec.adminuser.create');
-    //         Route::get('/tracki/sec/adminuser/{id}/edit', [RoleController::class, 'editAdminUser'])->name('tracki.sec.adminuser.edit');
-    //         Route::get('/tracki/sec/adminuser/{id}/delete', [RoleController::class, 'deleteAdminUser'])->name('tracki.sec.adminuser.delete');
-    //         Route::get('/tracki/sec/adminuser/add', [RoleController::class, 'addAdminUser'])->name('tracki.sec.adminuser.add');
-    //     });  //
 
     // Add User
     Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
@@ -331,9 +299,13 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/mds/admin/booking/pick', function () {
             return view('/mds/admin/booking/pick');
-        })->name('mds.admin.booking.pick');
+        })->name('mds.admin.booking.pick')->middleware('role:SuperAdmin');
+        Route::post('/mds/admin/events/switch', [AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch')->middleware('role:SuperAdmin');
 
-        Route::post('/mds/admin/events/switch', [AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch');
+        Route::get('/mds/customer/booking/pick', function () {
+            return view('/mds/customer/booking/pick');
+        })->name('mds.customer.booking.pick')->middleware('role:Customer');
+        Route::post('/mds/customer/events/switch', [CustomerBookingController::class, 'pickEvent'])->name('mds.customer.booking.event.switch')->middleware('role:Customer');
 
         Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 

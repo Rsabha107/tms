@@ -108,33 +108,6 @@ $("body").on("click", "#editScheduleStatus", function (event) {
 });
 
 
-("use strict");
-function queryParams(p) {
-    return {
-        page: p.offset / p.limit + 1,
-        limit: p.limit,
-        sort: p.sort,
-        order: p.order,
-        offset: p.offset,
-        search: p.search,
-    };
-}
-
-window.icons = {
-    refresh: "bx-refresh",
-    toggleOn: "bx-toggle-right",
-    toggleOff: "bx-toggle-left",
-    fullscreen: "bx-fullscreen",
-    columns: "bx-list-ul",
-    export_data: "bx-list-ul",
-};
-
-function loadingTemplate(message) {
-    return '<i class="bx bx-loader-alt bx-spin bx-flip-vertical" ></i>';
-}
-
-
-
 function actions2Formatter(value, row, index) {
     return [
         '<a href="javascript:void(0);" class="edit-schedules" id="editSchedule" data-id=' +

@@ -1,6 +1,4 @@
-{{-- @extends('mds.admin.layout.dashboard') --}}
-@extends('mds.admin.layout.admin_template')
-
+@extends('mds.customer.layout.customer_template')
 @section('main')
 
 
@@ -17,7 +15,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{url('/mds/dashboard')}}"><?= get_label('home', 'Home') ?></a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{route('mds.admin.booking.create')}}">
+                    <li class="breadcrumb-item"><a href="{{route('mds.customer.booking.create')}}">
                             <?= get_label('booking', 'Booking') ?></a>
                     </li>
                     <li class="breadcrumb-item active">
@@ -90,10 +88,10 @@
               <h4 class="mb-0">{{$data->booking_ref_number}}</h4>
             </div>
             <div class="col-12 col-md-auto d-flex">
-              <a href="{{route('mds.admin.booking')}}"><button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+              <a href="{{route('mds.customer.booking')}}"><button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
               <!-- <span class="fa-solid fa-edit me-sm-2"></span> -->
               <span class="d-none d-sm-inline">See booking details</span></button></a>
-              <a href="{{route('mds.admin.booking.pass.pdf', $data->id)}}" target="_blank"><button class="btn btn-phoenix-primary me-2">
+              <a href="{{route('mds.customer.booking.pass.pdf', $data->id)}}" target="_blank"><button class="btn btn-phoenix-primary me-2">
                 <!-- <span class="fa-solid fa-trash me-2"></span> -->
                 <span>Pass</span></button></a>
             </div>

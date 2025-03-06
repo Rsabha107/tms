@@ -43,10 +43,8 @@ class AuthenticatedSessionController extends Controller
         $url = '';
         if ($request->user()->role === 'admin'){
             $url = 'mds/admin/booking';
-        } elseif  ($request->user()->role === 'agent'){
-            $url = 'tracki/dashboard';
         } elseif  ($request->user()->role === 'user'){
-            $url = 'tracki/dashboard';
+            $url = 'mds/customer/booking';
         }
 
 

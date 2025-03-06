@@ -105,14 +105,14 @@
     <main class="main" id="top">
 
         {{-- <x-mds.nav.topmenu /> --}}
-        <x-mds.admin.sidemenu />
-        @include('mds.admin.body.header')
+        <x-mds.customer.sidemenu />
+        @include('mds.customer.body.header')
 
         {{-- // start of content --}}
         <div class="content">
             @yield('main')
-            @include('mds.admin.partials.labels')
-            @include('mds.admin.body.footer')
+            @include('mds.customer.partials.labels')
+            @include('mds.customer.body.footer')
         </div>
         {{-- // end of content --}}
 
@@ -237,7 +237,6 @@
         })
 
         console.log('before toastr');
-        
         @if(Session::has('message'))
         toastr.options = {
             "closeButton": true,
