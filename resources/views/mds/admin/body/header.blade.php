@@ -24,7 +24,7 @@
                 data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
                 aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                         class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds') }}">
+            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds.admin') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/img/icons/mds.jpg') }}" alt="{{ __('mds.page_title') }}"

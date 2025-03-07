@@ -39,6 +39,11 @@ class BookingController extends Controller
         //     return view('mds.customer.booking.pick');
         // }
 
+        Log::info('BookingController::index');
+        if (auth()->user()->is_admin) {
+            return view('mds.admin.booking.list');
+        }
+
         $current_event_id = session()->get('EVENT_ID');
 
         $bookings = DeliveryBooking::where('event_id', '=', $current_event_id)

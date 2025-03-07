@@ -110,7 +110,7 @@
                                     </form>
                                 </div>
                                 {{-- @endhasrole --}}
-                                <a class="btn btn-lg btn-secondary w-100" href="{{ route('mds') }}">Request Access</a>
+                                <a class="btn btn-lg btn-secondary w-100" href="{{ route('mds.customer') }}">Request Access</a>
                             </div>
                         </div>
                     </div>

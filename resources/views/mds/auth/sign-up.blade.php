@@ -145,7 +145,7 @@
                                         <div class="auth-form-box">
                                             <div class="text-center mb-5"><a
                                                     class="d-flex flex-center text-decoration-none mb-4"
-                                                    href="{{ route('mds') }}">
+                                                    href="#">
                                                     {{-- <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                                                     <img src="../../../assets/img/icons/LogoPrintemps_2022_vert.png"
                                                         alt="phoenix" width="58" />
@@ -231,8 +231,8 @@
                                                 </div>
                                                 <button class="btn btn-primary w-100 mb-3" type="submit">Sign
                                                     up</button>
-                                                <div class="text-center"><a class="fs-9 fw-bold"
-                                                        href="{{ route('mds') }}">Go back to dashboard</a></div>
+                                                {{-- <div class="text-center"><a class="fs-9 fw-bold"
+                                                        href="{{ route('mds') }}">Go back to dashboard</a></div> --}}
                                             </form>
                                         </div>
                                     </div>

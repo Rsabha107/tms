@@ -31,7 +31,7 @@ if (auth()->user()->usertype == 'admin'  && !session()->has('workspace_id')) {
         <div class="navbar-logo">
 
             <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds') }}">
+            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds.admin') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center"><img src="{{ asset ('assets/img/icons/Marktoneems.jpg') }}" alt="phoenix" width="40" height="20" />
                         <p class="logo-text ms-2 d-none d-sm-block">{{__('mds.page_titlexx')}}</p>
@@ -307,8 +307,8 @@ if (auth()->user()->usertype == 'admin'  && !session()->has('workspace_id')) {
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
                             <ul class="nav d-flex flex-column mb-2 pb-1">
-                                <li class="nav-item"><a class="nav-link px-3" href="{{route('mds')}}"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3" href="{{ route('mds')}}"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
+                                <li class="nav-item"><a class="nav-link px-3" href="{{route('mds.admin')}}"> <span class="me-2 text-900" data-feather="user"></span><span>Profile</span></a></li>
+                                <li class="nav-item"><a class="nav-link px-3" href="{{ route('mds.admin')}}"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="lock"></span>Posts &amp; Activity</a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="settings"></span>Settings &amp; Privacy </a></li>
                                 <li class="nav-item"><a class="nav-link px-3" href="#!"> <span class="me-2 text-900" data-feather="help-circle"></span>Help Center</a></li>

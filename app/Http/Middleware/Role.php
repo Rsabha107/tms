@@ -15,9 +15,10 @@ class Role
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
+        // dd('Role Middleware', $request->user()->role,$role);
         if ($request->user()->role !== $role){
-            dd('test');
-            return redirect('main/dashboard');
+            // dd('test');
+            return redirect('login');
         }
         return $next($request);
     }

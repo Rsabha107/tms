@@ -16,7 +16,7 @@
                         <div class="row align-items-center gx-0 gy-7">
                             <div class="col mx-auto">
                                 <div class="auth-form-box">
-                                    <div class="text-center mb-5"><a class="d-flex flex-center text-decoration-none mb-4" href="{{route('mds')}}">
+                                    <div class="text-center mb-5"><a class="d-flex flex-center text-decoration-none mb-4" href="#">
                                             {{-- <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                                                 <img src="{{asset('assets/img/icons/LogoPrintemps_2022_vert.png')}}" alt="Printemps" width="58" />
                                             </div> --}}
@@ -100,7 +100,8 @@
                                                 data-placeholder="<?= get_label('type_to_search', 'Type to search') ?>">
                                                 <!-- <select name="assignment_to_id[]" class="form-select" data-choices="data-choices" size="1" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' id="floatingSelectRating" required> -->
                                                 @foreach ($events as $event)
-                                                    <option value="{{ $event->id }}">{{ $event->name }}
+                                                    <option value="{{ $event->id }}" {{ in_array($event->id, $user->events->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                        {{ $event->name }}
                                                     </option>
                                                 @endforeach
                                             </select>

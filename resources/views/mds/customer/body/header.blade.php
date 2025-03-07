@@ -14,6 +14,8 @@
     $id = Auth::user()->id;
     $profileData = App\Models\User::find($id);
 
+    
+
 @endphp
 
 <nav class="navbar navbar-top fixed-top navbar-expand" id="navbarDefault">
@@ -24,7 +26,7 @@
                 data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
                 aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                         class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds') }}">
+            <a class="navbar-brand me-1 me-sm-3" href="{{ route('mds.customer') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center">
                         <img src="{{ asset('assets/img/icons/mds.jpg') }}" alt="{{ __('mds.page_title') }}"

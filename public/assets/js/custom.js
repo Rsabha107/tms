@@ -57,7 +57,7 @@ $(document).ready(function () {
     // }
 
     // alert('inside doc ready')
-    $('#profile_image_name').change(function(e) {
+    $("#profile_image_name, #upload-avatar").change(function (e) {
         console.log('inside profile_image_name')
         var reader = new FileReader();
         reader.onload = function(e) {

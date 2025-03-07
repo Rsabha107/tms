@@ -74,12 +74,34 @@ Route::get('/ganttok', function () {
 // });
 
 // Route::get('/data', [GanttController::class, 'get']);
+Route::get('/', function () {
+    if (auth()->check()) {
+        if (auth()->user()->is_admin) {
+            return redirect()->route('mds.admin');
+        } else {
+            return redirect()->route('mds.customer');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->name('home');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+// Route::group(['prefix' => 'admin',
+//                 'as' => 'admin.',
+//                 'namespace' => 'Admin',
+//             'middleware' => ['auth', 'otp', 'prevent-back-history', 'XssSanitizer', 'role:SuperAdmin|SuperMDS', 'roles:admin', 'auth.session']], function () {
+
+//     Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+//     Route::post('/profile/store', [UserController::class, 'profileStore'])->name('user.profile.store');
+//     Route::get('/profile/password', [UserController::class, 'password'])->name('user.password');
+//     Route::post('/profile/password/store', [UserController::class, 'passwordStore'])->name('user.password.store');
+// });
 
 Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function () {
 
@@ -90,7 +112,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
         Route::controller(AdminBookingController::class)->group(function () {
 
             // booking routes
-            Route::get('/', 'index')->name('mds');
+            Route::get('/mds/admin', 'index')->name('mds.admin');
             Route::get('/mds/admin/booking', 'index')->name('mds.admin.booking');
             Route::get('/mds/admin/booking/list', 'list')->name('mds.admin.booking.list');
             Route::get('/mds/admin/booking/schedule/{id}', 'listEvent')->name('mds.admin.booking.schedule'); // for calendar
@@ -260,7 +282,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
         Route::controller(CustomerBookingController::class)->group(function () {
 
             // booking routes
-            Route::get('/', 'index')->name('mds');
+            Route::get('/mds/customer', 'index')->name('mds.customer');
             Route::get('/mds/customer/booking', 'index')->name('mds.customer.booking');
             Route::get('/mds/customer/booking/list', 'list')->name('mds.customer.booking.list');
             Route::get('/mds/customer/booking/schedule/{id}', 'listEvent')->name('mds.customer.booking.schedule'); // for calendar
@@ -385,6 +407,27 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/send-mail', [SendMailController::class, 'index']);
         Route::get('/send-mail2', [SendMailController::class, 'sendTaskAssignmentEmail']);
+
+        Route::get('mail', function () {
+            // $order = App\Order::find(1);
+            $user = App\Models\User::find(41);
+            $details = [
+                'subject' => 'Tracki Notification Center. New task assignment',
+                'greeting' => 'Hi Raafat,',
+                'body' => 'task ABC has been assigned to you and ready for some action. chop chop start churning',
+                'startdate' => 'Start Date: 1/1/2025',
+                'duedate' => 'Due by: 1/1/2025',
+                'description' => 'Describe me',
+                'actiontext' => 'Go to Tracki',
+                'actionurl' => '/',
+                'lastline' => 'Please check the task online for any notes or attachments',
+            ];
+            // return (new App\Notifications\AnnouncementCenter($details))
+            //             ->toMail($user);
+            return (new App\Notifications\NewUserNotification($user))
+                        ->toMail($user);
+        });
+
 
         Route::get('/send', [SendMailController::class, 'sendTaskAssignmentNotifcation']);
         Route::get('/whatsapp', [CommunicationChannels::class, 'sendWhatsapp'])->name('whatsapp.send');

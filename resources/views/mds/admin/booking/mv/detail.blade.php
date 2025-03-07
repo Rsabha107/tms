@@ -135,7 +135,7 @@
                                 <div class="collapse" id="collapseBookingFile">
                                     <!-- <div class="card card-body"> -->
 
-                                    <form id="form_submit_task_new_file" class="needs-validation form-submit-booking-new-file" novalidate="" action="{{ route('mds') }}" method="POST" enctype='multipart/form-data'>
+                                    <form id="form_submit_task_new_file" class="needs-validation form-submit-booking-new-file" novalidate="" action="{{ route('mds.admin') }}" method="POST" enctype='multipart/form-data'>
                                         @csrf
                                         <div class="modal-body">
                                             <div class="modal-body px-0">
