@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.admin_template')
+@extends('mds.customer.layout.customer_template')
 @section('main')
 
     <!-- ===============================================-->
@@ -12,13 +12,13 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('/mds/dashboard') }}"><?= get_label('home', 'Home') ?></a>
+                        <a href="{{ route('home') }}"><?= get_label('home', 'Home') ?></a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{ route('mds.admin.booking') }}">
-                            <?= get_label('booking', 'Booking') ?></a>
+                    <li class="breadcrumb-item"><a href="{{ route('mds.customer.users.profile') }}">
+                            <?= get_label('profile', 'Profile') ?></a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <?= get_label('create', 'Create') ?>
+                       {{$user->name}}
                     </li>
                 </ol>
             </nav>
@@ -62,7 +62,7 @@
                         <div class="row gy-4">
                             <div class="col-12">
                                 <div class="card widget-card border-light shadow-sm">
-                                    <div class="card-header text-bg-primary">Welcome, Ethan Leo</div>
+                                    <div class="card-header text-bg-primary">Welcome, {{ $user->name }}</div>
                                     <div class="card-body">
                                         <div class="text-center mb-3">
                                             <div class="d-flex align-items-end position-relative mb-7 flex-center">
@@ -93,7 +93,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <h5 class="text-center mb-1">{{ $user->name }}</h5>
+                                        {{-- <h5 class="text-center mb-1">{{ $user->name }}</h5> --}}
                                         {{-- <ul class="list-group list-group-flush mb-4">
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <h6 class="m-0">Followers</h6>
@@ -473,10 +473,10 @@
                                                 <input type="text" class="form-control" id="inputLinkedIn"
                                                     value="https://www.linkedin.com/EthanLeo">
                                             </div>
-                                            <div class="col-12">
+                                            {{-- <div class="col-12">
                                                 <label for="inputAbout" class="form-label">About</label>
                                                 <textarea class="form-control" id="inputAbout">Ethan Leo is a seasoned and results-driven Project Manager who brings experience and expertise to project management. With a proven track record of successfully delivering complex projects on time and within budget, Ethan Leo is the go-to professional for organizations seeking efficient and effective project leadership.</textarea>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary">Save Changes</button>
                                             </div>

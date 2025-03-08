@@ -16,8 +16,10 @@ use App\Http\Controllers\GeneralSettings\AttachmentController;
 use App\Http\Controllers\Mds\Setting\FunctionalAreaController;
 use App\Http\Controllers\Mds\Setting\IntervalController;
 use App\Http\Controllers\Mds\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Mds\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
 use App\Http\Controllers\Mds\Customer\BookingController as CustomerBookingController;
+use App\Http\Controllers\Mds\Customer\UserController as CustomerUserController;
 use App\Http\Controllers\Mds\Setting\BookingEventController;
 use App\Http\Controllers\Mds\Setting\BookingRspController;
 use App\Http\Controllers\Mds\Setting\BookingSlotController;
@@ -273,6 +275,10 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::delete('/mds/setting/status/booking/delete/{id}', 'delete')->name('mds.setting.status.booking.delete');
             Route::post('/mds/setting/status/booking/store', 'store')->name('mds.setting.status.booking.store');
         });
+
+        Route::controller(AdminUserController::class)->group(function () {
+            Route::get('/mds/admin/users/profile', 'profile')->name('mds.admin.users.profile');
+        });
     });
 
     // PROJECT MANAGEMENT ******************************************************************** Admin All Route
@@ -303,9 +309,11 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/customer/booking/confirmation', function () {
                 return view('/mds/customer/booking/confirmation');
             })->name('mds.customer.booking.confirmation');
-    
         });
 
+        Route::controller(CustomerUserController::class)->group(function () {
+            Route::get('/mds/customer/users/profile', 'profile')->name('mds.customer.users.profile');
+        });
     });
 });
 
@@ -350,7 +358,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::delete('mds/admin/booking/file/{id}/delete', [BookingController::class, 'fileDelete'])->name('mds.admin.booking.file.delete');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
-        Route::get('/mds/users/profile', [UserController::class, 'profile'])->name('mds.users.profile');
+        // Route::get('/mds/users/profile', [UserController::class, 'profile'])->name('mds.users.profile');
 
         // yajra datatabels
         Route::get('/mds/booking/test', [BookingController::class, 'test'])->name('mds.booking.test');
@@ -425,7 +433,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             // return (new App\Notifications\AnnouncementCenter($details))
             //             ->toMail($user);
             return (new App\Notifications\NewUserNotification($user))
-                        ->toMail($user);
+                ->toMail($user);
         });
 
 
@@ -460,7 +468,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             Route::get('/sec/groups/add', function () {
                 return view('/sec/groups/add');
             })->name('sec.groups.add');
-            Route::get('/sec/groups/groups/list', 'listGroup')->name('sec.groups.list');
+            Route::get('/sec/groups/list', 'listGroup')->name('sec.groups.list');
             Route::post('updategroup', 'updateGroup')->name('sec.groups.update');
             Route::post('creategroup', 'createGroup')->name('sec.groups.create');
             Route::get('/sec/groups/{id}/edit', 'editGroup')->name('sec.groups.edit');

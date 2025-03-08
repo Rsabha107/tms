@@ -24,7 +24,7 @@
     <meta name="msapplication-TileImage" content="{{asset('assets/img/favicons/mstile-150x150.png')}}">
     <meta name="theme-color" content="#ffffff">
     <script src="{{asset('assets/vendors/imagesloaded/imagesloaded.pkgd.min.js')}}"></script>
-    <script src="{{asset('assets/vendors/simplebar/simplebar.min.js')}}"></script>
+    <script src="{{asset('fnx/assets/vendors/simplebar/simplebar.min.js')}}"></script>
     <script src="{{asset('assets/js/config.js')}}"></script>
 
 
@@ -34,12 +34,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
-    <link href="{{asset('assets/vendors/simplebar/simplebar.min.css')}}" rel="stylesheet">
+    <link href="{{asset('fnx/assets/vendors/simplebar/simplebar.min.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
-    <link href="{{asset('assets/css/theme-rtl.min.css')}}" type="text/css" rel="stylesheet" id="style-rtl">
-    <link href="{{asset('assets/css/theme.min.css')}}" type="text/css" rel="stylesheet" id="style-default">
-    <link href="{{asset('assets/css/user-rtl.min.css')}}" type="text/css" rel="stylesheet" id="user-style-rtl">
-    <link href="{{asset('assets/css/user.min.css')}}" type="text/css" rel="stylesheet" id="user-style-default">
+    <link href="{{asset('fnx/assets/css/theme-rtl.min.css')}}" type="text/css" rel="stylesheet" id="style-rtl">
+    <link href="{{asset('fnx/assets/css/theme.min.css')}}" type="text/css" rel="stylesheet" id="style-default">
+    <link href="{{asset('fnx/assets/css/user-rtl.min.css')}}" type="text/css" rel="stylesheet" id="user-style-rtl">
+    <link href="{{asset('fnx/assets/css/user.min.css')}}" type="text/css" rel="stylesheet" id="user-style-default">
     <script>
         var phoenixIsRTL = window.config.config.phoenixIsRTL;
         if (phoenixIsRTL) {
@@ -90,10 +90,10 @@
                             </div>
                         </div>
                         <div class="mb-3 text-start">
-                            <label class="form-label" for="password">Password</label>
+                            <label class="form-label" for="password">Passwordxx</label>
                             <div class="form-icon-container" data-password="data-password">
                                 <input class="form-control form-icon-input pe-6" name="password" id="password" type="password" placeholder="Password" data-password-input="data-password-input" /><span class="fas fa-key text-body fs-9 form-icon"></span>
-                                <button class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary" data-password-toggle="data-password-toggle"><span class="uil uil-eye show"></span><span class="uil uil-eye-slash hide"></span></button>
+                                <div class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary mt-1" data-password-toggle="data-password-toggle"><span class="uil uil-eye show"></span><span class="uil uil-eye-slash hide"></span></div>
                             </div>
                         </div>
                         <div class="row flex-between-center mb-7">
@@ -149,7 +149,7 @@
     <script src="{{ asset ('assets/vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset ('assets/vendors/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset ('assets/vendors/dayjs/dayjs.min.js') }}"></script>
-    <script src="{{ asset ('assets/js/phoenix.js') }}"></script>
+    <script src="{{ asset ('fnx/assets/js/phoenix.js') }}"></script>
     <!-- <script src="{{ asset ('assets/vendors/select2/select2.min.js') }}"></script> -->
 
 
