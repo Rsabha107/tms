@@ -79,8 +79,12 @@ class User extends Authenticatable
 
     public function file_attach()
     {
-        return $this->hasOne(GlobalAttachment::class, 'model_id');
-        // ->where('model_name', 'users');
+        return $this->hasOne(GlobalAttachment::class, 'model_id'); //->where('model_name', 'users');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(GlobalAttachment::class, 'model_id', 'id')->where('model_name', 'users');
     }
 
 }

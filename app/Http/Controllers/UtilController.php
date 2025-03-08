@@ -188,6 +188,7 @@ class UtilController extends Controller
         $data = new GlobalAttachment();
 
         // dd($request->task_id);
+        // @unlink(public_path('upload/instructor_images/' . $data->photo));
 
         if ($request->file('file_name')) {
             $file = $request->file('file_name');
@@ -213,7 +214,7 @@ class UtilController extends Controller
         return ($data);
     }//save_files
 
-    public function serve(GlobalAttachment $file)
+    public static function serve(GlobalAttachment $file)
     {
         // if(Auth::user() && Auth::id() === $file->user->id) {
         // Here we don't use the Storage facade that assumes the storage/app folder
@@ -226,7 +227,9 @@ class UtilController extends Controller
         // dd($contents);
         if (Auth::check()) {
             $filepath = storage_path($file->file_path . $file->file_name);
-            // dd($filepath);
+            Log::info('filepath: ' . $filepath);
+            Log::info('file: ' . $file->file_name);
+            //  dd($filepath);
             // return response()->file($contents);
             // return Storage::download('storage/app/userfiles/bank/'.$file->filename);
             return response()->file($filepath);
@@ -239,5 +242,35 @@ class UtilController extends Controller
         // }
     }
     // return redirect()->back();
+
+    public static function showImage(GlobalAttachment $file)
+    {
+        // if(Auth::user() && Auth::id() === $file->user->id) {
+        // Here we don't use the Storage facade that assumes the storage/app folder
+        // So filename should be a relative path inside storage to your file like 'app/userfiles/report1253.pdf'
+
+        // $contents = Storage::disk('private')->url('app/userfiles/bank/'.$file->file_name);
+
+        // $size = Storage::disk('private')->size($file->file_name);
+        // dd($size);
+        // dd($contents);
+        if (Auth::check()) {
+            // $globalAttachment = GlobalAttachment::find(66);
+            // log::info('inside check'.$file->id);
+            $filepath = storage_path($file->file_path . $file->file_name);
+            // Log::info('filepath: ' . $filepath);
+            // Log::info('file: ' . $file->file_name);
+            //  dd($filepath);
+            // return response()->file($contents);
+            // return Storage::download('storage/app/userfiles/bank/'.$file->filename);
+            return response()->file($filepath);
+        } else {
+            return abort('404');
+        }
+
+        // }else{
+        // return abort('404');
+        // }
+    }
 
 }

@@ -90,18 +90,15 @@
                             </div>
                         </div>
                         <div class="mb-3 text-start">
-                            <label class="form-label" for="password">Passwordxx</label>
+                            <label class="form-label" for="password">Password</label>
                             <div class="form-icon-container" data-password="data-password">
                                 <input class="form-control form-icon-input pe-6" name="password" id="password" type="password" placeholder="Password" data-password-input="data-password-input" /><span class="fas fa-key text-body fs-9 form-icon"></span>
                                 <div class="btn px-3 py-0 h-100 position-absolute top-0 end-0 fs-7 text-body-tertiary mt-1" data-password-toggle="data-password-toggle"><span class="uil uil-eye show"></span><span class="uil uil-eye-slash hide"></span></div>
                             </div>
                         </div>
-                        <div class="row flex-between-center mb-7">
+                        <div class="row flex-between-center mb-5">
                             <div class="col-auto">
-                                <div class="form-check mb-0">
-                                    <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked" />
-                                    <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
-                                </div>
+
                             </div>
                             <div class="col-auto"><a class="fs-9 fw-semibold" href="{{route('mds.auth.forgot')}}">Forgot Password?</a></div>
                         </div>

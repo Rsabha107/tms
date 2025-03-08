@@ -30,6 +30,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Mds\Setting\VehicleTypeController;
 use App\Http\Controllers\Mds\Setting\VenueController;
 use App\Http\Controllers\Mds\Setting\ZoneController;
+use App\Http\Controllers\UtilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -278,6 +279,8 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
         Route::controller(AdminUserController::class)->group(function () {
             Route::get('/mds/admin/users/profile', 'profile')->name('mds.admin.users.profile');
+            Route::post('/mds/admin/users/profile/update', 'update')->name('mds.admin.users.profile.update');
+            Route::post('/mds/admin/users/profile/password/update', 'updatePassword')->name('mds.admin.users.profile.password.update');
         });
     });
 
@@ -326,9 +329,17 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::post('/signup/store', [UserController::class, 'store'])->name('admin.signup.store');
 
     Route::middleware(['auth', 'prevent-back-history'])->group(function () {
-        // Route::get('/', function () {
-        //     return view('/mds/admin/booking');
-        // });
+
+        //used to show images in private folder
+        Route::get('/doc/{file}', [UtilController::class, 'showImage'])->name('a');
+
+        /*************************************** Play ground */
+        // Route::get('/a/{GlobalAttachment}', [UtilController::class, 'serve'])->name('a');
+        Route::get('/doc/{file}', [UtilController::class, 'showImage'])->name('a');
+        Route::get('/a', function () {
+            return response()->file(storage_path('app/private/users/502828276250308124600avatar-2.png'));
+        })->name('b');
+        /*************************************** End Play ground */
 
         Route::get('/mds/admin/booking/pick', function () {
             return view('/mds/admin/booking/pick');
@@ -360,8 +371,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         // Route::get('/mds/users/profile', [UserController::class, 'profile'])->name('mds.users.profile');
 
-        // yajra datatabels
-        Route::get('/mds/booking/test', [BookingController::class, 'test'])->name('mds.booking.test');
 
         //Status
         Route::get('/mds/setup/status/manage', [StatusController::class, 'index'])->name('mds.setup.status.manage');
