@@ -543,7 +543,7 @@ class BookingController extends Controller
                     $timeslots->used_slots = $timeslots->used_slots;
                 }
 
-                $booking->booking_ref_number = 'MDS' . $booking->id;
+                // $booking->booking_ref_number = 'MDS' . $booking->id;
                 $booking->schedule_id =  $timeslots->delivery_schedule_id;
                 $booking->schedule_period_id = $request->schedule_period_id;
                 // $booking->booking_date = Carbon::createFromFormat('Y/m/d', $request->booking_date)->toDateString();
