@@ -155,6 +155,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('mds/setting/schedule/update', 'update')->name('mds.setting.schedule.update');
             Route::delete('/mds/setting/schedule/delete/{id}', 'delete')->name('mds.setting.schedule.delete');
             Route::post('/mds/setting/schedule/store', 'store')->name('mds.setting.schedule.store');
+            Route::get('/mds/setting/schedule/mv/get/{id}', 'getScheduleView')->name('mds.setting.schedule.get.mv');
         });
 
         // schedules

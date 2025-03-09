@@ -3,16 +3,133 @@ $(document).ready(function () {
 
     // ************************************************** task venues
 
+    $("#offcanvas-add-booking-slot-modal").on("hidden.bs.offcanvas", function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val("")
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+            
+        // $(".js-select-project-assign-multiple").val(null).trigger("change");
+        // $(".js-select-project-tags-multiple").val(null).trigger("change");
+    });
+
+    $("body").on("click", "#offcanvas-add-booking-slot", function () {
+        console.log("inside #offcanvas-add-project");
+        // $("#add_edit_form").get(0).reset()
+        // console.log(window.choices.removeActiveItems())
+        $("#cover-spin").show();
+        $("#offcanvas-add-booking-slot-modal").offcanvas("show");
+        $("#cover-spin").hide();
+    });
+
+    $("body").on("click", "#edit_booking_slot_offcanv", function () {
+        console.log("inside #edit_booking_slot_offcanv");
+        $("#cover-spin").show();
+        var id = $(this).data("id");
+        var table = $(this).data("table");
+        console.log("id", id);
+        console.log("table", table);
+        $.ajax({
+            url: "/mds/setting/schedule/mv/get/" + id,
+            method: "GET",
+            async: true,
+            success: function (response) {
+                g_response = response.view;
+                $("#global-edit-project-content").empty("").append(g_response);
+                $("#add_project_table").val(table);
+                $("#offcanvas-edit-project-modal").offcanvas("show");
+                $("#cover-spin").hide();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+                $("#cover-spin").hide();
+            },
+        });
+    });
+
+    // delete project
+    $("body").on("click", "#delete_booking_slot", function (e) {
+        var id = $(this).data("id");
+        var tableID = $(this).data("table");
+        e.preventDefault();
+        // alert("tableID: "+tableID);
+        var link = $(this).attr("href");
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Delete This Data?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/mds/setting/schedule/delete/" + id,
+                    type: "DELETE",
+                    headers: {
+                      "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // Replace with your method of getting the CSRF token
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (!result["error"]) {
+                            toastr.success(result["message"]);
+                            // divToRemove.remove();
+                            // $("#fileCount").html("File ("+result["count"]+")");
+                            // console.log('before table refrest for #'+tableID);
+                            $("#" + tableID).bootstrapTable("refresh");
+                            // Swal.fire(
+                            //     'Deleted!',
+                            //     'Your file has been deleted.',
+                            //     'success'
+                            //   )
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                        // $("#cover-spin").hide();
+                        toastr.error(thrownError);
+                    },
+                });
+            }
+        });
+    });
+
+    $("body").on("click", "#edit_booking_slot_offcanv", function () {
+        console.log("inside #edit_booking_slot_offcanv");
+        $("#cover-spin").show();
+        var id = $(this).data("id");
+        var table = $(this).data("table");
+        console.log("id", id);
+        console.log("table", table);
+        $.ajax({
+            url: "/mds/setting/schedule/mv/get/" + id,
+            method: "GET",
+            async: true,
+            success: function (response) {
+                g_response = response.view;
+                $("#global-edit-booking-slot-content").empty("").append(g_response);
+                $("#edit_schedule_table").val(table);
+                $("#offcanvas-edit-booking-slot-modal").offcanvas("show");
+                $("#cover-spin").hide();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status);
+                console.log(thrownError);
+                $("#cover-spin").hide();
+            },
+        });
+    });
+
     $("body").on("click", "#editSchedule", function () {
         console.log('inside editSchedule')
         var id = $(this).data("id");
         var table = $(this).data("table");
-        // console.log('edit venues in venues.js');
-        // console.log('id: '+id);
-        // console.log('table: '+table);
-        // var target = document.getElementById("edit_venues_modal");
-        // var spinner = new Spinner().spin(target);
-        // $("#edit_venues_modal").modal("show");
         $.ajax({
             url: "/mds/setting/schedule/get/" + id,
             type: "get",

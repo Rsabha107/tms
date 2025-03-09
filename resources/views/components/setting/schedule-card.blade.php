@@ -44,12 +44,12 @@
                             <th data-sortable="true" data-field="used_slots" class="align-middle white-space-wrap fw-bold fs-9">Used Slots</th>
                             <th data-sortable="true" data-field="bookings_slots_cat" class="align-middle white-space-wrap fw-bold fs-9">Booking Slots (CAT)</th>
                             <th data-sortable="true" data-field="slot_visibility" class="align-middle white-space-wrap fw-bold fs-9">Slot Visibility</th>
-                            <th data-sortable="true" data-field="remote_search_park" class="align-middle white-space-wrap fw-bold fs-9">RSP</th>
+                            <th data-sortable="true" data-field="rsp_id" class="align-middle white-space-wrap fw-bold fs-9">RSP</th>
                             <th data-sortable="true" data-field="match_day" class="align-middle white-space-wrap fw-bold fs-9">Match Day</th>
                             <th data-sortable="true" data-field="comments" class="align-middle white-space-wrap fw-bold fs-9">Comments</th>
                             <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                             <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
-                            <th data-formatter="actionsFormatter" class="text-end"><?= get_label('actions', 'Actions') ?></th>
+                            <th data-sortable="false" data-field="actions" data-visible="true">Actions</th>
                         </tr>
                     </thead>
                 </table>

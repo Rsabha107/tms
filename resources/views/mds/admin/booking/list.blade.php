@@ -29,13 +29,7 @@
     <!-- </div> -->
 
     @include('mds.admin.partials.booking_modals')
-    <script>
-        var label_update = '<?= get_label('update', 'Update') ?>';
-        var label_delete = '<?= get_label('delete', 'Delete') ?>';
-        var label_not_assigned = '<?= get_label('not_assigned', 'Not assigned') ?>';
-        var label_duplicate = '<?= get_label('duplicate', 'Duplicate') ?>';
-        var label_generate_pass = '<?= get_label('label_generate_pass', 'Pass') ?>';
-    </script>
+
     <script src="{{asset('assets/js/pages/mds/booking.js')}}"></script>
     @endsection
 

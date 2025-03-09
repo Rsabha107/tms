@@ -27,7 +27,7 @@ class ScheduleController extends Controller
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
 
-        return view('mds.setting.schedule.list', compact('schedules','venues', 'rsps','events'));
+        return view('mds.setting.schedule.list', compact('schedules', 'venues', 'rsps', 'events'));
     }
 
     public function get($id)
@@ -38,38 +38,56 @@ class ScheduleController extends Controller
 
     public function update(Request $request)
     {
-
-        $schedules = BookingSlot::findOrFail($request->id);
+        //
+        // dd($request);
+        $user_id = Auth::user()->id;
+        $op = BookingSlot::find($request->id);
 
         $rules = [
-            'id' => 'required',
-            'regime_start_date' => 'required',
-            'regime_end_date' => 'required',
-            'schedule_venue_id' => 'required',
-            'schedule_rsp_id' => 'required',
-            'time_slots' => 'required',
+            'event_id' => 'required',
+            'venue_id' => 'required',
+            'booking_date' => 'required',
+            'rsp_id' => 'required',
+            'bookings_slots_cat' => 'required',
+            'slot_visibility' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            Log::info($validator->errors());
             $error = true;
-            $message = 'Schedule could not be updated';
+            $message = implode($validator->errors()->all('<div>:message</div>'));  // use this for json/jquery
         } else {
 
-            $schedules->regime_start_date = Carbon::createFromFormat('d/m/Y', $request->regime_start_date);
-            $schedules->regime_end_date = Carbon::createFromFormat('d/m/Y', $request->regime_end_date);
-            $schedules->venue_id = $request->schedule_venue_id;
-            $schedules->rsp_id = $request->schedule_rsp_id;
-            $schedules->time_slots = $request->time_slots;
+            $error = false;
+            $message = 'Schedule updated succesfully.' . $op->id;
 
-            if ($schedules->save()) {
-                return response()->json(['error' => false, 'message' => 'Schedule updated successfully.', 'id' => $schedules->id]);
-            } else {
-                return response()->json(['error' => true, 'message' => 'Schedule couldn\'t updated.']);
-            }
+            $op->venue_id = $request->venue_id;
+            $op->event_id = $request->event_id;
+            $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
+            $op->rsp_booking_slot = $request->rsp_booking_slot;
+            $op->venue_arrival_time = $request->venue_arrival_time;
+            $op->bookings_slots_all = $request->bookings_slots_all;
+            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->available_slots = $request->available_slots;
+            $op->used_slots = $request->used_slots;
+            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->slot_visibility = Carbon::createFromFormat('d/m/Y', $request->slot_visibility)->toDateString();
+            $op->rsp_id = $request->rsp_id;
+            $op->match_day = $request->match_day;
+            $op->comments = $request->comments;
+            $op->created_by = $user_id;
+            $op->updated_by = $user_id;
+
+            $op->save();
         }
+
+        $notification = array(
+            'message'       => 'Schedule updated successfully',
+            'alert-type'    => 'success'
+        );
+
+        return response()->json(['error' => $error, 'message' => $message]);
     }
 
     public function list()
@@ -104,34 +122,54 @@ class ScheduleController extends Controller
             $ops = $ops->where('rsp_id', $mds_schedule_rsp_filter);
         }
 
-        $total = $ops->count();
-        $venue = $ops->paginate(request("limit"))->through(function ($ops) {
 
-        // $location = Location::find($ops->location_id);
+
+        $total = $ops->count();
+        $ops = $ops->paginate(request("limit"))->through(function ($op) {
+
+                $div_action = '<div class="font-sans-serif btn-reveal-trigger position-static">';
+
+                $update_action =
+                    '<a href="javascript:void(0)" class="btn btn-sm" id="edit_booking_slot_offcanv" data-id=' . $op->id .
+                    ' data-table="schedules_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Update">' .
+                    '<i class="fa-solid fa-pen-to-square text-primary"></i></a>';
+                $duplicate_action =
+                    '<a href="javascript:void(0)" class="btn btn-sm" id="duplicate_employee" data-action="update" data-type="duplicate" data-id=' .
+                    $op->id .
+                    ' data-table="schedules_table" data-bs-toggle="tooltip" data-bs-placement="right" title="Duplicate">' .
+                    '<i class="fa-solid fa-copy text-success"></i></a>';
+                $delete_action =
+                    '<a href="javascript:void(0)" class="btn btn-sm" data-table="schedules_table" data-id="' .
+                    $op->id .
+                    '" id="delete_booking_slot" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete">' .
+                    '<i class="fa-solid fa-trash text-danger"></i></a></div></div>';
+
+            $actions = $div_action . $update_action . $delete_action;
 
             return  [
-                'id' => $ops->id,
+                'id' => $op->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
-                'event' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->event?->name . '</div>',
-                'venue' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->venue?->title . '</div>',
-                'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($ops->booking_date) . '</div>',
-                'rsp_booking_slot' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->rsp_booking_slot . '</div>',
-                'venue_arrival_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->venue_arrival_time . '</div>',
-                'bookings_slots_all' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->bookings_slots_all . '</div>',
-                'available_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->available_slots . '</div>',
-                'used_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->used_slots . '</div>',
-                'bookings_slots_cat' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->bookings_slots_cat . '</div>',
-                'slot_visibility' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($ops->slot_visibility) . '</div>',
-                'remote_search_park' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->remote_search_park . '</div>',
-                'match_day' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->match_day . '</div>',
-                'comments' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $ops->comments . '</div>',
-                'created_at' => format_date($ops->created_at,  'H:i:s'),
-                'updated_at' => format_date($ops->updated_at, 'H:i:s'),
+                'event' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->event?->name . '</div>',
+                'venue' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->venue?->title . '</div>',
+                'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($op->booking_date) . '</div>',
+                'rsp_booking_slot' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->rsp_booking_slot . '</div>',
+                'venue_arrival_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->venue_arrival_time . '</div>',
+                'bookings_slots_all' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->bookings_slots_all . '</div>',
+                'available_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->available_slots . '</div>',
+                'used_slots' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->used_slots . '</div>',
+                'bookings_slots_cat' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->bookings_slots_cat . '</div>',
+                'slot_visibility' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($op->slot_visibility) . '</div>',
+                'rsp_id' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->rsp?->title . '</div>',
+                'match_day' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->match_day . '</div>',
+                'comments' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->comments . '</div>',
+                'actions' => $actions,
+                'created_at' => format_date($op->created_at,  'H:i:s'),
+                'updated_at' => format_date($op->updated_at, 'H:i:s'),
             ];
         });
 
         return response()->json([
-            "rows" => $venue->items(),
+            "rows" => $ops->items(),
             "total" => $total,
         ]);
     }
@@ -141,38 +179,45 @@ class ScheduleController extends Controller
         //
         // dd($request);
         $user_id = Auth::user()->id;
-        $venue = new BookingSlot();
+        $op = new BookingSlot();
 
         $rules = [
-            'regime_start_date' => 'required',
-            'regime_end_date' => 'required',
-            'schedule_venue_id' => 'required',
-            'schedule_rsp_id' => 'required',
-            'time_slots' => 'required',
+            'event_id' => 'required',
+            'venue_id' => 'required',
+            'booking_date' => 'required',
+            'rsp_id' => 'required',
+            'bookings_slots_cat' => 'required',
+            'slot_visibility' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            Log::info($validator->errors());
             $error = true;
-            $message = 'Schedule could not be created';
+            $message = implode($validator->errors()->all('<div>:message</div>'));  // use this for json/jquery
         } else {
 
             $error = false;
-            $message = 'Schedule created succesfully.' . $venue->id;
+            $message = 'Schedule created succesfully.' . $op->id;
 
-            $venue->regime_start_date = Carbon::createFromFormat('d/m/Y', $request->regime_start_date)->toDateString();
-            $venue->regime_end_date = Carbon::createFromFormat('d/m/Y', $request->regime_end_date)->toDateString();
-            $venue->venue_id = $request->schedule_venue_id;
-            $venue->rsp_id = $request->schedule_rsp_id;
-            $venue->time_slots = $request->time_slots;
-            $venue->created_by = $user_id;
-            $venue->updated_by = $user_id;
-            $venue->active_flag = 1;
+            $op->venue_id = $request->venue_id;
+            $op->event_id = $request->event_id;
+            $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
+            $op->rsp_booking_slot = $request->rsp_booking_slot;
+            $op->venue_arrival_time = $request->venue_arrival_time;
+            $op->bookings_slots_all = $request->bookings_slots_all;
+            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->available_slots = $request->available_slots;
+            $op->used_slots = $request->used_slots;
+            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->slot_visibility = Carbon::createFromFormat('d/m/Y', $request->slot_visibility)->toDateString();
+            $op->rsp_id = $request->rsp_id;
+            $op->match_day = $request->match_day;
+            $op->comments = $request->comments;
+            $op->created_by = $user_id;
+            $op->updated_by = $user_id;
 
-            $venue->save();
-
+            $op->save();
         }
 
         $notification = array(
@@ -181,7 +226,6 @@ class ScheduleController extends Controller
         );
 
         return response()->json(['error' => $error, 'message' => $message]);
-
     }
 
     public function delete($id)
@@ -190,15 +234,32 @@ class ScheduleController extends Controller
         $ws->delete();
 
         $error = false;
-        $message = 'Venue deleted succesfully.';
+        $message = 'Schedule deleted succesfully.';
 
         $notification = array(
-            'message'       => 'Venue deleted successfully',
+            'message'       => 'Schedule deleted successfully',
             'alert-type'    => 'success'
         );
 
         return response()->json(['error' => $error, 'message' => $message]);
         // return redirect()->route('tracki.setup.workspace')->with($notification);
     } // delete
+
+    public function getScheduleView($id)
+    {
+        $schedule = BookingSlot::find($id);
+        $events = MdsEvent::all();
+        $venues = DeliveryVenue::all();
+        $rsps = DeliveryRsp::all();
+
+        $view = view('/mds/setting/schedule/mv/edit', [
+            'schedule' => $schedule,
+            'venues' => $venues,
+            'rsps' => $rsps,
+            'events' => $events,
+        ])->render();
+
+        return response()->json(['view' => $view]);
+    }  // End function getProjectView
 
 }

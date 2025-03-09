@@ -151,7 +151,7 @@ $(document).ready(function () {
                         submit_btn.html(button_text);
                         submit_btn.attr("disabled", false);
                         var modalID = $(".modal.fade.show").attr("id");
-                        var ofcanvasID = $(".offcanvas.offcanvas-start.show").attr("id");
+                        var ofcanvasID = $(".offcanvas.offcanvas-end.show").attr("id");
                         $("#" + modalID).modal("hide");
                         $("#" + ofcanvasID).offcanvas("hide");
                         // console.log("before form reset");
