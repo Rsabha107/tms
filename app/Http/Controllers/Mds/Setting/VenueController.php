@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Mds\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\Mds\DeliveryVenue;
 use App\Models\Venue;
-use App\Models\Mds\Location;
+// use App\Models\Mds\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -19,8 +19,8 @@ class VenueController extends Controller
     public function index()
     {
         $venues = DeliveryVenue::all();
-        $locations = Location::all();
-        return view('mds.setting.venue.list', compact('locations', 'venues'));
+        // $locations = Location::all();
+        return view('mds.setting.venue.list', compact( 'venues'));
     }
 
     public function get($id)

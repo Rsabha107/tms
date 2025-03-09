@@ -663,9 +663,14 @@ class BookingController extends Controller
         $venue = BookingSlot::where('booking_date', '=', $date)
         ->where('venue_id', '=', $venue_id)
         ->where('bookings_slots_all', '>', '0')
-        ->orWhere('bookings_slots_cat', '>', '0')
-        ->where('slot_visibility', '<=', Carbon::now())
-        ->get();
+        // ->orWhere('bookings_slots_cat', '>', '0')
+        ->where('slot_visibility', '<=', Carbon::now());
+
+        if (auth()->user()->hasRole('Catering')) {
+            $venue = $venue->orWhere('bookings_slots_cat', '>', '0');
+        }
+
+        $venue = $venue->get();
 
         // $venue = DeliverySchedulePeriod::all();
 
@@ -703,10 +708,10 @@ class BookingController extends Controller
         if ($request->event_id) {
             Log::info('Event ID: ' . $request->event_id);
             if (MdsEvent::findOrFail($request->event_id) && !session()->has('EVENT_ID')) {
-                Log::info('Event ID: ' . $request->event_id);
+                Log::info('Inside if statement Event ID: ' . $request->event_id);
 
                 session()->put('EVENT_ID', $request->event_id);
-                Log::info('Event ID: ' . session()->get('EVENT_ID'));
+                Log::info('session EVENT_ID: ' . session()->get('EVENT_ID'));
                 // return redirect()->route('tracki.project.show.card')->with('message', 'Workspace switched successfully.');
                 return redirect()->route('mds.admin.booking')->with('message', 'Event Switched.');
                 // return back()->with('message', 'Event Switched.');

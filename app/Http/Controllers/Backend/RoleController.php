@@ -518,8 +518,8 @@ class RoleController extends Controller
         $user->phone = $request->phone;
         // $user->address = $request->address;
         $user->usertype = $request->usertype;
-        $user->role = 'admin';
-        $user->status = '1';
+        $user->role = $request->usertype;
+        $user->status = $request->status;
 
         $user->save();
 

@@ -167,7 +167,7 @@
 
                         <div class="col-12 gy-3 mb-3">
                             <div class="form-floating">
-                                <textarea class="form-control  @error('description') is-invalid @enderror" name="description"
+                                <textarea class="form-control  @error('comments') is-invalid @enderror" name="comments"
                                     id="floatingProjectOverview" placeholder="Leave a comment here" style="height: 100px" required></textarea>
                                 <div class="invalid-feedback">
                                     Please enter comments.
