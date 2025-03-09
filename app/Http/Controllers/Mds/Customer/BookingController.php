@@ -8,8 +8,8 @@ use App\Models\Mds\FunctionalArea;
 use App\Models\Mds\DeliveryBooking;
 use App\Models\Mds\DeliveryCargoType;
 use App\Models\Mds\DeliveryRsp;
-use App\Models\Mds\DeliverySchedule;
-use App\Models\Mds\DeliverySchedulePeriod;
+// use App\Models\Mds\DeliverySchedule;
+// use App\Models\Mds\DeliverySchedulePeriod;
 use App\Models\Mds\DeliveryType;
 use App\Models\Mds\DeliveryVehicle;
 use App\Models\Mds\DeliveryVehicleType;
@@ -51,7 +51,7 @@ class BookingController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
         // $bookings = DeliveryBooking::all();
-        $intervals = DeliverySchedulePeriod::all();
+        // $intervals = DeliverySchedulePeriod::all();
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
         $drivers = MdsDriver::all();
@@ -64,7 +64,7 @@ class BookingController extends Controller
 
         return view('mds.customer.booking.list', compact(
             'bookings',
-            'intervals',
+            // 'intervals',
             'venues',
             'rsps',
             'drivers',
@@ -275,8 +275,8 @@ class BookingController extends Controller
      */
     public function create()
     {
-        $schedules = DeliverySchedule::all();
-        $intervals = DeliverySchedulePeriod::all();
+        // $schedules = DeliverySchedule::all();
+        // $intervals = DeliverySchedulePeriod::all();
         // $venues = DeliveryVenue::all();
         $venues = BookingSlot::select('venue_id', 'venue_name')
             ->where('event_id', session()->get('EVENT_ID'))
@@ -292,8 +292,8 @@ class BookingController extends Controller
         $clients = FunctionalArea::all();
 
         return view('mds.customer.booking.create', compact(
-            'schedules',
-            'intervals',
+            // 'schedules',
+            // 'intervals',
             'venues',
             'rsps',
             'drivers',
@@ -460,7 +460,7 @@ class BookingController extends Controller
     public function edit(string $id)
     {
         $booking = DeliveryBooking::find($id);
-        $intervals = DeliverySchedulePeriod::all();
+        // $intervals = DeliverySchedulePeriod::all();
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
         $drivers = MdsDriver::all();
@@ -640,21 +640,21 @@ class BookingController extends Controller
         return $pdf->stream();
     }  //taskDetailsPDF
 
-    public function get_times($date, $venue_id)
-    {
-        // LOG::info('inside get_times');
-        $formated_date = Carbon::createFromFormat('dmY', $date)->toDateString();
-        // LOG::info('formated_date: '.$formated_date);
-        // LOG::info('venue_id: '.$venue_id);
-        $venue = DeliverySchedulePeriod::where('period_date', '=', $formated_date)
-            ->where('venue_id', '=', $venue_id)
-            // ->where('available_slots', '>', '0')
-            ->get();
+    // public function get_times($date, $venue_id)
+    // {
+    //     // LOG::info('inside get_times');
+    //     $formated_date = Carbon::createFromFormat('dmY', $date)->toDateString();
+    //     // LOG::info('formated_date: '.$formated_date);
+    //     // LOG::info('venue_id: '.$venue_id);
+    //     $venue = DeliverySchedulePeriod::where('period_date', '=', $formated_date)
+    //         ->where('venue_id', '=', $venue_id)
+    //         // ->where('available_slots', '>', '0')
+    //         ->get();
 
-        // $venue = DeliverySchedulePeriod::all();
+    //     // $venue = DeliverySchedulePeriod::all();
 
-        return response()->json(['venue' => $venue]);
-    }
+    //     return response()->json(['venue' => $venue]);
+    // }
 
     public function get_times_cal($date, $venue_id)
     {

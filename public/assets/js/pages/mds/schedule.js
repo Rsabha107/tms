@@ -133,15 +133,15 @@ function actions2Formatter(value, row, index) {
 function actionsFormatter(value, row, index) {
     console.log("tasks.js inside actions2Formatter");
     html = "";
-    html =
-        html +
-        '<div class="font-sans-serif btn-reveal-trigger position-static">' +
-        '<a href="/mds/setting/interval/manage/'+ row.id + '" class="btn btn-sm" id="schedule_intervals" data-id="' +
-        row.id +
-        '" data-table="schedules_table" data-bs-toggle="tooltip" data-bs-placement="right" title="' +
-        label_intervals +
-        '">' +
-        '<i class="fa-solid fas fa-network-wired text-warning"></i></a>';
+    // html =
+    //     html +
+    //     '<div class="font-sans-serif btn-reveal-trigger position-static">' +
+    //     '<a href="/mds/setting/interval/manage/'+ row.id + '" class="btn btn-sm" id="schedule_intervals" data-id="' +
+    //     row.id +
+    //     '" data-table="schedules_table" data-bs-toggle="tooltip" data-bs-placement="right" title="' +
+    //     label_intervals +
+    //     '">' +
+    //     '<i class="fa-solid fas fa-network-wired text-warning"></i></a>';
 
 
         // html =

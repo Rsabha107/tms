@@ -14,7 +14,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1">
                     <li class="breadcrumb-item">
-                        <a href="{{url('/mds/dashboard')}}"><?= get_label('home', 'Home') ?></a>
+                        <a href="{{route('home')}}"><?= get_label('home', 'Home') ?></a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{route('mds.admin.booking')}}">
                             <?= get_label('booking', 'Booking') ?></a>

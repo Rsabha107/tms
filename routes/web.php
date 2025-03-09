@@ -90,9 +90,9 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 // Route::group(['prefix' => 'admin',
@@ -132,6 +132,8 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/admin/booking/pass/pdf/{id?}', 'passPdf')->name('mds.admin.booking.pass.pdf');
 
             Route::get('/mds/admin/events/{id}/switch',  'switch')->name('mds.admin.booking.switch');
+
+            Route::get('/mds/admin/dashboard', 'dashboard')->name('mds.admin.dashboard');
         });
 
         Route::controller(VehicleTypeController::class)->group(function () {

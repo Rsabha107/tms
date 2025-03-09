@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Mds\Setting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mds\DeliveryRsp;
-use App\Models\Mds\DeliverySchedule;
+// use App\Models\Mds\DeliverySchedule;
 use App\Models\Mds\DeliveryVenue;
 use App\Models\Location;
 use App\Models\Mds\BookingSlot;
@@ -22,24 +22,24 @@ class ScheduleController extends Controller
     //
     public function index()
     {
-        $schedules = DeliverySchedule::all();
+        $schedules = BookingSlot::all();
         $events = MdsEvent::all();
         $venues = DeliveryVenue::all();
         $rsps = DeliveryRsp::all();
 
-        return view('mds.setting.schedule.list', compact('schedules', 'venues', 'rsps','events'));
+        return view('mds.setting.schedule.list', compact('schedules','venues', 'rsps','events'));
     }
 
     public function get($id)
     {
-        $venue = DeliverySchedule::findOrFail($id);
-        return response()->json(['venue' => $venue]);
+        $schedules = BookingSlot::findOrFail($id);
+        return response()->json(['schedules' => $schedules]);
     }
 
     public function update(Request $request)
     {
 
-        $venue = DeliverySchedule::findOrFail($request->id);
+        $schedules = BookingSlot::findOrFail($request->id);
 
         $rules = [
             'id' => 'required',
@@ -58,14 +58,14 @@ class ScheduleController extends Controller
             $message = 'Schedule could not be updated';
         } else {
 
-            $venue->regime_start_date = Carbon::createFromFormat('d/m/Y', $request->regime_start_date);
-            $venue->regime_end_date = Carbon::createFromFormat('d/m/Y', $request->regime_end_date);
-            $venue->venue_id = $request->schedule_venue_id;
-            $venue->rsp_id = $request->schedule_rsp_id;
-            $venue->time_slots = $request->time_slots;
+            $schedules->regime_start_date = Carbon::createFromFormat('d/m/Y', $request->regime_start_date);
+            $schedules->regime_end_date = Carbon::createFromFormat('d/m/Y', $request->regime_end_date);
+            $schedules->venue_id = $request->schedule_venue_id;
+            $schedules->rsp_id = $request->schedule_rsp_id;
+            $schedules->time_slots = $request->time_slots;
 
-            if ($venue->save()) {
-                return response()->json(['error' => false, 'message' => 'Schedule updated successfully.', 'id' => $venue->id]);
+            if ($schedules->save()) {
+                return response()->json(['error' => false, 'message' => 'Schedule updated successfully.', 'id' => $schedules->id]);
             } else {
                 return response()->json(['error' => true, 'message' => 'Schedule couldn\'t updated.']);
             }
@@ -141,7 +141,7 @@ class ScheduleController extends Controller
         //
         // dd($request);
         $user_id = Auth::user()->id;
-        $venue = new DeliverySchedule();
+        $venue = new BookingSlot();
 
         $rules = [
             'regime_start_date' => 'required',
@@ -186,7 +186,7 @@ class ScheduleController extends Controller
 
     public function delete($id)
     {
-        $ws = DeliverySchedule::findOrFail($id);
+        $ws = BookingSlot::findOrFail($id);
         $ws->delete();
 
         $error = false;
