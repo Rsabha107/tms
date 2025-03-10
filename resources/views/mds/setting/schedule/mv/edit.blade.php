@@ -150,7 +150,7 @@
                 <div class="col-sm-6 col-md-3 mb-3">
                     <div class="form-floating">
                         <input name="used_slots" class="form-control" id="add_used_slots" type="number"
-                            step="1" placeholder="Budget" value="0"  value="{{ $schedule->used_slots }}" />
+                            step="1" placeholder="Budget"  value="{{ $schedule->used_slots }}" />
                         <label for="floatingInputBudget">Used Slots</label>
                     </div>
                 </div>
@@ -161,7 +161,7 @@
                     <div class="form-floating">
                         <input name="match_day" class="form-control"
                             id="edit_project_match_day" type="number" step="0.01"
-                            placeholder="Budget" value="0"  value="{{ $schedule->match_day }}" />
+                            placeholder="Budget"  value="{{ $schedule->match_day }}" />
                         <label for="floatingInputBudget">Match Day</label>
                     </div>
                 </div>
