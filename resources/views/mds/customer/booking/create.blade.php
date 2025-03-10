@@ -85,7 +85,9 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-secondary" style="margin:0 auto;" role="alert">No time slot has been selected!</div>
+                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-secondary" style="margin:0 auto;" role="alert">
+                            No time slot has been selected!
+                        </div>
                         <!-- <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="show_shcedule_times_modal" style="margin:0 auto;" type="button">Get times</button>
                         </div> -->

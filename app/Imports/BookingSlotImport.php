@@ -37,7 +37,7 @@ class BookingSlotImport implements ToModel, WithCalculatedFormulas
             'rsp_booking_slot' => $row[3],
             'venue_arrival_time' => $row[4],
             'bookings_slots_all' => $row[5],
-            'available_slots' => $row[5],
+            'available_slots' => ($row[5] ? $row[5] : ($row[6] ? $row[6] : 0)),
             'used_slots' => 0,
             'bookings_slots_cat' => $row[6],
             'slot_visibility' => ($row[7] ? Date::excelToDateTimeObject($row[7]) : null),

@@ -59,7 +59,7 @@
             <div class="card-header p-4 border-bottom bg-body">
                 <div class="row g-3 justify-content-between align-items-center">
                     <div class="col-12 col-md">
-                        <h4 class="text-body mb-0" data-anchor="data-anchor">Edit your booking (MDS)</h4>
+                        <h4 class="text-body mb-0" data-anchor="data-anchor">Edit your booking ({{ $booking->booking_ref_number }})</h4>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,9 @@
                             </select>
                         </div>
 
-                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">{{ format_date($booking->schedule->booking_date, null, 'd/m/y') }} ({{ $booking->schedule->rsp_booking_slot }})</div>
+                        <div id="time_alert" class="col-md-10 mb-3 alert alert-subtle-primary" style="margin:0 auto;" role="alert">
+                            {{ format_date($booking->schedule->booking_date, null, 'l, jS \of F Y') }} ({{ $booking->schedule->rsp_booking_slot }})
+                        </div>
                         
                         <div class="col-md-6 mb-3" style="margin:0 auto;">
                             <button class="btn btn-subtle-primary d-grid gap-2" id="booking_schedule_availability" style="margin:0 auto;" type="button">Get times</button>

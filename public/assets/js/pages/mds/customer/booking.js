@@ -21,35 +21,6 @@ function refreshNotes(val) {
 let calendar;
 
 $(document).ready(function () {
-    // calendar init
-    // $('#calendar').fullCalendar({
-    //     header: {
-    //         left: 'prev,next today',
-    //         center: 'title',
-    //         right: 'month,agendaWeek,agendaDay'
-    //     },
-    //     defaultDate: '2016-09-12',
-    //     navLinks: true, // can click day/week names to navigate views
-    //     selectable: true,
-    //     selectHelper: true,
-    //     select: function(start, end) {
-    //         // Display the modal.
-    //         // You could fill in the start and end fields based on the parameters
-    //         $('.modal').modal('show');
-
-    //     },
-    //     eventClick: function(event, element) {
-    //         // Display the modal and set the values to the event values.
-    //         $('.modal').modal('show');
-    //         $('.modal').find('#title').val(event.title);
-    //         $('.modal').find('#starts-at').val(event.start);
-    //         $('.modal').find('#ends-at').val(event.end);
-
-    //     },
-    //     editable: true,
-    //     eventLimit: true // allow "more" link when too many events
-
-    // });
 
     // console.log("all booking file");
 
@@ -93,12 +64,6 @@ $(document).ready(function () {
             events: "/mds/customer/booking/schedule/" + venue_id,
             eventBackgroundColor: "green",
             eventDisplay: "block",
-            // dateClick: function (info) {
-            //     console.log("dateClick", info);
-            //     alert('clicked on '+info.dateStr);
-            //     // $("#add_booking_date").val(info.dateStr);
-            //     // $("#booking_calendar_modal").modal("hide");
-            // },
             dateClick: function (info) {
                 console.log("dateClick", info);
                 $.ajax({
@@ -250,6 +215,7 @@ $(document).ready(function () {
                 $("#cover-spin").hide();
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                $("#cover-spin").hide();
                 console.log(xhr.status);
                 console.log(thrownError);
             },
@@ -333,7 +299,7 @@ $(document).ready(function () {
         $("#booking_calendar_modal").modal("hide");
         $("#time_alert").html(
             "Here are your times(click Get times again to change)<br>" +
-                $("#add_booking_date").val() +
+                moment($("#add_booking_date").val()).format('dddd, Do of MMMM YYYY') +
                 " " +
                 schedule_period_id_text
         );
@@ -473,303 +439,6 @@ $("body").on("click", "#editScheduleStatus", function (event) {
     });
 });
 
-// *****************************************Botes Operations ************************************************************************
-$(".form-submit-booking-new-note").submit(function (event) {
-    // alert("inside add booking note comment");
-    var formData = new FormData(this);
-    var currentForm = $(this);
-    var submit_btn = $(this).find("#add_comment_btn");
-    var formID = $(this).closest("form").attr("id");
-    var btn_html = submit_btn.html();
-    var btn_val = submit_btn.val();
-    var tableInput = currentForm.find('input[name="table"]');
-    var tableID = tableInput.length ? tableInput.val() : "table";
-    var button_text =
-        btn_html != "" || btn_html != "undefined" ? btn_html : btn_val;
-    var bookingID = $("#note_parent_booking_id_overview").val();
-
-    // alert(bookingID);
-
-    var name = document.getElementById(formID);
-
-    console.log(name);
-    console.log(name.checkValidity());
-
-    // alert(name.checkValidity());
-
-    event.stopPropagation();
-
-    if (!name.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-    } else {
-        $.ajax({
-            url: $(this).attr("action"),
-            type: "POST",
-            data: formData,
-            headers: {
-                "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
-            },
-            beforeSend: function () {
-                submit_btn.html(label_please_wait);
-                submit_btn.attr("disabled", true);
-            },
-            // data: formData, //form.serialize(),
-            dataType: "json",
-            cache: false,
-            contentType: false,
-            processData: false,
-            // async: false,
-            success: function (result) {
-                if (!result["error"]) {
-                    console.log("inside success ajax");
-                    console.log(result);
-
-                    submit_btn.html(button_text);
-                    submit_btn.attr("disabled", false);
-
-                    // $("#upload_file_block").toggle("slow");
-
-                    $(".form-submit-booking-new-note")[0].reset();
-                    $(".form-submit-booking-new-note")[0].classList.remove(
-                        "was-validated"
-                    );
-                    toastr.success(result["message"]);
-                    $("#" + tableID).bootstrapTable("refresh");
-
-                    $("#bookingTabNotes")
-                        .empty("")
-                        .append(refreshNotes(bookingID));
-                } else {
-                    submit_btn.html(button_text);
-                    submit_btn.attr("disabled", false);
-                    toastr.error(result["message"]);
-                }
-            }, // /success function
-            error: function (jqXhr, textStatus, errorMessage) {
-                // error callback
-                // add spinner to button
-                var responseText = jQuery.parseJSON(jqXhr.responseText);
-                console.log(responseText["message"]);
-                toastr.error(responseText["message"]);
-
-                // console.log(
-                //     "Error: " + jqXhr.responseText + " **** " + errorMessage
-                // );
-                // console.log(jqXhr.status);
-                // console.log(errorMessage);
-            }, // /error function // /response
-        }); // /ajax
-    }
-    // alert('id: '+id);
-    event.preventDefault();
-});
-
-$("body").on("click", "#booking-note-tab", function (event) {
-    console.log("in booking-note-tab");
-    $(".spinner-border").show();
-    // $("#task_table").bootstrapTable("refresh");
-    tab_value = $("#booking-note-tab").data("id");
-    // $("#taskTabNotes").empty("").append(refreshTaskNotes(tab_value));
-
-    $.ajax({
-        url: "/mds/customer/booking/mv/notes/" + tab_value,
-        method: "GET",
-        async: true,
-        success: function (response) {
-            g_response = response.view;
-            $("#bookingTabNotes").empty("").append(g_response);
-            $(".spinner-border").hide();
-        },
-
-        error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr.status);
-            console.log(thrownError);
-        },
-        // $('#firstModal').modal('toggle');
-    });
-});
-
-$("body").on("click", ".removeNoteDiv", function (e) {
-    e.preventDefault();
-    var id = $(this).data("id");
-    var tableID = $(this).data("table");
-    var divToRemove = $(this)
-        .parent("div")
-        .parent("div")
-        .parent("div")
-        .parent("div");
-    e.preventDefault();
-    var link = $(this).attr("href");
-    Swal.fire({
-        title: "Are you sure?",
-        text: "Delete This Data?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: "/mds/customer/booking/note/delete/" + id,
-                type: "DELETE",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                success: function (result) {
-                    if (!result["error"]) {
-                        toastr.success(result["message"]);
-                        divToRemove.remove();
-                        // $("#fileCount").html(
-                        //     "File (" + result["count"] + ")"
-                        // );
-                        $("#" + tableID).bootstrapTable("refresh");
-                        // for delete confirmation uncomment below
-                        // Swal.fire(
-                        //     "Deleted!",
-                        //     "Your file has been deleted.",
-                        //     "success"
-                        // );
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status);
-                    console.log(thrownError);
-                },
-            });
-        }
-    });
-});
-
-// form-submit-task-new-subtask
-
-// add new file to task overview modal
-$(".form-submit-task-new-file").submit(function (event) {
-    // alert("inside add note comment");
-    var formData = new FormData(this);
-    var currentForm = $(this);
-    var submit_btn = $(this).find("#add_file_btn");
-    var formID = $(this).closest("form").attr("id");
-    var btn_html = submit_btn.html();
-    var btn_val = submit_btn.val();
-    var tableInput = currentForm.find('input[name="table"]');
-    var tableID = tableInput.length ? tableInput.val() : "table";
-    var button_text =
-        btn_html != "" || btn_html != "undefined" ? btn_html : btn_val;
-    var submit_btn = $(this).find("#add_subtask_btn");
-    var name = document.getElementById(formID);
-
-    for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-    }
-
-    if (!name.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
-    } else {
-        $.ajax({
-            url: $(this).attr("action"),
-            type: "POST",
-            data: formData,
-            headers: {
-                "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
-            },
-            beforeSend: function () {
-                submit_btn.html(label_please_wait);
-                submit_btn.attr("disabled", true);
-            },
-            // data: formData, //form.serialize(),
-            dataType: "json",
-            cache: false,
-            contentType: false,
-            processData: false,
-            // async: false,
-            success: function (result) {
-                if (!result["error"]) {
-                    // console.log("inside success ajax");
-                    // console.log(result);
-                    //  events = result;
-                    // var modalWithClass = $('.modal.fade.show');
-                    submit_btn.html(button_text);
-                    submit_btn.attr("disabled", false);
-
-                    html = "";
-
-                    html += '<div class="border-top py-3">';
-                    html += '  <div class="me-n3">';
-                    html += '    <div class="d-flex flex-between-center">';
-                    html +=
-                        '       <div class="d-flex mb-1"><span class="fa-solid fa-image me-2 text-body-tertiary fs-9"></span>';
-                    html +=
-                        '         <p class="text-body-highlight mb-0 lh-1"><a href="../../../storage/upload/event_files/' +
-                        result["file_name"] +
-                        '" target="_blank">' +
-                        result["original_file_name"] +
-                        "</a></p>";
-                    html += " </div>";
-                    html +=
-                        ' <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h"></span></button>';
-                    html +=
-                        ' <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item text-danger removeFileDiv" href="#!" id="deletexx"  data-table="task_table" data-id=' +
-                        result["task_file_id"] +
-                        ">Delete</a></div>";
-                    html += "                    </div>";
-                    html +=
-                        '                    <p class="fs-9 text-body-tertiary mb-1"><span>' +
-                        result["file_size"] / 100 +
-                        'kb </span><span class="text-body-quaternary mx-1">| </span><a href="#!">' +
-                        result["user_name"] +
-                        ' </a><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap">' +
-                        result["created_at"] +
-                        "</span></p>";
-
-                    if (
-                        result["file_extension"].toLowerCase() == "jpg" ||
-                        result["file_extension"].toLowerCase() == "jpeg" ||
-                        result["file_extension"].toLowerCase() == "png"
-                    ) {
-                        // console.log('file path: '+ result["file_path"])
-                        // console.log('file name: '+ result["file_name"])
-                        html +=
-                            '<a href="' +
-                            result["file_path"] +
-                            result["file_name"] +
-                            '" target="_blank"><img class="rounded-2 img-thumbnail" src="' +
-                            result["file_path"] +
-                            result["file_name"] +
-                            '" alt="" width="200" height="200" /></a>';
-                    }
-
-                    html += "                </div>";
-                    html += "            </div>";
-
-                    $("#taskTabFiles").append(html);
-
-                    $(".form-submit-task-new-file")[0].reset();
-                    $(".form-submit-task-new-file")[0].classList.remove(
-                        "was-validated"
-                    );
-                    toastr.success(result["message"]);
-                    $("#" + tableID).bootstrapTable("refresh");
-                } else {
-                    submit_btn.html(button_text);
-                    submit_btn.attr("disabled", false);
-                    toastr.error(result["message"]);
-                }
-            }, // /success function
-            error: function (jqXhr, textStatus, errorMessage) {
-                var responseText = jQuery.parseJSON(jqXhr.responseText);
-                console.log(responseText["message"]);
-                toastr.error(responseText["message"]);
-            }, // /error function // /response
-        }); // /ajax
-    }
-    // alert('id: '+id);
-    event.preventDefault();
-});
 
 ("use strict");
 function queryParams(p) {

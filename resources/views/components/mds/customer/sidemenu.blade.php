@@ -14,8 +14,8 @@
                             <ul class="nav collapse parent" data-bs-parent="#navbarVerticalCollapse" id="nv-home">
                                 <li class="collapsed-nav-item-title d-none">Home
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="../../index.html">
-                                        <div class="d-flex align-items-center"><span class="nav-link-text">MDS</span>
+                                <li class="nav-item"><a class="nav-link" href="{{ route('mds.customer.dashboard') }}">
+                                        <div class="d-flex align-items-center"><span class="nav-link-text">Dashboard</span>
                                         </div>
                                     </a>
                                     <!-- more inner pages-->

@@ -39,6 +39,7 @@
                         <!-- <th data-sortable="true" data-field="id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('id', 'ID') ?></th> -->
                         <th data-sortable="true" data-field="delivery_status_id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('status', 'Status') ?></th>
                         <th data-sortable="true" data-field="booking_ref_number" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('booking_ref_number', 'Refrence') ?></th>
+                        <th data-sortable="false" data-field="venue_id" class="align-middle white-space-wrap fw-bold fs-9">Venue</th>
                         <th data-sortable="false" data-field="rsp_name" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('rsp_name', 'RSP Number') ?></th>
                         <th data-sortable="false" data-field="client_group" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('client_group', 'Client Group') ?></th>
                         <th data-sortable="false" data-field="booking_date" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('booking_date', 'Schedule Date') ?></th>

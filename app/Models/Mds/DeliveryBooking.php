@@ -31,6 +31,11 @@ class DeliveryBooking extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function event()
+    {
+        return $this->belongsTo(MdsEvent::class, 'event_id');
+    }
+
     public function venue()
     {
         return $this->belongsTo(DeliveryVenue::class, 'venue_id');

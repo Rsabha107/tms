@@ -19,7 +19,7 @@
                     <div class="row align-items-center justify-content-between g-3 mb-3">
                         <div class="col-12 col-md-auto">
                             <h6 class="fw-bolder lh-sm" id="overviewtaskTitle">Scheduled Date: {{format_date($booking->booking_date)}}</h6>
-                            <h6 class="fw-bolder lh-sm" id="overviewtaskTitle">Time: {{$booking->schedule_period->period}}</h6>
+                            <h6 class="fw-bolder lh-sm" id="overviewtaskTitle">Time: {{$booking->schedule->rsp_booking_slot}}</h6>
                             <h6 class="fw-bolder lh-sm" id="overviewtaskTitle">Site: {{$booking->venue?->title}}</h6>
                             <h6 class="fw-bolder lh-sm" id="overviewtaskTitle">RSP: {{$booking->schedule->rsp->title}}</h6>
                         </div>
@@ -29,11 +29,11 @@
                                     <button class="btn px-3 btn-outline-primary  me-2" data-phoenix-toggle="offcanvas" data-phoenix-target="#productFilterColumn">
                                         <span class="fas fa-paperclip"></span></button>
                                 </div> -->
-                                <button class="btn btn-primary me-2">
-                                    <span class="far fa-edit me-2"></span><span>Edit</span></button>
-                                <button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                <button class="btn btn-primary me-2"><a href="{{route('mds.admin.booking.edit', $booking->id)}}" class="text-white">
+                                    <span class="far fa-edit me-2"></span><span>Edit</span></a></button>
+                                <!-- <button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
                                     <span class="far fa-copy me-sm-2"></span><span class="d-none d-sm-inline">Duplicate</span></button>
-                                <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"> -->
                                     <span class="fa-solid fa-ellipsis"></span></button>
                                 <ul class="dropdown-menu dropdown-menu-end p-0" style="z-index: 9999;">
                                     <!-- <li><a class="dropdown-item" href="#!">Duplicate</a></li> -->

@@ -134,6 +134,15 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/admin/events/{id}/switch',  'switch')->name('mds.admin.booking.switch');
 
             Route::get('/mds/admin/dashboard', 'dashboard')->name('mds.admin.dashboard');
+
+            //Booking note
+            Route::get('/mds/admin/booking/mv/notes/{id}', 'getNotesView')->name('mds.admin.booking.mv.notes');
+            Route::post('mds/admin/booking/note/store', 'noteStore')->name('mds.admin.booking.note.store');
+            Route::delete('mds/admin/booking/note/delete/{id}', 'deleteNote')->name('mds.admin.booking.note.delete');
+
+            //Booking file upload
+            Route::post('mds/admin/booking/file/store', 'fileStore')->name('mds.admin.booking.file.store');
+            Route::delete('mds/admin/booking/file/{id}/delete', 'fileDelete')->name('mds.admin.booking.file.delete');
         });
 
         Route::controller(VehicleTypeController::class)->group(function () {
@@ -312,9 +321,22 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
             Route::get('/mds/customer/events/{id}/switch',  'switch')->name('mds.customer.booking.switch');
 
+            Route::get('/mds/customer/dashboard', 'dashboard')->name('mds.customer.dashboard');
+
+
             Route::get('/mds/customer/booking/confirmation', function () {
                 return view('/mds/customer/booking/confirmation');
             })->name('mds.customer.booking.confirmation');
+
+
+            //Booking note
+            Route::get('/mds/customer/booking/mv/notes/{id}', 'getNotesView')->name('mds.customer.booking.mv.notes');
+            Route::post('mds/customer/booking/note/store', 'noteStore')->name('mds.customer.booking.note.store');
+            Route::delete('mds/customer/booking/note/delete/{id}', 'deleteNote')->name('mds.customer.booking.note.delete');
+
+            //Booking file upload
+            Route::post('mds/customer/booking/file/store', 'fileStore')->name('mds.customer.booking.file.store');
+            Route::delete('mds/customer/booking/file/{id}/delete', 'fileDelete')->name('mds.customer.booking.file.delete');
         });
 
         Route::controller(CustomerUserController::class)->group(function () {
@@ -362,14 +384,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
         Route::get('/mds/booking/pass/pdf/{id}', [BookingController::class, 'passPdf'])->name('mds.booking.pass.pdf');
 
-        //Booking note
-        Route::get('/mds/admin/booking/mv/notes/{id}', [BookingController::class, 'getNotesView'])->name('mds.admin.booking.mv.notes');
-        Route::post('mds/admin/booking/note/store', [BookingController::class, 'noteStore'])->name('mds.admin.booking.note.store');
-        Route::delete('mds/admin/booking/note/delete/{id}', [BookingController::class, 'deleteNote'])->name('mds.admin.booking.note.delete');
-
-        //Booking file upload
-        Route::post('mds/admin/booking/file/store', [BookingController::class, 'fileStore'])->name('mds.admin.booking.file.store');
-        Route::delete('mds/admin/booking/file/{id}/delete', [BookingController::class, 'fileDelete'])->name('mds.admin.booking.file.delete');
 
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         // Route::get('/mds/users/profile', [UserController::class, 'profile'])->name('mds.users.profile');

@@ -67,8 +67,8 @@
                 <div class="p-4 code-to-copy">
                     <form class="row g-3  px-3 needs-validation" action="{{route('mds.admin.booking.store')}}" id="form-1" novalidate method="POST">
                         @csrf
-                        <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="" required>
-                        <input id="add_booking_date" name="booking_date" type="hidden" required>
+                        <input type="hidden" id="add_schedule_period_id" name="schedule_period_id" value="" >
+                        <input type="hidden" id="add_booking_date" name="booking_date" >
 
                         <!-- <div class="col-md-10 mb-3" style="margin:0 auto;">
                             <label class="form-label" for="inputEmail4">Date</label>
