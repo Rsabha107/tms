@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use PHPUnit\Util\GlobalState;
 use App\Imports\PermissionImport;
 use App\Models\Department;
+use App\Models\Mds\FunctionalArea;
 use App\Models\Mds\MdsEvent;
 use App\Models\Workspace;
 use App\Notifications\NewUserNotification;
@@ -434,9 +435,10 @@ class RoleController extends Controller
     public function addAdminUser(){
         $roles = Role::all();
         $events = MdsEvent::all();
+        $functional_areas = FunctionalArea::all();
         // $workspace = Workspace::all();
         // $departments = Department::all();
-        return view ('sec.adminuser.add', compact('roles', 'events'));
+        return view ('sec.adminuser.add', compact('roles', 'events', 'functional_areas'));
     }  // addAdminUser
 
     public function createAdminUser(Request $request){
@@ -494,9 +496,10 @@ class RoleController extends Controller
     public function editAdminUser($id){
         $user = User::findOrFail($id);
         $roles = Role::all();
+        $functional_areas = FunctionalArea::all();
         $events = MdsEvent::all();
 
-        return view ('sec.adminuser.edit', compact('user', 'roles', 'events'));
+        return view ('sec.adminuser.edit', compact('user', 'roles', 'events','functional_areas'));
 
     }
 

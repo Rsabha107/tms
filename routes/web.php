@@ -20,6 +20,8 @@ use App\Http\Controllers\Mds\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
 use App\Http\Controllers\Mds\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Mds\Customer\UserController as CustomerUserController;
+use App\Http\Controllers\Mds\Manager\BookingController as ManagerBookingController;
+use App\Http\Controllers\Mds\Manager\UserController as ManagerUserController;
 use App\Http\Controllers\Mds\Setting\BookingEventController;
 use App\Http\Controllers\Mds\Setting\BookingRspController;
 use App\Http\Controllers\Mds\Setting\BookingSlotController;
@@ -296,7 +298,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
         });
     });
 
-    // PROJECT MANAGEMENT ******************************************************************** Admin All Route
+    // Customer ******************************************************************** user All Route
     Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:Customer', 'roles:user', 'prevent-back-history', 'auth.session'])->group(function () {
 
         // Projects Routes
@@ -341,6 +343,54 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 
         Route::controller(CustomerUserController::class)->group(function () {
             Route::get('/mds/customer/users/profile', 'profile')->name('mds.customer.users.profile');
+        });
+    });
+
+    // Manager ******************************************************************** user All Route
+    Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:Manager', 'roles:user', 'prevent-back-history', 'auth.session'])->group(function () {
+
+        // Projects Routes
+        Route::controller(ManagerBookingController::class)->group(function () {
+
+            // booking routes
+            Route::get('/mds/manager', 'index')->name('mds.manager');
+            Route::get('/mds/manager/booking', 'index')->name('mds.manager.booking');
+            Route::get('/mds/manager/booking/list', 'list')->name('mds.manager.booking.list');
+            Route::get('/mds/manager/booking/schedule/{id}', 'listEvent')->name('mds.manager.booking.schedule'); // for calendar
+            Route::get('/mds/manager/booking/create', 'create')->name('mds.manager.booking.create');
+            Route::get('/mds/manager/booking/manage/{id}', 'manage')->name('mds.manager.booking.manage');
+            Route::get('/mds/manager/booking/get/{id}', 'get')->name('mds.manager.booking.get');
+            Route::get('/mds/manager/booking/get_times/{date}/{venue_id}', 'get_times')->name('mds.manager.booking.get_times');
+            Route::get('/mds/manager/booking/times/cal/{date}/{venue_id}', 'get_times_cal')->name('mds.manager.booking.times.cal');
+            Route::post('mds/manager/booking/update', 'update')->name('mds.manager.booking.update');
+            Route::get('mds/manager/booking/edit/{id}', 'edit')->name('mds.manager.booking.edit');
+            Route::delete('/mds/manager/booking/delete/{id}', 'delete')->name('mds.manager.booking.delete');
+            Route::post('/mds/manager/booking/store', 'store')->name('mds.manager.booking.store');
+            Route::get('/mds/manager/booking/mv/detail/{id}', 'detail')->name('mds.manager.mv.detail');
+            Route::get('/mds/manager/booking/pass/pdf/{id?}', 'passPdf')->name('mds.manager.booking.pass.pdf');
+
+            Route::get('/mds/manager/events/{id}/switch',  'switch')->name('mds.manager.booking.switch');
+
+            Route::get('/mds/manager/dashboard', 'dashboard')->name('mds.manager.dashboard');
+
+
+            Route::get('/mds/manager/booking/confirmation', function () {
+                return view('/mds/manager/booking/confirmation');
+            })->name('mds.manager.booking.confirmation');
+
+
+            //Booking note
+            Route::get('/mds/manager/booking/mv/notes/{id}', 'getNotesView')->name('mds.manager.booking.mv.notes');
+            Route::post('mds/manager/booking/note/store', 'noteStore')->name('mds.manager.booking.note.store');
+            Route::delete('mds/manager/booking/note/delete/{id}', 'deleteNote')->name('mds.manager.booking.note.delete');
+
+            //Booking file upload
+            Route::post('mds/manager/booking/file/store', 'fileStore')->name('mds.manager.booking.file.store');
+            Route::delete('mds/manager/booking/file/{id}/delete', 'fileDelete')->name('mds.manager.booking.file.delete');
+        });
+
+        Route::controller(ManagerUserController::class)->group(function () {
+            Route::get('/mds/manager/users/profile', 'profile')->name('mds.manager.users.profile');
         });
     });
 });

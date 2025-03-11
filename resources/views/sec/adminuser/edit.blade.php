@@ -82,12 +82,12 @@
 
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" id="userUser" type="radio"
-                                                    name="usertype" value="user" checked="checked" required />
+                                                    name="usertype" value="user" required {{ $user->role == 'user' ? 'checked':'' }} />
                                                 <label class="form-check-label" for="inlineRadio2">User</label>
                                             </div>
                                             <div class="form-check form-check-inline">
                                                 <input class="form-check-input" id="adminUser" type="radio"
-                                                    name="usertype" value="admin" required />
+                                                    name="usertype" value="admin" required {{$user->role == 'admin' ? 'checked':''  }} />
                                                 <label class="form-check-label" for="inlineRadio2">Admin</label>
                                             </div>
                                         </div>
@@ -102,6 +102,21 @@
                                                 @foreach ($events as $event)
                                                     <option value="{{ $event->id }}" {{ in_array($event->id, $user->events->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                         {{ $event->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-12 gy-3 mb-3">
+                                            <label class="form-label" for="inputAddress2">Functional Area
+                                                (multiple)</label>
+                                            <select class="form-select js-select-fa-assign-multiple"
+                                                id="add_fa_assigned_to" name="fa_id[]"
+                                                multiple="multiple" data-with="100%"
+                                                data-placeholder="<?= get_label('type_to_search', 'Type to search') ?>">
+                                                <!-- <select name="assignment_to_id[]" class="form-select" data-choices="data-choices" size="1" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' id="floatingSelectRating" required> -->
+                                                @foreach ($functional_areas as $functional_area)
+                                                    <option value="{{ $functional_area->id }}" {{ in_array($functional_area->id, $user->fa->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                                        {{ $functional_area->title }}
                                                     </option>
                                                 @endforeach
                                             </select>

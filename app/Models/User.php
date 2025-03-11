@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\GeneralSettings\GlobalAttachment;
+use App\Models\Mds\FunctionalArea;
 use App\Models\Mds\MdsEvent;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -75,6 +76,11 @@ class User extends Authenticatable
     public function events()
     {
         return $this->belongsToMany(MdsEvent::class, 'user_event', 'user_id', 'event_id');
+    }
+
+    public function fa()
+    {
+        return $this->belongsToMany(FunctionalArea::class, 'user_fa', 'user_id', 'fa_id');
     }
 
     public function file_attach()

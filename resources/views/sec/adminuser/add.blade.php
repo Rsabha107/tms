@@ -131,6 +131,21 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            <div class="col-12 gy-3 mb-3">
+                                            <label class="form-label" for="inputAddress2">Functional Area
+                                                (multiple)</label>
+                                            <select class="form-select js-select-fa-assign-multiple"
+                                                id="add_fa_assigned_to" name="fa_id[]"
+                                                multiple="multiple" data-with="100%"
+                                                data-placeholder="<?= get_label('type_to_search', 'Type to search') ?>">
+                                                <!-- <select name="assignment_to_id[]" class="form-select" data-choices="data-choices" size="1" multiple="multiple" data-options='{"removeItemButton":true,"placeholder":true}' id="floatingSelectRating" required> -->
+                                                @foreach ($functional_areas as $functional_area)
+                                                    <option value="{{ $functional_area->id }}">
+                                                        {{ $functional_area->title }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                             <div class="row g-3 mb-3">
                                                 <div class="col-xl-6">
                                                     <label class="form-label" for="password">Password</label>

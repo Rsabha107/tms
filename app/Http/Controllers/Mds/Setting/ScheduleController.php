@@ -64,6 +64,9 @@ class ScheduleController extends Controller
 
             $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
+            $op->event_name = MdsEvent::find($request->event_id)->name;
+            $op->venue_name = DeliveryVenue::find($request->venue_id)->title;
+            $op->remote_search_park = DeliveryRsp::find($request->rsp_id)->title;
             $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
             $op->rsp_booking_slot = $request->rsp_booking_slot;
             $op->venue_arrival_time = $request->venue_arrival_time;
@@ -202,6 +205,9 @@ class ScheduleController extends Controller
 
             $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
+            $op->event_name = MdsEvent::find($request->event_id)->name;
+            $op->venue_name = DeliveryVenue::find($request->venue_id)->title;
+            $op->remote_search_park = DeliveryRsp::find($request->rsp_id)->title;
             $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
             $op->rsp_booking_slot = $request->rsp_booking_slot;
             $op->venue_arrival_time = $request->venue_arrival_time;

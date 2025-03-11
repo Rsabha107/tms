@@ -36,7 +36,7 @@
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
-                            <ul class="nav collapse parent {{ Request::is('mds/customer/booking')||Request::is('mds/customer/booking/create')||Request::is('mds/manager/booking') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-MDS">
+                            <ul class="nav collapse parent {{ Request::is('mds/customer/booking')||Request::is('mds/customer/booking/create') ? 'show' : '' }}" data-bs-parent="#navbarVerticalCollapse" id="nv-MDS">
                                 <li class="collapsed-nav-item-title d-none">MDS
                                 </li>
                                 <li class="nav-item"><a class="nav-link {{ Request::is('mds/customer/booking') ? 'active' : '' }}" href="{{route('mds.customer.booking')}}">
@@ -52,7 +52,7 @@
                                     <!-- more inner pages-->
                                 </li>
                                 @hasrole('Manager')
-                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/manager/booking') ? 'active' : '' }}" href="{{route('mds.manager.booking')}}">
+                                <li class="nav-item"><a class="nav-link {{ Request::is('mds/manager/booking') ? 'active' : '' }}" href="{{route('mds.customer.booking.create')}}">
                                         <div class="d-flex align-items-center"><span class="nav-link-text">Functional Area List</span>
                                         </div>
                                     </a>

@@ -103,7 +103,7 @@
                             <div class="col-auto"><a class="fs-9 fw-semibold" href="{{route('mds.auth.forgot')}}">Forgot Password?</a></div>
                         </div>
                         <button class="btn btn-primary w-100 mb-3">Sign In</button>
-                        <div class="text-center"><a class="fs-9 fw-bold" href="{{ route('mds.auth.signup') }}">Create an account</a></div>
+                        <!-- <div class="text-center"><a class="fs-9 fw-bold" href="{{ route('mds.auth.signup') }}">Create an account</a></div> -->
                     </div>
                 </div>
             </form>
