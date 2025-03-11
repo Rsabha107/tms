@@ -689,6 +689,7 @@ class BookingController extends Controller
         $venue = BookingSlot::where('booking_date', '=', $date)
             ->where('venue_id', '=', $venue_id)
             ->where('bookings_slots_all', '>', '0')
+            ->where('event_id', session()->get('EVENT_ID'))
             // ->orWhere('bookings_slots_cat', '>', '0')
             ->where('slot_visibility', '<=', Carbon::now());
 

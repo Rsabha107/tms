@@ -29,6 +29,7 @@ $(document).ready(function () {
 
     $("body").on("click", "#booking_schedule_availability", function () {
         console.log("click get booking_schedule_availability");
+        $("#cover-spin").show();
 
         var venue_id = $("#add_delivery_area").val();
         if (!venue_id) {
@@ -45,14 +46,18 @@ $(document).ready(function () {
         // });
         // alert($("#add_delivery_area").val());
         $("#booking_calendar_modal").modal("show");
+    $("#cover-spin").hide();
+
     });
 
     $('#booking_calendar_modal').on('hidden.bs.modal', function() {
         $("select#add_schedule_times_cal").val("");
+        $("#cover-spin").hide();
         calendar.destroy();
       });
 
     $("#booking_calendar_modal").on("shown.bs.modal", function (e) {
+        $("#cover-spin").show();
         if (calendar) {
             console.log("calendar exists");
             calendar.destroy();
@@ -73,6 +78,10 @@ $(document).ready(function () {
             // },
             dateClick: function (info) {
                 console.log("dateClick", info);
+                $("#cover-spin").show();
+                var eventObj = info.event;
+                console.log("venue_id id", venue_id);
+                console.log("info.dateStr: ", info.dateStr);
                 $.ajax({
                     url:
                         "/mds/admin/booking/times/cal/" +
@@ -118,6 +127,7 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
+                    $("#cover-spin").hide();
                     },
                 }).done(function () {
                     // $("#delivery_schedule_times_modal").modal("show");
@@ -127,6 +137,7 @@ $(document).ready(function () {
             },
             eventClick: function (info) {
                 console.log("eventClick", info);
+                $("#cover-spin").show();
                 var eventObj = info.event;
                 console.log("eventObj start", eventObj.start);
                 console.log("venue_id id", venue_id);
@@ -180,8 +191,11 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
+                $("#cover-spin").hide();
+
                     },
                 }).done(function () {
+                    
                     // $("#delivery_schedule_times_modal").modal("show");
                 });
 
@@ -195,6 +209,7 @@ $(document).ready(function () {
         myModal.addEventListener("shown.bs.modal", () => {
             calendar.render();
         });
+        $("#cover-spin").hide();
     });
 
     $("body").on("click", "#bookingDetails", function () {

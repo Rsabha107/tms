@@ -15,6 +15,15 @@
                 <h3 class="mb-0" id="staticBackdropLabel"><?= get_label('select_time', 'Select time') ?></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+
+            <div class="d-flex justify-content-center">
+                <div id="cover-spin" style="display:none;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+
+            
             <div class="modal-body text-center mb-3">
                 <div id="calendar"></div>
             </div>
