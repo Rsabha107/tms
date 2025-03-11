@@ -59,9 +59,9 @@
                                             </label>
                                             <div class="">
                                                 <div class="btn-group btn-group d-flex justify-content-center" role="group" aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" id="require_ev_yes" name="require_ev" value="1" checked>
+                                                    <input type="radio" class="btn-check" id="require_ev_yes" name="require_ev" value="1" {{ $user->require_ev == 1 ? 'checked' : '' }}>
                                                     <label class="btn btn-outline-primary" for="require_ev_yes"><?= get_label('yes', 'Yes') ?></label>
-                                                    <input type="radio" class="btn-check" id="require_ev_no" name="require_ev" value="0">
+                                                    <input type="radio" class="btn-check" id="require_ev_no" name="require_ev" value="0" {{ $user->require_ev == 0 ? 'checked' : '' }}>
                                                     <label class="btn btn-outline-primary" for="require_ev_no"><?= get_label('no', 'No') ?></label>
                                                 </div>
                                             </div>
@@ -70,9 +70,9 @@
                                             <label class="form-label" for=""><?= get_label('status', 'Status') ?> (<small class="text-muted mt-2">If Deactive, user won't be able to log in to their account</small>)</label>
                                             <div class="">
                                                 <div class="btn-group btn-group d-flex justify-content-center" role="group" aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" id="user_active" name="status" value="1">
+                                                    <input type="radio" class="btn-check" id="user_active" name="status" value="1" {{ $user->status == 1 ? 'checked' : '' }}>
                                                     <label class="btn btn-outline-primary" for="user_active"><?= get_label('active', 'Active') ?></label>
-                                                    <input type="radio" class="btn-check" id="user_deactive" name="status" value="0" checked>
+                                                    <input type="radio" class="btn-check" id="user_deactive" name="status" value="0" {{ $user->status == 0 ? 'checked' : '' }}>
                                                     <label class="btn btn-outline-primary" for="user_deactive"><?= get_label('deactive', 'Deactive') ?></label>
 
                                                 </div>

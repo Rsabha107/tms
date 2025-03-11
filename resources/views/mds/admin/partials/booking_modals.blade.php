@@ -27,15 +27,15 @@
             <div class="modal-body text-center mb-3">
                 <div id="calendar"></div>
             </div>
-            <div class="modal-body text-center">
-                {{-- <div class="spinner-border text-primary"  role="status">
-                    <span class="sr-only">Loading...</span>
+            {{-- <div class="modal-body text-center">
+                <div class="d-flex justify-content-center">
+                    <div id="cover-spin" style="display:none;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
-                <p>Loading, please wait...</p> --}}
-            </div>
+            </div> --}}
             <div class="modal-body text-center mb-3">
-                <h5>Available time slots (pick a date)</h5>
-                <input type="hidden" name="table" value="zones_table">
+                <div id="available-time">Available time slotsxx (pick a date)</div>
                 <div class="modal-body">
                     <div class="mb-3 col-md-12">
                         <!-- <label class="form-label" for="bootstrap-wizard-validation-gender"></label> -->

@@ -21,8 +21,6 @@ function refreshNotes(val) {
 let calendar;
 
 $(document).ready(function () {
-
-
     // console.log("all booking file");
 
     // **************************************************
@@ -46,15 +44,14 @@ $(document).ready(function () {
         // });
         // alert($("#add_delivery_area").val());
         $("#booking_calendar_modal").modal("show");
-    $("#cover-spin").hide();
-
+        $("#cover-spin").hide();
     });
 
-    $('#booking_calendar_modal').on('hidden.bs.modal', function() {
+    $("#booking_calendar_modal").on("hidden.bs.modal", function () {
         $("select#add_schedule_times_cal").val("");
         $("#cover-spin").hide();
         calendar.destroy();
-      });
+    });
 
     $("#booking_calendar_modal").on("shown.bs.modal", function (e) {
         $("#cover-spin").show();
@@ -64,7 +61,7 @@ $(document).ready(function () {
         }
         var venue_id = $("#add_delivery_area").val();
         var calendarEl = document.getElementById("calendar");
-            calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
             events: "/mds/admin/booking/schedule/" + venue_id,
@@ -79,6 +76,9 @@ $(document).ready(function () {
             dateClick: function (info) {
                 console.log("dateClick", info);
                 $("#cover-spin").show();
+                $("#available-time").html(
+                    "<h5>Available time slots for " + info.dateStr +"</h5>"
+                );
                 var eventObj = info.event;
                 console.log("venue_id id", venue_id);
                 console.log("info.dateStr: ", info.dateStr);
@@ -114,7 +114,7 @@ $(document).ready(function () {
                             }
 
                             $("#add_booking_date").val(info.dateStr);
-                            
+
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
                                     value.id +
@@ -127,7 +127,9 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
-                    $("#cover-spin").hide();
+                        // console.log('before available-time');
+
+                        $("#cover-spin").hide();
                     },
                 }).done(function () {
                     // $("#delivery_schedule_times_modal").modal("show");
@@ -138,12 +140,16 @@ $(document).ready(function () {
             eventClick: function (info) {
                 console.log("eventClick", info);
                 $("#cover-spin").show();
+
                 var eventObj = info.event;
                 console.log("eventObj start", eventObj.start);
                 console.log("venue_id id", venue_id);
                 var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
                 var convertedDateDMY = moment(eventObj.start).format(
                     "DD/MM/YYYY"
+                );
+                $("#available-time").html(
+                    "<h5>Available time slots for " + convertedDate +"</h5>"
                 );
                 console.log("convertedDate", convertedDate);
                 console.log("eventObj id", eventObj.id);
@@ -164,7 +170,6 @@ $(document).ready(function () {
                             "response length: " + response.venue.length
                         );
                         // var len = response.length;
-
                         $("#add_schedule_times_cal")
                             .empty("")
                             .html(
@@ -191,11 +196,10 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
-                $("#cover-spin").hide();
-
+                        
+                        $("#cover-spin").hide();
                     },
                 }).done(function () {
-                    
                     // $("#delivery_schedule_times_modal").modal("show");
                 });
 
@@ -321,7 +325,9 @@ $(document).ready(function () {
         $("#booking_calendar_modal").modal("hide");
         $("#time_alert").html(
             "Here are your times(click Get times again to change)<br>" +
-                moment($("#add_booking_date").val()).format('dddd, Do of MMMM YYYY') +
+                moment($("#add_booking_date").val()).format(
+                    "dddd, Do of MMMM YYYY"
+                ) +
                 " " +
                 schedule_period_id_text
         );
@@ -442,4 +448,3 @@ $("body").on("click", "#editScheduleStatus", function (event) {
         // $('#submit').val("Edit category");
     });
 });
-
