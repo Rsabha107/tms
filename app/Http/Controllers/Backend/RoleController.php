@@ -483,7 +483,9 @@ class RoleController extends Controller
             }
         }
 
-        $user->notify(new NewUserNotification($user));
+        if (config('mds.send_emails')){
+            $user->notify(new NewUserNotification($user));
+        }
 
         $notification = array(
             'message'       => 'New user inserted successfully',

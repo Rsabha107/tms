@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'send_task_assignment_emails' => true,
+    'send_emails' => env('SEND_EMAIL', false),
     'gantt_event_color' => 'green',
     'gantt_task_color' => 'orange',
     'gantt_text_color' => 'white',
