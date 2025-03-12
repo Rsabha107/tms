@@ -172,7 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         // App\Providers\TelescopeServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
+        // Yajra\DataTables\DataTablesServiceProvider::class,
         // Intervention\Image\ImageServiceProvider::class,
         // Justus\FlysystemOneDrive\Providers\OneDriveAdapterServiceProvider::class,
     ])->toArray(),
@@ -193,7 +193,7 @@ return [
         'Input' => Illuminate\Support\Facades\Input::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        // 'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         // 'Image' => Intervention\Image\Facades\Image::class,
     ])->toArray(),
 

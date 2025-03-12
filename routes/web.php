@@ -110,10 +110,36 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function () {
 
-    // PROJECT MANAGEMENT ******************************************************************** Admin All Route
+    Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:SuperAdmin|SuperMDS|Customer', 'prevent-back-history', 'auth.session'])->group(function () {
+
+        // Drivers
+        Route::controller(DeliveryDriverController::class)->group(function () {
+            Route::get('/mds/setting/driver', 'index')->name('mds.setting.driver');
+            Route::get('/mds/setting/driver/list', 'list')->name('mds.setting.driver.list');
+            Route::get('/mds/setting/driver/get/{id}', 'get')->name('mds.setting.driver.get');
+            Route::post('mds/setting/driver/update', 'update')->name('mds.setting.driver.update');
+            Route::delete('/mds/setting/driver/delete/{id}',  'delete')->name('mds.setting.driver.delete');
+            Route::post('/mds/setting/driver/store', 'store')->name('mds.setting.driver.store');
+            Route::post('mds/driver/status/update', 'updateStatus')->name('mds.driver.status.update');
+            Route::get('mds/driver/status/edit/{id}', 'editStatus')->name('mds.driver.status.edit');
+        });
+
+        // vehicles
+        Route::controller(DeliveryVehicleController::class)->group(function () {
+            Route::get('/mds/setting/vehicle', 'index')->name('mds.setting.vehicle');
+            Route::get('/mds/setting/vehicle/list', 'list')->name('mds.setting.vehicle.list');
+            Route::get('/mds/setting/vehicle/get/{id}', 'get')->name('mds.setting.vehicle.get');
+            Route::post('mds/setting/vehicle/update', 'update')->name('mds.setting.vehicle.update');
+            Route::delete('/mds/setting/vehicle/delete/{id}', 'delete')->name('mds.setting.vehicle.delete');
+            Route::post('/mds/setting/vehicle/store', 'store')->name('mds.setting.vehicle.store');
+            Route::post('mds/vehicle/status/update', 'updateStatus')->name('mds.vehicle.status.update');
+            Route::get('mds/vehicle/status/edit/{id}', 'editStatus')->name('mds.vehicle.status.edit');
+        });
+    });
+    // Booking MANAGEMENT ******************************************************************** Admin All Route
     Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:SuperAdmin|SuperMDS', 'roles:admin', 'prevent-back-history', 'auth.session'])->group(function () {
 
-        // Projects Routes
+        // Booking Routes
         Route::controller(AdminBookingController::class)->group(function () {
 
             // booking routes
@@ -184,30 +210,6 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::post('mds/setting/interval/update', 'update')->name('mds.setting.interval.update');
             Route::delete('/mds/setting/interval/delete/{id}', 'delete')->name('mds.setting.interval.delete');
             Route::post('/mds/setting/interval/store', 'store')->name('mds.setting.interval.store');
-        });
-
-        // Drivers
-        Route::controller(DeliveryDriverController::class)->group(function () {
-            Route::get('/mds/setting/driver', 'index')->name('mds.setting.driver');
-            Route::get('/mds/setting/driver/list', 'list')->name('mds.setting.driver.list');
-            Route::get('/mds/setting/driver/get/{id}', 'get')->name('mds.setting.driver.get');
-            Route::post('mds/setting/driver/update', 'update')->name('mds.setting.driver.update');
-            Route::delete('/mds/setting/driver/delete/{id}',  'delete')->name('mds.setting.driver.delete');
-            Route::post('/mds/setting/driver/store', 'store')->name('mds.setting.driver.store');
-            Route::post('mds/driver/status/update', 'updateStatus')->name('mds.driver.status.update');
-            Route::get('mds/driver/status/edit/{id}', 'editStatus')->name('mds.driver.status.edit');
-        });
-
-        // vehicles
-        Route::controller(DeliveryVehicleController::class)->group(function () {
-            Route::get('/mds/setting/vehicle', 'index')->name('mds.setting.vehicle');
-            Route::get('/mds/setting/vehicle/list', 'list')->name('mds.setting.vehicle.list');
-            Route::get('/mds/setting/vehicle/get/{id}', 'get')->name('mds.setting.vehicle.get');
-            Route::post('mds/setting/vehicle/update', 'update')->name('mds.setting.vehicle.update');
-            Route::delete('/mds/setting/vehicle/delete/{id}', 'delete')->name('mds.setting.vehicle.delete');
-            Route::post('/mds/setting/vehicle/store', 'store')->name('mds.setting.vehicle.store');
-            Route::post('mds/vehicle/status/update', 'updateStatus')->name('mds.vehicle.status.update');
-            Route::get('mds/vehicle/status/edit/{id}', 'editStatus')->name('mds.vehicle.status.edit');
         });
 
         // Venue
@@ -301,7 +303,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
     // Customer ******************************************************************** user All Route
     Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:Customer', 'roles:user', 'prevent-back-history', 'auth.session'])->group(function () {
 
-        // Projects Routes
+        // Customer Booking Routes
         Route::controller(CustomerBookingController::class)->group(function () {
 
             // booking routes
@@ -349,7 +351,7 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
     // Manager ******************************************************************** user All Route
     Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:Manager', 'roles:user', 'prevent-back-history', 'auth.session'])->group(function () {
 
-        // Projects Routes
+        // Manager Booking Routes
         Route::controller(ManagerBookingController::class)->group(function () {
 
             // booking routes

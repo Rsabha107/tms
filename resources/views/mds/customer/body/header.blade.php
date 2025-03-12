@@ -169,7 +169,7 @@
                     aria-expanded="false">
                     <div class="avatar avatar-l ">
                         <img class="rounded-circle "
-                            src="{{ !empty($profileData->photo) ? url('storage/upload/profile_images/' . $profileData->photo) : url('upload/default.png') }}"
+                            src="{{ !empty($profileData->photo) ? url('storage/upload/profile_images/' . $profileData->photo) : url('storage/upload/default.png') }}"
                             alt="" />
 
                     </div>
@@ -197,7 +197,7 @@
                                         href="{{ route('mds.customer.users.profile') }}"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span
+                                <li class="nav-item"><a class="nav-link px-3 d-block" href="{{ route('mds.customer.dashboard') }}"><span
                                             class="me-2 text-body align-bottom"
                                             data-feather="pie-chart"></span>Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span

@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -11,9 +15,32 @@
 |
 */
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
+            'otp' => \App\Http\Middleware\CheckOtpSession::class,
+            'XssSanitizer' => \App\Http\Middleware\XssSanitization::class,
+            'roles' => \App\Http\Middleware\Role::class,
+            'mutli.event' => \App\Http\Middleware\CheckEventSelection::class,
+
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
+    })->create();
+
+// $app = new Illuminate\Foundation\Application(
+//     $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
+// );
 
 /*
 |--------------------------------------------------------------------------

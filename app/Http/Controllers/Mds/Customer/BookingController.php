@@ -39,7 +39,7 @@ class BookingController extends Controller
         //     return view('mds.customer.booking.pick');
         // }
 
-        Log::info('BookingController::index');
+        Log::info('CustomerBookingController::index');
         if (auth()->user()->is_admin) {
             return view('mds.admin.booking.list');
         }

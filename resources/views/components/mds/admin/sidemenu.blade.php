@@ -62,6 +62,7 @@
                     </p>
                     <hr class="navbar-vertical-line" />
                     <!-- parent pages-->
+                    @can('setup.admin.menu')
                     <div class="nav-item-wrapper"><a class="nav-link label-1 {{ Request::is('mds/setting/event') ? 'active' : '' }}" href="{{route('mds.setting.event')}}" role="button" data-bs-toggle="" aria-expanded="false">
                             <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="compass"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Event</span></span>
                             </div>
@@ -133,6 +134,23 @@
                             </div>
                         </a>
                     </div>
+                    @endcan
+                    @can('setup.driver.menu')
+                    <!-- parent pages-->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1 {{ Request::is('mds/setting/driver') ? 'active' : '' }}" href="{{route('mds.setting.driver')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="compass"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Drivers</span></span>
+                            </div>
+                        </a>
+                    </div>
+                    @endcan
+                    @can('setup.vehicle.menu')
+                    <!-- parent pages-->
+                    <div class="nav-item-wrapper"><a class="nav-link label-1 {{ Request::is('mds/setting/vehicle') ? 'active' : '' }}" href="{{route('mds.setting.vehicle')}}" role="button" data-bs-toggle="" aria-expanded="false">
+                            <div class="d-flex align-items-center"><span class="nav-link-icon"><span data-feather="compass"></span></span><span class="nav-link-text-wrapper"><span class="nav-link-text">Vehicles</span></span>
+                            </div>
+                        </a>
+                    </div>
+                    @endcan
                 </li>
                 @endif
                 @if (Auth::user()->can('roles.permissions.menu'))

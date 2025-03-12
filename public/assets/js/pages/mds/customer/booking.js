@@ -72,6 +72,8 @@ $(document).ready(function () {
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
+            touch: true,
+            longPressDelay: 1,
             showNonCurrentDates: false,
             selectAllow: function (info) {
                 console.log("selectAllow", info);
@@ -153,6 +155,11 @@ $(document).ready(function () {
                         // console.log('before available-time');
 
                         $("#cover-spin").hide();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $("#cover-spin").hide();
+                        console.log(xhr.status);
+                        console.log(thrownError);
                     },
                 }).done(function () {
                     // $("#delivery_schedule_times_modal").modal("show");

@@ -2,6 +2,7 @@
 
 return [
     'send_emails' => env('SEND_EMAIL', false),
+    'cut_off_time' => env('CUT_OFF_TIME', '17'),
     'gantt_event_color' => 'green',
     'gantt_task_color' => 'orange',
     'gantt_text_color' => 'white',

@@ -17,6 +17,7 @@ class DeliveryDriverController extends Controller
     //
     public function index()
     {
+        Log::info('DeliveryDriverController@index');
         $drivers = MdsDriver::all();
         $driver_statuses = DriverStatus::all();
         return view('mds.setting.driver.list', compact('drivers','driver_statuses'));

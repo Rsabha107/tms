@@ -41,7 +41,8 @@ class RoleController extends Controller
         return view('sec.permissions.import');
     }
 
-    public function ImportNowPermission(Request $request){
+    public function ImportNowPermission(Request $request)
+    {
 
         Excel::import(new PermissionImport, $request->file('import_file'));
 
@@ -54,11 +55,12 @@ class RoleController extends Controller
         return Redirect::route('sec.perm.list')->with($notification);
     }
 
-    public function addPermission(){
+    public function addPermission()
+    {
 
         $groups = PermissionGroup::all();
 
-        return view ('sec.permissions.add', compact('groups'));
+        return view('sec.permissions.add', compact('groups'));
     }
     public function createPermission(Request $request)
     {
@@ -100,8 +102,7 @@ class RoleController extends Controller
         $groups = PermissionGroup::all();
         $status = GlobalStatus::all();
 
-        return view ('sec.permissions.edit', compact('permissions', 'groups', 'status'));
-
+        return view('sec.permissions.edit', compact('permissions', 'groups', 'status'));
     } // editaudience
 
 
@@ -109,7 +110,7 @@ class RoleController extends Controller
     {
         //  dd('id:'.$request->id);
         $rules = [
-            'name' => 'unique:permissions,name,'.$request->id,
+            'name' => 'unique:permissions,name,' . $request->id,
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -236,8 +237,6 @@ class RoleController extends Controller
 
         // Toastr::success('Has been add successfully :)','Success');
         return Redirect::route('sec.groups.list')->with($notification);
-
-
     }
 
     public function deleteGroup($id)
@@ -253,7 +252,6 @@ class RoleController extends Controller
         // Toastr::success('Has been add successfully :)','Success');
         // return Redirect::route('sec.groups.list')->with($notification);
         return redirect()->back()->with($notification);
-
     }
 
     // *********************************************** Role *********************************************************************
@@ -325,8 +323,6 @@ class RoleController extends Controller
 
         // Toastr::success('Has been add successfully :)','Success');
         return Redirect::route('sec.roles.list')->with($notification);
-
-
     }
 
     public function deleteRole($id)
@@ -347,24 +343,25 @@ class RoleController extends Controller
 
     // *********************************************** Add Role Permission all method *********************************************************************
     //
-    public function addRolePermission(){
+    public function addRolePermission()
+    {
 
         $roles = Role::all();
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view ('sec.rolesetup.add', compact('roles', 'permissions', 'permission_groups'));
+        return view('sec.rolesetup.add', compact('roles', 'permissions', 'permission_groups'));
     }
 
-    public function createRolePermission(Request $request){
+    public function createRolePermission(Request $request)
+    {
         $data = array();
         $permissions = $request->permissions;
 
-        foreach($permissions as $key => $item){
+        foreach ($permissions as $key => $item) {
             $data['role_id'] = $request->role_id;
             $data['permission_id'] = $item;
 
             DB::table('role_has_permissions')->insert($data);
-
         } // end foreach
 
         $notification = array(
@@ -374,30 +371,36 @@ class RoleController extends Controller
         return redirect()->route('sec.rolesetup.list')->with($notification);
     }
 
-    public function listRolePermission(){
+    public function listRolePermission()
+    {
 
         $roles = Role::all();
         // dd($roles);
         return view('sec.rolesetup.list', compact('roles'));
-
     }
 
-    public function editRolePermission($id){
+    public function editRolePermission($id)
+    {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
         $permission_groups = User::getpermissionGroups();
-        return view ('sec.rolesetup.edit', compact('role', 'permissions', 'permission_groups'));
+        return view('sec.rolesetup.edit', compact('role', 'permissions', 'permission_groups'));
     } // editRolePermission
 
-    public function updateRolePermission(Request $request){
+    public function updateRolePermission(Request $request)
+    {
         // Log::info('role id:'.$request->role_id);
         $role = Role::findOrFail($request->role_id);
         $permissions = $request->permissions;
 
         // Log::withContext('permissions:'.$permissions);
 
-        if (!empty($permissions)){
-            $role->syncPermissions($permissions);
+        $intPermissions = collect($permissions)->map(function ($permission) {
+            return (int)$permission;
+        });
+
+        if (!empty($permissions)) {
+            $role->syncPermissions($intPermissions);
         }
 
         $notification = array(
@@ -407,9 +410,10 @@ class RoleController extends Controller
         return redirect()->route('sec.rolesetup.list')->with($notification);
     } //updateRolePermission
 
-    public function deleteRolePermission($id){
+    public function deleteRolePermission($id)
+    {
         $role = Role::findOrFail($id);
-        if (!is_null($role)){
+        if (!is_null($role)) {
             $role->delete();
         }
 
@@ -418,30 +422,32 @@ class RoleController extends Controller
             'alert-type'    => 'success'
         );
         return redirect()->back()->with($notification);
-
     } // deleteRolePermission
 
 
     // *********************************************** Admin User all method *********************************************************************
 
-    public function listAdminUser(){
+    public function listAdminUser()
+    {
 
         $userdata = User::all();
         // dd($userdata);
 
-        return view ('sec.adminuser.list', compact('userdata'));
+        return view('sec.adminuser.list', compact('userdata'));
     } //listAdminUser
 
-    public function addAdminUser(){
+    public function addAdminUser()
+    {
         $roles = Role::all();
         $events = MdsEvent::all();
         $functional_areas = FunctionalArea::all();
         // $workspace = Workspace::all();
         // $departments = Department::all();
-        return view ('sec.adminuser.add', compact('roles', 'events', 'functional_areas'));
+        return view('sec.adminuser.add', compact('roles', 'events', 'functional_areas'));
     }  // addAdminUser
 
-    public function createAdminUser(Request $request){
+    public function createAdminUser(Request $request)
+    {
 
         $rules = [
             'name' => 'required',
@@ -473,7 +479,7 @@ class RoleController extends Controller
 
         $user->save();
 
-        if ($request->roles){
+        if ($request->roles) {
             $user->assignRole($request->roles);
         }
 
@@ -483,7 +489,7 @@ class RoleController extends Controller
             }
         }
 
-        if (config('mds.send_emails')){
+        if (config('mds.send_emails')) {
             $user->notify(new NewUserNotification($user));
         }
 
@@ -492,20 +498,20 @@ class RoleController extends Controller
             'alert-type'    => 'success'
         );
         return redirect()->route('sec.adminuser.list')->with($notification);
-
     }
 
-    public function editAdminUser($id){
+    public function editAdminUser($id)
+    {
         $user = User::findOrFail($id);
         $roles = Role::all();
         $functional_areas = FunctionalArea::all();
         $events = MdsEvent::all();
 
-        return view ('sec.adminuser.edit', compact('user', 'roles', 'events','functional_areas'));
-
+        return view('sec.adminuser.edit', compact('user', 'roles', 'events', 'functional_areas'));
     }
 
-    public function updateAdminUser(Request $request){
+    public function updateAdminUser(Request $request)
+    {
 
         $user = User::findOrFail($request->user_id);
 
@@ -528,9 +534,13 @@ class RoleController extends Controller
 
         $user->save();
 
+        $intRoles = collect($request->roles)->map(function ($role) {
+            return (int)$role;
+        });
+
         $user->roles()->detach();
-        if ($request->roles){
-            $user->assignRole($request->roles);
+        if ($request->roles) {
+            $user->assignRole($intRoles);
         }
 
         $user->events()->detach();
@@ -545,19 +555,19 @@ class RoleController extends Controller
             'alert-type'    => 'success'
         );
         return redirect()->route('sec.adminuser.list')->with($notification);
-
     }
 
-    public function manualUpdateAdminUser(Request $request){
+    public function manualUpdateAdminUser(Request $request)
+    {
 
         $user = User::findOrFail($request->user_id);
 
-// dd($user);
+        // dd($user);
         // $user->roles()->detach();
-        if ($request->roles){
+        if ($request->roles) {
             $user->assignRole($request->roles);
 
-            return('assigned role '.$request->roles.' to user '.$request->user_id);
+            return ('assigned role ' . $request->roles . ' to user ' . $request->user_id);
         }
 
         // $notification = array(
@@ -566,14 +576,14 @@ class RoleController extends Controller
         // );
         // return redirect()->route('sec.adminuser.list')->with($notification);
 
-        return('ok now??');
-
+        return ('ok now??');
     }
 
-    public function deleteAdminUser($id){
+    public function deleteAdminUser($id)
+    {
         $user = User::findOrFail($id);
 
-        if (!is_null($user)){
+        if (!is_null($user)) {
             $user->delete();
         }
 

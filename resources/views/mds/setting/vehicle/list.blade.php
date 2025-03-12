@@ -1,4 +1,14 @@
-@extends('mds.admin.layout.admin_template')
+@php
+$roles = auth()->user()->getRoleNames();
+    $is_admin = auth()->user()->hasanyrole('SuperAdmin');
+    $is_customer = auth()->user()->hasanyrole('Customer');
+@endphp
+
+{{-- {{ logger($is_admin?'i am admin':'not admin') }}
+{{ logger($is_customer? 'i am customer':'not customer') }}
+{{ logger($roles) }} --}}
+
+@extends($is_customer?'mds.customer.layout.customer_template':'mds.admin.layout.admin_template')
 @section('main')
 
 
