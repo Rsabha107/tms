@@ -100,21 +100,32 @@ class BookingController extends Controller
         // $date = Carbon::createFromFormat('Y-m-d',  '2025-03-04');
         // $prevDate = $date->subDay()->setTimeFromTimeString('17:00:00');
         // $now = Carbon::now();
-        $t = '7';
+        $cutoff_time = '17';  //5 pm
+        $t = 24 - $cutoff_time;
         // Log::info('BookingController::listEvent carbon this date: ' . $date);
         // Log::info('BookingController::listEvent carbon this now: ' . $now);
         // Log::info('today is greator than ..'. ($date->gt($now)));
         // Log::info('today is less than ..'. ($date->lt($now)));
         // Log::info('BookingController::listEvent carbon subDay: ' . $prevDate);
+        // select
+        //   distinct `booking_date`
+        // from
+        //   `mds_booking_slots`
+        // where
+        //   `venue_id` = 5
+        //   and `event_id` = 4
+        //   and `bookings_slots_all` > 0
+        //   and `slot_visibility` <= 2025 -03 -12 01: 50: 22
+        //   and (
+        //     DATE_ADD(booking_date, INTERVAL '-0 7' DAY_HOUR) > NOW()
+        //   )
         $events = BookingSlot::where('venue_id', $id)
             ->where('event_id', session()->get('EVENT_ID'))
             ->where('bookings_slots_all', '>', 0)
             ->where('slot_visibility', '<=', Carbon::now())
-            // ->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 7' DAY_HOUR) > NOW()")
             ->where(function ($query) use ($t) {
                 $query->whereRaw("DATE_ADD(booking_date, INTERVAL '-0 $t' DAY_HOUR) > NOW()");
             })
-            // ->where(Carbon::createFromFormat('Y-m-d','booking_date')->subDay()->setTimeFromTimeString('17:00:00')->gt(Carbon::now()))
             ->distinct()
             ->get('booking_date')
 
@@ -126,7 +137,7 @@ class BookingController extends Controller
                 'end' => date('Y-m-d', strtotime($item->period_date . '+1 days')),
                 'display' => 'background',
                 'color' => 'green',
-                'className' => ['bg-seccess'],
+                'className' => ['bg-success'],
             ]);
 
         return response()->json($events);
@@ -686,19 +697,29 @@ class BookingController extends Controller
         //     // ->where('available_slots', '>', '0')
         //     ->get();
 
+        Log::info('BookingController::get_times_cal date: ' . $date);
+        Log::info('BookingController::get_times_cal venue_id: ' . $venue_id);
+        Log::info('BookingController::get_times_cal EVENT_ID: ' . session()->get('EVENT_ID'));
+
         $venue = BookingSlot::where('booking_date', '=', $date)
             ->where('venue_id', '=', $venue_id)
-            ->where('bookings_slots_all', '>', '0')
             ->where('event_id', session()->get('EVENT_ID'))
-            // ->orWhere('bookings_slots_cat', '>', '0')
             ->where('slot_visibility', '<=', Carbon::now());
 
+        // if catering then include the booking slots catering slots
         if (auth()->user()->hasRole('Catering')) {
-            $venue = $venue->orWhere('bookings_slots_cat', '>', '0');
+            $venue = $venue->where(function ($query) {
+                $query->where('bookings_slots_all', '>', '0')
+                    ->orWhere('bookings_slots_cat', '>', '0');
+            });
+            // if not catering then include the booking slots all slots only
+        } else {
+            $venue = $venue->where('bookings_slots_all', '>', '0');
         }
 
         $venue = $venue->get();
 
+        Log::info('BookingController::get_times_cal venue: ' . $venue);
         // $venue = DeliverySchedulePeriod::all();
 
         return response()->json(['venue' => $venue]);

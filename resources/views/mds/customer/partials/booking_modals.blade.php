@@ -15,6 +15,13 @@
                 <h3 class="mb-0" id="staticBackdropLabel"><?= get_label('select_time', 'Select time') ?></h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+            <div class="d-flex justify-content-center">
+                <div id="cover-spin" style="display:none;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            
             <div class="modal-body text-center mb-3">
                 <div id="calendar"></div>
             </div>
@@ -25,7 +32,7 @@
                 <p>Loading, please wait...</p> --}}
             </div>
             <div class="modal-body text-center mb-3">
-                <h5>Available time slots (pick a date)</h5>
+                <div id="available-time"><h5>Available time slots (pick a date)</h5></div>
                 <input type="hidden" name="table" value="zones_table">
                 <div class="modal-body">
                     <div class="mb-3 col-md-12">

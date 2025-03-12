@@ -681,20 +681,38 @@ class BookingController extends Controller
         //     ->where('slot_visibility', '<=', Carbon::now())
         //     ->get();
 
-        if (auth()->user()->hasRole('Catering')) {
+        // if (auth()->user()->hasRole('Catering')) {
+        // $venue = BookingSlot::where('booking_date', '=', $date)
+        //     ->where('venue_id', '=', $venue_id)
+        //     ->where('bookings_slots_all', '>', '0')
+        //     ->orWhere('bookings_slots_cat', '>', '0')
+        //     ->where('slot_visibility', '<=', Carbon::now())
+        //     ->get();
+        // } else {
+        //     $venue = BookingSlot::where('booking_date', '=', $date)
+        //     ->where('venue_id', '=', $venue_id)
+        //     ->where('bookings_slots_all', '>', '0')
+        //     ->where('slot_visibility', '<=', Carbon::now())
+        //     ->get();
+        // }
+
         $venue = BookingSlot::where('booking_date', '=', $date)
-            ->where('venue_id', '=', $venue_id)
-            ->where('bookings_slots_all', '>', '0')
-            ->orWhere('bookings_slots_cat', '>', '0')
-            ->where('slot_visibility', '<=', Carbon::now())
-            ->get();
-        } else {
-            $venue = BookingSlot::where('booking_date', '=', $date)
-            ->where('venue_id', '=', $venue_id)
-            ->where('bookings_slots_all', '>', '0')
-            ->where('slot_visibility', '<=', Carbon::now())
-            ->get();
-        }
+        ->where('venue_id', '=', $venue_id)
+        ->where('event_id', session()->get('EVENT_ID'))
+        ->where('slot_visibility', '<=', Carbon::now());
+
+    // if catering then include the booking slots catering slots
+    if (auth()->user()->hasRole('Catering')) {
+        $venue = $venue->where(function ($query) {
+            $query->where('bookings_slots_all', '>', '0')
+                ->orWhere('bookings_slots_cat', '>', '0');
+        });
+        // if not catering then include the booking slots all slots only
+    } else {
+        $venue = $venue->where('bookings_slots_all', '>', '0');
+    }
+
+    $venue = $venue->get();
 
         // if (auth()->user()->hasRole('Catering')) {
         //     $venue = $venue->orWhere('bookings_slots_cat', '>', '0');

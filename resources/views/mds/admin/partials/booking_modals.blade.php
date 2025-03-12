@@ -35,7 +35,7 @@
                 </div>
             </div> --}}
             <div class="modal-body text-center mb-3">
-                <div id="available-time">Available time slotsxx (pick a date)</div>
+                <div id="available-time">Available time slots (pick a date)</div>
                 <div class="modal-body">
                     <div class="mb-3 col-md-12">
                         <!-- <label class="form-label" for="bootstrap-wizard-validation-gender"></label> -->

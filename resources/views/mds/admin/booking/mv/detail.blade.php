@@ -30,16 +30,18 @@
                                         <span class="fas fa-paperclip"></span></button>
                                 </div> -->
                                 <button class="btn btn-primary me-2"><a href="{{route('mds.admin.booking.edit', $booking->id)}}" class="text-white">
-                                    <span class="far fa-edit me-2"></span><span>Edit</span></a></button>
-                                <!-- <button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                        <span class="far fa-edit me-2"></span><span>Edit</span></a></button>
+                                <button class="btn btn-primary me-2"><a href="{{route('mds.admin.booking.pass.pdf', $booking->id)}}" class="text-white" target="_blank">
+                                        <span class="far fa-edit me-2"></span><span>Generate Pass</span></a></button>
+                                {{-- <button class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
                                     <span class="far fa-copy me-sm-2"></span><span class="d-none d-sm-inline">Duplicate</span></button>
-                                <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"> -->
-                                    <span class="fa-solid fa-ellipsis"></span></button>
+                                <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                <span class="fa-solid fa-ellipsis"></span></button>
                                 <ul class="dropdown-menu dropdown-menu-end p-0" style="z-index: 9999;">
                                     <!-- <li><a class="dropdown-item" href="#!">Duplicate</a></li> -->
                                     <li><a class="dropdown-item" href="{{route('mds.admin.booking.pass.pdf', $booking->id)}}" target="_blank" id="generateBookingPass" data-id="{{$booking->id}}">Pass</a></li>
                                     <li><a class="dropdown-item text-danger" href="#!">Cancel Booking</a></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                     </div>
