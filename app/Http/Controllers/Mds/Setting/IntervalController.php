@@ -140,7 +140,7 @@ class IntervalController extends Controller
         if ($validator->fails()) {
             Log::info($validator->errors());
             $error = true;
-            $message = 'Timeslot could not be created';
+            $message = implode($validator->errors()->all('<div>:message</div>'));  // use this for json/jquery
         } else {
 
             $error = false;

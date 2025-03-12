@@ -98,6 +98,8 @@ class ZoneController extends Controller
             Log::info($validator->errors());
             $error = true;
             $message = 'Zone could not be created';
+            $error = true;
+            $message = implode($validator->errors()->all('<div>:message</div>'));  // use this for json/jquery
         } else {
 
             $error = false;

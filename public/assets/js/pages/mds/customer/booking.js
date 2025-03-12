@@ -72,7 +72,6 @@ $(document).ready(function () {
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
-            touch: true,
             longPressDelay: 1,
             showNonCurrentDates: false,
             selectAllow: function (info) {

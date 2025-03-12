@@ -167,7 +167,7 @@
                     aria-expanded="false">
                     <div class="avatar avatar-l ">
                         <img class="rounded-circle "
-                            src="{{ !empty($profileData->photo) ? url('storage/upload/profile_images/' . $profileData->photo) : url('storage/upload/default.png') }}"
+                            src="{{ !empty($profileData->photo) ? url('storage/upload/profile_images/' . $profileData->photo) : url('upload/default.png') }}"
                             alt="" />
 
                     </div>

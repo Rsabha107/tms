@@ -73,7 +73,6 @@ $(document).ready(function () {
             eventDisplay: "block",
             selectable: true,
             showNonCurrentDates: false,
-            touch: true,
             longPressDelay: 1,
             selectAllow: function (info) {
                 console.log("selectAllow", info);
