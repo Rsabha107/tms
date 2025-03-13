@@ -72,7 +72,7 @@ $(document).ready(function () {
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
-            longPressDelay: 1,
+            // longPressDelay: 1,
             showNonCurrentDates: false,
             selectAllow: function (info) {
                 console.log("selectAllow", info);
