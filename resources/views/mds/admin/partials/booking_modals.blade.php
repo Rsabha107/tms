@@ -9,7 +9,7 @@
 </div>
 
 <div class="modal fade" id="booking_calendar_modal" tabindex="-1" aria-labelledby="bookingDetails_modal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content bg-100">
             <div class="modal-header bg-modal-header">
                 <h3 class="mb-0" id="staticBackdropLabel"><?= get_label('select_time', 'Select time') ?></h3>

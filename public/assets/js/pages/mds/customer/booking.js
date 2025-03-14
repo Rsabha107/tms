@@ -72,6 +72,15 @@ $(document).ready(function () {
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
+            contentHeight: "auto",
+            handleWindowResize: true,
+            loading: function(bool) {
+                if (bool) { // loading starts
+                    $("#loading").show();
+                } else { // loading ends
+                    $("#loading").hide();
+                }
+            },
             // longPressDelay: 1,
             showNonCurrentDates: false,
             selectAllow: function (info) {

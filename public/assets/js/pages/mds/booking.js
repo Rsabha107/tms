@@ -74,6 +74,15 @@ $(document).ready(function () {
             selectable: true,
             showNonCurrentDates: false,
             // longPressDelay: 1,
+            contentHeight: "auto",
+            handleWindowResize: true,
+            loading: function(bool) {
+                if (bool) { // loading starts
+                    $("#loading").show();
+                } else { // loading ends
+                    $("#loading").hide();
+                }
+            },
             selectAllow: function (info) {
                 console.log("selectAllow", info);
 
