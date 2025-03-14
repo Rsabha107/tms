@@ -6,6 +6,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CommunicationChannels;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Bookapp\BookAppController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Mds\Setting\BookingStatusController;
 use App\Http\Controllers\Mds\Setting\DeliveryCargoController;
@@ -48,6 +49,12 @@ use App\Http\Controllers\UtilController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('/bookapp', [BookAppController::class, 'index'])->name('bookapp');
+// Route::get('/bookapp/booking/schedule/{event_id}', [BookingAppController::class, 'listEvent'])->name('bookapp.booking.schedule'); // for calendar
+Route::post('/bookapp/booking/schedule', [BookAppController::class, 'listEvent'])->name('bookapp.booking.schedule.post'); // for calendar
+
+
 
 Route::get('/onedrivetest', [AdminController::class, 'testonedrive']);
 

@@ -9,7 +9,8 @@
 </div>
 
 <!-- give an option of larg calendar or small calendar -->
-<div class="modal fade" id="booking_calendar_modal" tabindex="-1" aria-labelledby="bookingDetails_modal" aria-hidden="true">
+<div class="modal fade" id="booking_calendar_modal" tabindex="-1" aria-labelledby="bookingDetails_modal"
+    aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
         <div class="modal-content bg-100">
             <div class="modal-header bg-modal-header">
@@ -18,22 +19,19 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <div id="cover-spin" style="display:none;" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                <div class="spinner-border text-primary" id="cover-spin" style="display:none;">
                 </div>
             </div>
-            
+
             <div class="modal-body text-center mb-3">
                 <div id="calendar"></div>
+                <div class="spinner-border text-primary" id="loading" style="display:none;"></div>
             </div>
-            <div class="modal-body text-center">
-                {{-- <div class="spinner-border text-primary"  role="status">
-                    <span class="sr-only">Loading...</span>
-                </div>
-                <p>Loading, please wait...</p> --}}
-            </div>
+
             <div class="modal-body text-center mb-3">
-                <div id="available-time"><h5>Available time slots (pick a date)</h5></div>
+                <div id="available-time">
+                    <h5>Available time slots (pick a date)</h5>
+                </div>
                 <input type="hidden" name="table" value="zones_table">
                 <div class="modal-body">
                     <div class="mb-3 col-md-12">

@@ -18,15 +18,21 @@
 
 
             <div class="d-flex justify-content-center">
-                <div id="cover-spin" style="display:none;" role="status">
-                    <span class="visually-hidden">Loading...</span>
+                {{-- <div id="cover-spin" style="display:none;" role="status"> --}}
+                    <div class="spinner-border text-primary" id="cover-spin" style="display:none;">
+                    {{-- <span class="visually-hidden">Loading...</span> --}}
                 </div>
             </div>
 
-            
             <div class="modal-body text-center mb-3">
                 <div id="calendar"></div>
+                <div class="spinner-border text-primary" id="loading" style="display:none;"></div>
+                    {{-- <img id="loading-image" src="{{ asset('assets/img/loader/Loading_2.gif') }}" alt="Loading..." /></div> --}}
             </div>
+            
+            {{-- <div class="modal-body text-center mb-3">
+                <div id="calendar"></div>
+            </div> --}}
             {{-- <div class="modal-body text-center">
                 <div class="d-flex justify-content-center">
                     <div id="cover-spin" style="display:none;" role="status">

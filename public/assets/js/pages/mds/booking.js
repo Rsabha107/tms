@@ -72,14 +72,16 @@ $(document).ready(function () {
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
-            showNonCurrentDates: false,
+            // showNonCurrentDates: false,
             // longPressDelay: 1,
-            contentHeight: "auto",
-            handleWindowResize: true,
+            // contentHeight: "auto",
+            // handleWindowResize: true,
             loading: function(bool) {
                 if (bool) { // loading starts
+                    console.log("loading starts show");
                     $("#loading").show();
                 } else { // loading ends
+                    console.log("loading ends hide");
                     $("#loading").hide();
                 }
             },
@@ -115,12 +117,90 @@ $(document).ready(function () {
             // dateClick: function (info) {
             // eventClick: function (info) {
 
-            select: function (info) {
+            // select: function (info) {
+            //     console.log("dateClick", info);
+            //     $("#cover-spin").show();
+            //     $("#available-time").html(
+            //         "<h5>Available time slots for " + info.startStr + "</h5>"
+            //     );
+
+            //     $("#add_schedule_times_cal")
+            //     .empty("")
+            //     .html(
+            //         '<option value="">-- Select time --</option>'
+            //     );
+
+            //     var eventObj = info.event;
+            //     console.log("venue_id id", venue_id);
+            //     console.log("info.startStr: ", info.startStr);
+            //     $.ajax({
+            //         url:
+            //             "/mds/admin/booking/times/cal/" +
+            //             info.startStr +
+            //             "/" +
+            //             venue_id,
+            //         type: "get",
+            //         headers: {
+            //             "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+            //         },
+            //         dataType: "json",
+            //         success: function (response) {
+            //             console.log(response);
+            //             console.log(
+            //                 "response length: " + response.venue.length
+            //             );
+            //             // var len = response.length;
+
+            //             $("#add_schedule_times_cal")
+            //                 .empty("")
+            //                 .html(
+            //                     '<option value="">-- Select time --</option>'
+            //                 );
+            //             $.each(response.venue, function (key, value) {
+            //                 var grey = null;
+            //                 if (value.available_slots == 0) {
+            //                     grey = "disabled";
+            //                 } else {
+            //                     grey = null;
+            //                 }
+
+            //                 $("#add_booking_date").val(info.startStr);
+
+            //                 $("#add_schedule_times_cal").append(
+            //                     '<option value="' +
+            //                         value.id +
+            //                         '" ' +
+            //                         grey +
+            //                         ">" +
+            //                         value.rsp_booking_slot +
+            //                         " (" +
+            //                         value.available_slots +
+            //                         ")</option>"
+            //                 );
+            //             });
+            //             // console.log('before available-time');
+
+            //             $("#cover-spin").hide();
+            //         },
+            //         error: function (xhr, ajaxOptions, thrownError) {
+            //             $("#cover-spin").hide();
+            //             console.log(xhr.status);
+            //             console.log(thrownError);
+            //         },
+            //     }).done(function () {
+            //         // $("#delivery_schedule_times_modal").modal("show");
+            //     });
+
+            //     // $("#delivery_schedule_times_modal").modal("show");
+            // },
+            dateClick: function (info) {
                 console.log("dateClick", info);
+                if (info.date < new Date()){
+                    message = "You cannot select a past date";
+                    toastr.error(message);
+                    return;
+                }
                 $("#cover-spin").show();
-                $("#available-time").html(
-                    "<h5>Available time slots for " + info.startStr + "</h5>"
-                );
 
                 $("#add_schedule_times_cal")
                 .empty("")
@@ -128,13 +208,20 @@ $(document).ready(function () {
                     '<option value="">-- Select time --</option>'
                 );
 
+                $("#available-time").html(
+                    "<h5>Available time slots for " + info.dateStr +"</h5>"
+                );
+
+                $("#available-time").html(
+                    "<h5>Available time slots for " + info.dateStr + "</h5>"
+                );
                 var eventObj = info.event;
                 console.log("venue_id id", venue_id);
-                console.log("info.startStr: ", info.startStr);
+                console.log("info.startStr: ", info.dateStr);
                 $.ajax({
                     url:
                         "/mds/admin/booking/times/cal/" +
-                        info.startStr +
+                        info.dateStr +
                         "/" +
                         venue_id,
                     type: "get",
@@ -162,7 +249,7 @@ $(document).ready(function () {
                                 grey = null;
                             }
 
-                            $("#add_booking_date").val(info.startStr);
+                            $("#add_booking_date").val(info.dateStr);
 
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
@@ -176,14 +263,9 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
-                        // console.log('before available-time');
+                        console.log('before available-time');
 
                         $("#cover-spin").hide();
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        $("#cover-spin").hide();
-                        console.log(xhr.status);
-                        console.log(thrownError);
                     },
                 }).done(function () {
                     // $("#delivery_schedule_times_modal").modal("show");
@@ -191,138 +273,87 @@ $(document).ready(function () {
 
                 // $("#delivery_schedule_times_modal").modal("show");
             },
-            // dateClick: function (info) {
-            //     console.log("dateClick", info);
-            //     $("#cover-spin").show();
-            //     $("#available-time").html(
-            //         "<h5>Available time slots for " + info.dateStr + "</h5>"
-            //     );
-            //     var eventObj = info.event;
-            //     console.log("venue_id id", venue_id);
-            //     console.log("info.startStr: ", info.dateStr);
-            //     $.ajax({
-            //         url:
-            //             "/mds/admin/booking/times/cal/" +
-            //             info.dateStr +
-            //             "/" +
-            //             venue_id,
-            //         type: "get",
-            //         headers: {
-            //             "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
-            //         },
-            //         dataType: "json",
-            //         success: function (response) {
-            //             console.log(response);
-            //             console.log(
-            //                 "response length: " + response.venue.length
-            //             );
-            //             // var len = response.length;
+            eventClick: function (info) {
+                console.log("eventClick", info);
+                if (info.date < new Date()){
+                    message = "You cannot select a past date";
+                    toastr.error(message);
+                    return;
+                }
+                $("#cover-spin").show();
 
-            //             $("#add_schedule_times_cal")
-            //                 .empty("")
-            //                 .html(
-            //                     '<option value="">-- Select time --</option>'
-            //                 );
-            //             $.each(response.venue, function (key, value) {
-            //                 var grey = null;
-            //                 if (value.available_slots == 0) {
-            //                     grey = "disabled";
-            //                 } else {
-            //                     grey = null;
-            //                 }
+                var eventObj = info.event;
+                console.log("eventObj start", eventObj.start);
+                console.log("venue_id id", venue_id);
+                var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
+                var convertedDateDMY = moment(eventObj.start).format(
+                    "DD/MM/YYYY"
+                );
 
-            //                 $("#add_booking_date").val(info.dateStr);
+                $("#add_schedule_times_cal")
+                .empty("")
+                .html(
+                    '<option value="">-- Select time --</option>'
+                );
 
-            //                 $("#add_schedule_times_cal").append(
-            //                     '<option value="' +
-            //                         value.id +
-            //                         '" ' +
-            //                         grey +
-            //                         ">" +
-            //                         value.rsp_booking_slot +
-            //                         " (" +
-            //                         value.available_slots +
-            //                         ")</option>"
-            //                 );
-            //             });
-            //             console.log('before available-time');
+                $("#available-time").html(
+                    "<h5>Available time slots for " + convertedDate +"</h5>"
+                );
 
-            //             $("#cover-spin").hide();
-            //         },
-            //     }).done(function () {
-            //         // $("#delivery_schedule_times_modal").modal("show");
-            //     });
+                console.log("convertedDate", convertedDate);
+                console.log("eventObj id", eventObj.id);
+                $.ajax({
+                    url:
+                        "/mds/admin/booking/times/cal/" +
+                        convertedDate +
+                        "/" +
+                        venue_id,
+                    type: "get",
+                    headers: {
+                        "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        console.log(
+                            "response length: " + response.venue.length
+                        );
+                        // var len = response.length;
+                        $("#add_schedule_times_cal")
+                            .empty("")
+                            .html(
+                                '<option value="">-- Select time --</option>'
+                            );
+                        $.each(response.venue, function (key, value) {
+                            var grey = null;
+                            if (value.available_slots == 0) {
+                                grey = "disabled";
+                            } else {
+                                grey = null;
+                            }
 
-            //     // $("#delivery_schedule_times_modal").modal("show");
-            // },
-            // eventClick: function (info) {
-            //     console.log("eventClick", info);
-            //     $("#cover-spin").show();
+                            $("#add_booking_date").val(convertedDate);
+                            $("#add_schedule_times_cal").append(
+                                '<option value="' +
+                                    value.id +
+                                    '" ' +
+                                    grey +
+                                    ">" +
+                                    value.rsp_booking_slot +
+                                    " (" +
+                                    value.available_slots +
+                                    ")</option>"
+                            );
+                        });
 
-            //     var eventObj = info.event;
-            //     console.log("eventObj start", eventObj.start);
-            //     console.log("venue_id id", venue_id);
-            //     var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
-            //     var convertedDateDMY = moment(eventObj.start).format(
-            //         "DD/MM/YYYY"
-            //     );
-            //     $("#available-time").html(
-            //         "<h5>Available time slots for " + convertedDate +"</h5>"
-            //     );
-            //     console.log("convertedDate", convertedDate);
-            //     console.log("eventObj id", eventObj.id);
-            //     $.ajax({
-            //         url:
-            //             "/mds/admin/booking/times/cal/" +
-            //             convertedDate +
-            //             "/" +
-            //             venue_id,
-            //         type: "get",
-            //         headers: {
-            //             "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
-            //         },
-            //         dataType: "json",
-            //         success: function (response) {
-            //             console.log(response);
-            //             console.log(
-            //                 "response length: " + response.venue.length
-            //             );
-            //             // var len = response.length;
-            //             $("#add_schedule_times_cal")
-            //                 .empty("")
-            //                 .html(
-            //                     '<option value="">-- Select time --</option>'
-            //                 );
-            //             $.each(response.venue, function (key, value) {
-            //                 var grey = null;
-            //                 if (value.available_slots == 0) {
-            //                     grey = "disabled";
-            //                 } else {
-            //                     grey = null;
-            //                 }
+                        $("#cover-spin").hide();
+                    },
+                }).done(function () {
+                    // $("#delivery_schedule_times_modal").modal("show");
+                });
 
-            //                 $("#add_booking_date").val(convertedDate);
-            //                 $("#add_schedule_times_cal").append(
-            //                     '<option value="' +
-            //                         value.id +
-            //                         '" ' +
-            //                         grey +
-            //                         ">" +
-            //                         value.rsp_booking_slot +
-            //                         " (" +
-            //                         value.available_slots +
-            //                         ")</option>"
-            //                 );
-            //             });
-
-            //             $("#cover-spin").hide();
-            //         },
-            //     }).done(function () {
-            //         // $("#delivery_schedule_times_modal").modal("show");
-            //     });
-
-            //     // $("#delivery_schedule_times_modal").modal("show");
-            // },
+                // $("#delivery_schedule_times_modal").modal("show");
+            },
         });
         calendar.setOption("locale", "en");
         calendar.render();

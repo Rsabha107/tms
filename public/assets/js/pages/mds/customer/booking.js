@@ -21,7 +21,6 @@ function refreshNotes(val) {
 let calendar;
 
 $(document).ready(function () {
-
     // console.log("all booking file");
 
     // **************************************************
@@ -29,7 +28,7 @@ $(document).ready(function () {
         dt.setHours(0, 0, 0, 0);
         return dt;
     }
-    
+
     $("body").on("click", "#booking_schedule_availability", function () {
         console.log("click get booking_schedule_availability");
 
@@ -65,24 +64,26 @@ $(document).ready(function () {
         }
         var venue_id = $("#add_delivery_area").val();
         var calendarEl = document.getElementById("calendar");
-            calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
             events: "/mds/customer/booking/schedule/" + venue_id,
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
-            contentHeight: "auto",
-            handleWindowResize: true,
-            loading: function(bool) {
-                if (bool) { // loading starts
+            // contentHeight: "auto",
+            // handleWindowResize: true,
+            loading: function (bool) {
+                if (bool) {
+                    // loading starts
                     $("#loading").show();
-                } else { // loading ends
+                } else {
+                    // loading ends
                     $("#loading").hide();
                 }
             },
             // longPressDelay: 1,
-            showNonCurrentDates: false,
+            showNonCurrentDates: true,
             selectAllow: function (info) {
                 console.log("selectAllow", info);
 
@@ -91,34 +92,115 @@ $(document).ready(function () {
                 );
 
                 $("#add_schedule_times_cal")
-                .empty("")
-                .html(
-                    '<option value="">-- Select time --</option>'
-                );
+                    .empty("")
+                    .html('<option value="">-- Select time --</option>');
                 console.log("new Date: ", getDateWithoutTime(new Date()));
                 console.log("info.dateStr: ", info.startStr);
                 return info.start > getDateWithoutTime(new Date());
             },
-            select: function (info) {
+            // select: function (info) {
+            //     console.log("dateClick", info);
+            //     $("#cover-spin").show();
+            //     $("#available-time").html(
+            //         "<h5>Available time slots for " + info.startStr + "</h5>"
+            //     );
+
+            //     $("#add_schedule_times_cal")
+            //     .empty("")
+            //     .html(
+            //         '<option value="">-- Select time --</option>'
+            //     );
+
+            //     var eventObj = info.event;
+            //     console.log("venue_id id", venue_id);
+            //     console.log("info.startStr: ", info.startStr);
+            //     $.ajax({
+            //         url:
+            //             "/mds/customer/booking/times/cal/" +
+            //             info.startStr +
+            //             "/" +
+            //             venue_id,
+            //         type: "get",
+            //         headers: {
+            //             "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+            //         },
+            //         dataType: "json",
+            //         success: function (response) {
+            //             console.log(response);
+            //             console.log(
+            //                 "response length: " + response.venue.length
+            //             );
+            //             // var len = response.length;
+
+            //             $("#add_schedule_times_cal")
+            //                 .empty("")
+            //                 .html(
+            //                     '<option value="">-- Select time --</option>'
+            //                 );
+            //             $.each(response.venue, function (key, value) {
+            //                 var grey = null;
+            //                 if (value.available_slots == 0) {
+            //                     grey = "disabled";
+            //                 } else {
+            //                     grey = null;
+            //                 }
+
+            //                 $("#add_booking_date").val(info.startStr);
+
+            //                 $("#add_schedule_times_cal").append(
+            //                     '<option value="' +
+            //                         value.id +
+            //                         '" ' +
+            //                         grey +
+            //                         ">" +
+            //                         value.rsp_booking_slot +
+            //                         " (" +
+            //                         value.available_slots +
+            //                         ")</option>"
+            //                 );
+            //             });
+            //             // console.log('before available-time');
+
+            //             $("#cover-spin").hide();
+            //         },
+            //         error: function (xhr, ajaxOptions, thrownError) {
+            //             $("#cover-spin").hide();
+            //             console.log(xhr.status);
+            //             console.log(thrownError);
+            //         },
+            //     }).done(function () {
+            //         // $("#delivery_schedule_times_modal").modal("show");
+            //     });
+
+            //     // $("#delivery_schedule_times_modal").modal("show");
+            // },
+            dateClick: function (info) {
                 console.log("dateClick", info);
+                if (info.date < new Date()) {
+                    message = "You cannot select a past date";
+                    toastr.error(message);
+                    return;
+                }
                 $("#cover-spin").show();
-                $("#available-time").html(
-                    "<h5>Available time slots for " + info.startStr + "</h5>"
-                );
 
                 $("#add_schedule_times_cal")
-                .empty("")
-                .html(
-                    '<option value="">-- Select time --</option>'
+                    .empty("")
+                    .html('<option value="">-- Select time --</option>');
+
+                $("#available-time").html(
+                    "<h5>Available time slots for " + info.dateStr + "</h5>"
                 );
 
+                $("#available-time").html(
+                    "<h5>Available time slots for " + info.dateStr + "</h5>"
+                );
                 var eventObj = info.event;
                 console.log("venue_id id", venue_id);
-                console.log("info.startStr: ", info.startStr);
+                console.log("info.startStr: ", info.dateStr);
                 $.ajax({
                     url:
                         "/mds/customer/booking/times/cal/" +
-                        info.startStr +
+                        info.dateStr +
                         "/" +
                         venue_id,
                     type: "get",
@@ -146,7 +228,7 @@ $(document).ready(function () {
                                 grey = null;
                             }
 
-                            $("#add_booking_date").val(info.startStr);
+                            $("#add_booking_date").val(info.dateStr);
 
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
@@ -160,14 +242,88 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
-                        // console.log('before available-time');
+                        console.log("before available-time");
 
                         $("#cover-spin").hide();
                     },
-                    error: function (xhr, ajaxOptions, thrownError) {
+                }).done(function () {
+                    // $("#delivery_schedule_times_modal").modal("show");
+                });
+
+                // $("#delivery_schedule_times_modal").modal("show");
+            },
+            eventClick: function (info) {
+                console.log("eventClick", info);
+                if (info.date < new Date()) {
+                    message = "You cannot select a past date";
+                    toastr.error(message);
+                    return;
+                }
+                $("#cover-spin").show();
+
+                var eventObj = info.event;
+                console.log("eventObj start", eventObj.start);
+                console.log("venue_id id", venue_id);
+                var convertedDate = moment(eventObj.start).format("YYYY-MM-DD");
+                var convertedDateDMY = moment(eventObj.start).format(
+                    "DD/MM/YYYY"
+                );
+
+                $("#add_schedule_times_cal")
+                    .empty("")
+                    .html('<option value="">-- Select time --</option>');
+
+                $("#available-time").html(
+                    "<h5>Available time slots for " + convertedDate + "</h5>"
+                );
+
+                console.log("convertedDate", convertedDate);
+                console.log("eventObj id", eventObj.id);
+                $.ajax({
+                    url:
+                        "/mds/customer/booking/times/cal/" +
+                        convertedDate +
+                        "/" +
+                        venue_id,
+                    type: "get",
+                    headers: {
+                        "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        console.log(
+                            "response length: " + response.venue.length
+                        );
+                        // var len = response.length;
+                        $("#add_schedule_times_cal")
+                            .empty("")
+                            .html(
+                                '<option value="">-- Select time --</option>'
+                            );
+                        $.each(response.venue, function (key, value) {
+                            var grey = null;
+                            if (value.available_slots == 0) {
+                                grey = "disabled";
+                            } else {
+                                grey = null;
+                            }
+
+                            $("#add_booking_date").val(convertedDate);
+                            $("#add_schedule_times_cal").append(
+                                '<option value="' +
+                                    value.id +
+                                    '" ' +
+                                    grey +
+                                    ">" +
+                                    value.rsp_booking_slot +
+                                    " (" +
+                                    value.available_slots +
+                                    ")</option>"
+                            );
+                        });
+
                         $("#cover-spin").hide();
-                        console.log(xhr.status);
-                        console.log(thrownError);
                     },
                 }).done(function () {
                     // $("#delivery_schedule_times_modal").modal("show");
@@ -296,7 +452,9 @@ $(document).ready(function () {
         $("#booking_calendar_modal").modal("hide");
         $("#time_alert").html(
             "Here are your times(click Get times again to change)<br>" +
-                moment($("#add_booking_date").val()).format('dddd, Do of MMMM YYYY') +
+                moment($("#add_booking_date").val()).format(
+                    "dddd, Do of MMMM YYYY"
+                ) +
                 " " +
                 schedule_period_id_text
         );
@@ -435,7 +593,6 @@ $("body").on("click", "#editScheduleStatus", function (event) {
         // $('#submit').val("Edit category");
     });
 });
-
 
 ("use strict");
 function queryParams(p) {
