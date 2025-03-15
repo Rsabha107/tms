@@ -60,9 +60,6 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <input type="hidden" name="team_id" id="bookapp_team_id">
-                                <input type="hidden" name="destination_id" id="bookapp_destination_id">
-                                {{-- <button type="submit" class="btn btn-primary mt-3">Book Appointment</button> --}}
                             </div>
                         </div>
                     </div>
@@ -124,11 +121,11 @@
                                 <div id="div3_title">
                                     <h3 class="mb-4" id="div3_title">Select a date to see available times</h3>
                                 </div>
-                                <form id="bookapp_form" action="" method="post" class="needs-validation" novalidate>
+                                <form id="bookapp_form" action="{{ route('bookapp.booking.store') }}" method="post" class="needs-validation" novalidate>
                                     @csrf
                                     <input type="hidden" name="team_id" id="bookapp_team_id">
                                     <input type="hidden" name="destination_id" id="bookapp_destination_id">
-                                    <input type="hidden" name="date" id="bookapp_date">
+                                    <input type="hidden" name="booking_date" id="bookapp_booking_date">
 
                                     <div id="show_schedule_times"></div>
 
@@ -146,5 +143,5 @@
 {{-- @push('css')
     <link rel="stylesheet" href="{{ asset('css/bookapp/index.css') }}"> --}}
 @push('script')
-    <script src="{{ asset('assets/js/pages/bookapp/index.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/bookapp/booking.js') }}"></script>
 @endpush

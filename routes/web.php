@@ -50,13 +50,15 @@ use App\Http\Controllers\UtilController;
 //     return view('welcome');
 // });
 
+Route::get('/bookapp/create', [BookAppController::class, 'create'])->name('bookapp.create');
 Route::get('/bookapp', [BookAppController::class, 'index'])->name('bookapp');
+Route::get('/bookapp/booking', [BookAppController::class, 'index'])->name('bookapp.booking');
+Route::get('/bookapp/admin/booking/list', [BookAppController::class, 'list'])->name('bookapp.admin.booking.list');
 // Route::get('/bookapp/booking/schedule/{event_id}', [BookingAppController::class, 'listEvent'])->name('bookapp.booking.schedule'); // for calendar
 Route::post('/bookapp/booking/schedule', [BookAppController::class, 'listEvent'])->name('bookapp.booking.schedule.post'); // for calendar
 Route::post('/bookapp/booking/times/cal', [BookAppController::class,'get_times_cal'])->name('bookapp.booking.times.cal');
-
-
-
+Route::post('/bookapp/booking/store', [BookAppController::class, 'store'])->name('bookapp.booking.store');
+Route::DELETE('/bookapp/admin/booking/delete/{id}', [BookAppController::class, 'delete'])->name('bookapp.admin.booking.delete');
 
 Route::get('/onedrivetest', [AdminController::class, 'testonedrive']);
 

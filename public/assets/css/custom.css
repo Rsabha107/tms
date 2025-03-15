@@ -541,3 +541,14 @@ div#stages {
     top: 50%;
     z-index: 9999; 
 }
+
+
+.card-toscroll{
+    /* width: 400px; */
+    height: 350px;
+    /* margin: 30px auto; */
+  }
+  .scrollable-card{
+    overflow-y: auto;
+    max-height: 300px;
+  }
