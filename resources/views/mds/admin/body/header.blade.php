@@ -10,7 +10,7 @@
 
     $current_event_id = session()->get('EVENT_ID');
     $event = App\Models\Mds\MdsEvent::findOrFail($current_event_id);
-    
+
     $id = Auth::user()->id;
     $profileData = App\Models\User::find($id);
 
@@ -31,8 +31,10 @@
                             width="27" />
 
                         {{-- @if ($session_set) --}}
-                        <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }} <span
-                                class="text-primary"> ({{ $event->name }}) </span> </h6>
+                        <h3 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }} </h3>
+                        <div class="theme-control-toggle fa-icon-wait px-2 d-none d-sm-block">
+                            <h6 class="mt-2 d-sm-block d-none text-primary">({{ $event->name }})</h6>
+                        </div>
                         {{-- @else
                         <h6 class="logo-text ms-2 d-none d-sm-block">{{ __('mds.page_title') }}</h6>
                             @endif --}}
@@ -94,10 +96,17 @@
                             </div>
                         </div> --}}
                         @foreach ($user_events as $event)
-                            <a class="dropdown-item" id="offcanvas-add-project"
-                                href="{{ route('mds.admin.booking.switch', $event->id) }}"
-                                data-table="project_table"><span
-                                    class="fas fa-circle me-2"></span>{{ $event->name }}</a>
+                            @if (session()->get('EVENT_ID') == $event->id)
+                                <a class="dropdown-item" id="offcanvas-add-project"
+                                    href="{{ route('mds.admin.booking.switch', $event->id) }}"
+                                    data-table="project_table"><span
+                                        class="fas fa-circle me-2 text-success"></span>{{ $event->name }}</a>
+                            @else
+                                <a class="dropdown-item" id="offcanvas-add-project"
+                                    href="{{ route('mds.admin.booking.switch', $event->id) }}"
+                                    data-table="project_table"><span
+                                        class="fas fa-circle me-2"></span>{{ $event->name }}</a>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -124,7 +133,8 @@
                                 <div class="px-2 px-sm-3 py-3 notification-card position-relative read border-bottom">
                                     <div class="d-flex align-items-center justify-content-between position-relative">
                                         <div class="d-flex">
-                                            <div class="avatar avatar-m status-online me-3"><img class="rounded-circle"
+                                            <div class="avatar avatar-m status-online me-3"><img
+                                                    class="rounded-circle"
                                                     src="{{ asset('fnx/assets/img/team/40x40/30.webp') }}"
                                                     alt="" />
                                             </div>
@@ -162,6 +172,50 @@
             </li>
             {{-- // end of notification block --}}
 
+            {{-- // application block --}}
+            <li class="nav-item dropdown">
+                <a class="nav-link" id="navbarDropdownNindeDots" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-haspopup="true" data-bs-auto-close="outside"
+                    aria-expanded="false">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="2" cy="2" r="2" fill="currentColor"></circle>
+                        <circle cx="2" cy="8" r="2" fill="currentColor"></circle>
+                        <circle cx="2" cy="14" r="2" fill="currentColor"></circle>
+                        <circle cx="8" cy="8" r="2" fill="currentColor"></circle>
+                        <circle cx="8" cy="14" r="2" fill="currentColor"></circle>
+                        <circle cx="14" cy="8" r="2" fill="currentColor"></circle>
+                        <circle cx="14" cy="14" r="2" fill="currentColor"></circle>
+                        <circle cx="8" cy="2" r="2" fill="currentColor"></circle>
+                        <circle cx="14" cy="2" r="2" fill="currentColor"></circle>
+                    </svg></a>
+
+                <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-nine-dots shadow border"
+                    aria-labelledby="navbarDropdownNindeDots">
+                    <div class="card bg-body-emphasis position-relative border-0">
+                        <div class="card-body pt-3 px-3 pb-0 overflow-auto scrollbar" style="height: 20rem;">
+                            <div class="row text-center align-items-center gx-0 gy-0">
+                                <div class="col-4"><a
+                                        class="d-block bg-body-secondary-hover p-2 rounded-3 text-center text-decoration-none mb-3"
+                                        href="{{ route('home') }}"><img src="../../assets/img/nav-icons/bitbucket.webp"
+                                            alt="" width="30">
+                                        <p class="mb-0 text-body-emphasis text-truncate fs-10 mt-1 pt-1">MDS</p>
+                                    </a>
+                                </div>
+                                <div class="col-4"><a
+                                        class="d-block bg-body-secondary-hover p-2 rounded-3 text-center text-decoration-none mb-3"
+                                        href="{{ route('bookapp') }}"><img src="../../assets/img/nav-icons/figma.webp"
+                                            alt="" width="20">
+                                        <p class="mb-0 text-body-emphasis text-truncate fs-10 mt-1 pt-1">TDS</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {{-- // end application block --}}
+
             <li class="nav-item dropdown"><a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!"
                     role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true"
                     aria-expanded="false">
@@ -195,7 +249,8 @@
                                         href="{{ route('mds.admin.users.profile') }}"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="{{ route('mds.admin.dashboard') }}"><span
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                        href="{{ route('mds.admin.dashboard') }}"><span
                                             class="me-2 text-body align-bottom"
                                             data-feather="pie-chart"></span>Dashboard</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span

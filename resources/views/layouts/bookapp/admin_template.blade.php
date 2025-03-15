@@ -104,7 +104,7 @@
     <!-- ===============================================-->
     <main class="main" id="top">
 
-        <x-mds.admin.sidemenu />
+        <x-bookapp.admin.sidemenu />
         @include('bookapp.admin.body.header')
 
         {{-- // start of content --}}

@@ -28,24 +28,31 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        Log::info('AuthenticatedSessionController:store');
         Log::info($request);
 
         $request->authenticate();
 
         $request->session()->regenerate();
 
-                //set the default workspace as set during user creation
-                session()->put('workspace_id', $request->user()->workspace_id);
-                Log::info('AuthenticatedSessionController:store workspace_id: '.$request->user()->workspace_id);
+                // //set the default workspace as set during user creation
+                // session()->put('workspace_id', $request->user()->workspace_id);
+                // Log::info('AuthenticatedSessionController:store workspace_id: '.$request->user()->workspace_id);
 
         // Log::info($request->authenticate());
         // Log::info($request->user()->role);
         $url = '';
         if ($request->user()->role === 'admin'){
             $url = 'mds/admin/booking';
+            return redirect()->intended($url);
         } elseif  ($request->user()->role === 'user'){
             $url = 'mds/customer/booking';
+            return redirect()->intended($url);
         }
+
+        // return back()->withErrors([
+        //     'email' => 'Username and password don\'t match.',
+        // ])->onlyInput('email');
 
 
         return redirect()->intended($url);
