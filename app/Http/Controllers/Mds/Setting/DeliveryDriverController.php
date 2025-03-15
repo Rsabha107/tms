@@ -113,12 +113,12 @@ class DeliveryDriverController extends Controller
 
             return  [
                 'id' => $venue->id,
-                // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
-                'first_name' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->first_name . '</div>',
-                'last_name' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->last_name . '</div>',
-                'mobile_number' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->mobile_number . '</div>',
-                'national_identifier_number' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->national_identifier_number . '</div>',
-                'status' => '<span class="badge badge-phoenix fs--2 badge-phoenix-' . $venue->status->color . ' " style="cursor: pointer;" id="editDriverStatus" data-id="' . $venue->id . '" data-table="drivers_table"><span class="badge-label">' . $venue->status->title . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
+                // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-9 ps-2">' .$venue->id. '</div>',
+                'first_name' => '<div class="align-middle white-space-wrap  fs-9 ps-3">' . $venue->first_name . '</div>',
+                'last_name' => '<div class="align-middle white-space-wrap  fs-9 ps-3">' . $venue->last_name . '</div>',
+                'mobile_number' => '<div class="align-middle white-space-wrap  fs-9 ps-3">' . $venue->mobile_number . '</div>',
+                'national_identifier_number' => '<div class="align-middle white-space-wrap  fs-9 ps-3">' . $venue->national_identifier_number . '</div>',
+                'status' => '<span class="badge badge-phoenix fs--2 ms-3 badge-phoenix-' . $venue->status->color . ' " style="cursor: pointer;" id="editDriverStatus" data-id="' . $venue->id . '" data-table="drivers_table"><span class="badge-label">' . $venue->status->title . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
                 'created_at' => format_date($venue->created_at,  'H:i:s'),
                 'updated_at' => format_date($venue->updated_at, 'H:i:s'),
             ];

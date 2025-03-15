@@ -17,6 +17,7 @@
                     data-show-export="true"
                     data-show-columns-toggle-all="true"
                     data-show-refresh="true"
+                    data-show-toggle="true"
                     data-total-field="total"
                     data-trim-on-search="false"
                     data-data-field="rows"
@@ -34,19 +35,19 @@
                         <tr>
                             <!-- <th data-checkbox="true"></th> -->
                             <!-- <th data-sortable="true" data-field="id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('id', 'ID') ?></th> -->
-                            <th data-sortable="true" data-field="event" class="align-middle white-space-wrap fw-bold fs-9">Event</th>
-                            <th data-sortable="true" data-field="venue" class="align-middle white-space-wrap fw-bold fs-9">Venue</th>
-                            <th data-sortable="true" data-field="booking_date" class="align-middle white-space-wrap fw-bold fs-9">Booking Date</th>
-                            <th data-sortable="true" data-field="rsp_booking_slot" class="align-middle white-space-wrap fw-bold fs-9">RSP Booking Slot</th>
-                            <th data-sortable="true" data-field="venue_arrival_time" class="align-middle white-space-wrap fw-bold fs-9">Venue Arrival Time</th>
-                            <th data-sortable="true" data-field="bookings_slots_all" class="align-middle white-space-wrap fw-bold fs-9">Booking Slots (ALL)</th>
-                            <th data-sortable="true" data-field="available_slots" class="align-middle white-space-wrap fw-bold fs-9">Available Slots</th>
-                            <th data-sortable="true" data-field="used_slots" class="align-middle white-space-wrap fw-bold fs-9">Used Slots</th>
-                            <th data-sortable="true" data-field="bookings_slots_cat" class="align-middle white-space-wrap fw-bold fs-9">Booking Slots (CAT)</th>
-                            <th data-sortable="true" data-field="slot_visibility" class="align-middle white-space-wrap fw-bold fs-9">Slot Visibility</th>
-                            <th data-sortable="true" data-field="rsp_id" class="align-middle white-space-wrap fw-bold fs-9">RSP</th>
-                            <th data-sortable="true" data-field="match_day" class="align-middle white-space-wrap fw-bold fs-9">Match Day</th>
-                            <th data-sortable="true" data-field="comments" class="align-middle white-space-wrap fw-bold fs-9">Comments</th>
+                            <th data-sortable="true" data-field="event">Event</th>
+                            <th data-sortable="true" data-field="venue">Venue</th>
+                            <th data-sortable="true" data-field="booking_date">Booking Date</th>
+                            <th data-sortable="true" data-field="rsp_booking_slot">RSP Booking Slot</th>
+                            <th data-sortable="true" data-field="venue_arrival_time">Venue Arrival Time</th>
+                            <th data-sortable="true" data-field="bookings_slots_all">Booking Slots (ALL)</th>
+                            <th data-sortable="true" data-field="available_slots">Available Slots</th>
+                            <th data-sortable="true" data-field="used_slots">Used Slots</th>
+                            <th data-sortable="true" data-field="bookings_slots_cat">Booking Slots (CAT)</th>
+                            <th data-sortable="true" data-field="slot_visibility">Slot Visibility</th>
+                            <th data-sortable="true" data-field="rsp_id">RSP</th>
+                            <th data-sortable="true" data-field="match_day">Match Day</th>
+                            <th data-sortable="true" data-field="comments">Comments</th>
                             <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                             <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
                             <th data-sortable="false" data-field="actions" data-visible="true">Actions</th>

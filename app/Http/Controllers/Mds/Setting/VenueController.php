@@ -70,8 +70,8 @@ class VenueController extends Controller
             return  [
                 'id' => $venue->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
-                'short_name' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->short_name . '</div>',
-                'title' => '<div class="align-middle white-space-wrap fw-bold fs-8">' . $venue->title . '</div>',
+                'short_name' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $venue->short_name . '</div>',
+                'title' => '<div class="align-middle white-space-wrap fs-9">' . $venue->title . '</div>',
                 'created_at' => format_date($venue->created_at,  'H:i:s'),
                 'updated_at' => format_date($venue->updated_at, 'H:i:s'),
             ];

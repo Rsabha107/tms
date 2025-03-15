@@ -4,23 +4,23 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
 
     <!-- <div class="widgets-scrollspy-nav mt-n5 bg-body-emphasis z-5 mx-n4 mx-lg-n6 border-bottom">
-                    <nav class="simplebar-scrollspy navbar py-0 scrollbar-overlay" id="widgets-scrollspy">
-                        <ul class="nav flex-nowrap">
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyStats">Number Stats and Charts</a></li>
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyTables">Tables, Files, and Lists</a></li>
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyEcommerce">E-commerce</a></li>
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyUsers">Users & Feed</a></li>
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyForms">Forms</a></li>
-                            <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
-                                    href="#scrollspyOthers">Others</a></li>
-                        </ul>
-                    </nav>
-                </div> -->
+                        <nav class="simplebar-scrollspy navbar py-0 scrollbar-overlay" id="widgets-scrollspy">
+                            <ul class="nav flex-nowrap">
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyStats">Number Stats and Charts</a></li>
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyTables">Tables, Files, and Lists</a></li>
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyEcommerce">E-commerce</a></li>
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyUsers">Users & Feed</a></li>
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyForms">Forms</a></li>
+                                <li class="nav-item"> <a class="nav-link text-body-tertiary fw-bold py-3 lh-1 text-nowrap"
+                                        href="#scrollspyOthers">Others</a></li>
+                            </ul>
+                        </nav>
+                    </div> -->
     <div class="mb-9" data-bs-spy="scroll" data-bs-target="#widgets-scrollspy">
 
         <div class="d-flex mb-4" id="scrollspyOthers"><span class="fa-stack me-2 ms-n1"><i
@@ -28,10 +28,10 @@
                     class="fa-inverse fa-stack-1x text-primary-subtle fas fa-calendar-plus"
                     data-fa-transform="shrink-2"></i></span>
             <div class="col">
-                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-body pe-2">Book App</span><span
+                <h3 class="mb-0 text-primary position-relative fw-bold"><span class="bg-body pe-2"></span><span
                         class="border border-primary position-absolute top-50 translate-middle-y w-100 start-0 z-n1"></span>
                 </h3>
-                <p class="mb-0">Get more awesome cards for showing your different types of content..</p>
+                {{-- <p class="mb-0">Get more awesome cards for showing your different types of content..</p> --}}
             </div>
         </div>
         {{-- <div class="row g-3 mb-3">
@@ -121,26 +121,19 @@
                     <div class="col-12">
                         <div class="card mb-3 h-100">
                             <div class="card-body">
-                                <h3 class="mb-4">Select a date to see available times</h3>
-                                <form action="" method="post">
+                                <div id="div3_title">
+                                    <h3 class="mb-4" id="div3_title">Select a date to see available times</h3>
+                                </div>
+                                <form id="bookapp_form" action="" method="post" class="needs-validation" novalidate>
                                     @csrf
                                     <input type="hidden" name="team_id" id="bookapp_team_id">
                                     <input type="hidden" name="destination_id" id="bookapp_destination_id">
                                     <input type="hidden" name="date" id="bookapp_date">
 
-                                    <ul class="list-group mb-5" id="myTab" role="tablist">
-                                        @foreach ($booking_slots as $booking_slot)
-                                            <li class="list-group-item">
-                                                <input class="form-check-input me-1" type="radio" name="time_slot_id"
-                                                    value="{{ $booking_slot->id }}"
-                                                    id="timeSlotsRadio{{ $booking_slot->id }}">
-                                                <label class="form-check-label"
-                                                    for="timeSlotsRadio{{ $booking_slot->id }}">{{ $booking_slot->booking_slot }}</label>
-                                            </li>
-                                        @endforeach
-                                    </ul>
+                                    <div id="show_schedule_times"></div>
+
                                     {{-- <button type="submit" class="btn btn-primary mt-3">Book Appointment</button> --}}
-                                    <button type="submit" class="btn btn-primary mt-3">Book Appointment</button>
+                                    <button type="submit" class="btn btn-primary mt-3" id="submit_booking" disabled>Book Appointment</button>
                                 </form>
                             </div>
                         </div>

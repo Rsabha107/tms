@@ -68,8 +68,8 @@ class ZoneController extends Controller
             return  [
                 'id' => $op->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$op->id. '</div>',
-                'title' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $op->title . '</div>',
-                'venue' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $op->venue?->title . '</div>',
+                'title' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $op->title . '</div>',
+                'venue' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $op->venue?->title . '</div>',
                 'created_at' => format_date($op->created_at,  'H:i:s'),
                 'updated_at' => format_date($op->updated_at, 'H:i:s'),
             ];

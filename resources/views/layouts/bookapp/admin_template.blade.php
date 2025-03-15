@@ -9,7 +9,7 @@
     <!-- ===============================================-->
     <!--    Document Title-->
     <!-- ===============================================-->
-    <title>MDS</title>
+    <title>TDS</title>
 
     <!-- ===============================================-->
     <!--    Favicons-->
@@ -105,13 +105,13 @@
     <main class="main" id="top">
 
         {{-- <x-mds.admin.sidemenu /> --}}
-        @include('mds.admin.body.header')
+        @include('bookapp.admin.body.header')
 
         {{-- // start of content --}}
         <div class="content">
             @yield('main')
             @include('mds.admin.partials.labels')
-            @include('mds.admin.body.footer')
+            @include('bookapp.admin.body.footer')
         </div>
         {{-- // end of content --}}
 

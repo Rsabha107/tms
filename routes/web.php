@@ -53,6 +53,8 @@ use App\Http\Controllers\UtilController;
 Route::get('/bookapp', [BookAppController::class, 'index'])->name('bookapp');
 // Route::get('/bookapp/booking/schedule/{event_id}', [BookingAppController::class, 'listEvent'])->name('bookapp.booking.schedule'); // for calendar
 Route::post('/bookapp/booking/schedule', [BookAppController::class, 'listEvent'])->name('bookapp.booking.schedule.post'); // for calendar
+Route::post('/bookapp/booking/times/cal', [BookAppController::class,'get_times_cal'])->name('bookapp.booking.times.cal');
+
 
 
 
@@ -153,12 +155,12 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/admin', 'index')->name('mds.admin');
             Route::get('/mds/admin/booking', 'index')->name('mds.admin.booking');
             Route::get('/mds/admin/booking/list', 'list')->name('mds.admin.booking.list');
-            Route::get('/mds/admin/booking/schedule/{id}', 'listEvent')->name('mds.admin.booking.schedule'); // for calendar
+            Route::post('/mds/admin/booking/schedule', 'listEvent')->name('mds.admin.booking.schedule'); // for calendar
             Route::get('/mds/admin/booking/create', 'create')->name('mds.admin.booking.create');
             Route::get('/mds/admin/booking/manage/{id}', 'manage')->name('mds.admin.booking.manage');
             Route::get('/mds/admin/booking/get/{id}', 'get')->name('mds.admin.booking.get');
             Route::get('/mds/admin/booking/get_times/{date}/{venue_id}', 'get_times')->name('mds.admin.booking.get_times');
-            Route::get('/mds/admin/booking/times/cal/{date}/{venue_id}', 'get_times_cal')->name('mds.admin.booking.times.cal');
+            Route::post('/mds/admin/booking/times/cal', 'get_times_cal')->name('mds.admin.booking.times.cal');
             Route::post('mds/admin/booking/update', 'update')->name('mds.admin.booking.update');
             Route::get('mds/admin/booking/edit/{id}', 'edit')->name('mds.admin.booking.edit');
             Route::delete('/mds/admin/booking/delete/{id}', 'delete')->name('mds.admin.booking.delete');
@@ -317,12 +319,12 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
             Route::get('/mds/customer', 'index')->name('mds.customer');
             Route::get('/mds/customer/booking', 'index')->name('mds.customer.booking');
             Route::get('/mds/customer/booking/list', 'list')->name('mds.customer.booking.list');
-            Route::get('/mds/customer/booking/schedule/{id}', 'listEvent')->name('mds.customer.booking.schedule'); // for calendar
+            Route::post('/mds/customer/booking/schedule', 'listEvent')->name('mds.customer.booking.schedule'); // for calendar
             Route::get('/mds/customer/booking/create', 'create')->name('mds.customer.booking.create');
             Route::get('/mds/customer/booking/manage/{id}', 'manage')->name('mds.customer.booking.manage');
             Route::get('/mds/customer/booking/get/{id}', 'get')->name('mds.customer.booking.get');
             Route::get('/mds/customer/booking/get_times/{date}/{venue_id}', 'get_times')->name('mds.customer.booking.get_times');
-            Route::get('/mds/customer/booking/times/cal/{date}/{venue_id}', 'get_times_cal')->name('mds.customer.booking.times.cal');
+            Route::post('/mds/customer/booking/times/cal', 'get_times_cal')->name('mds.customer.booking.times.cal');
             Route::post('mds/customer/booking/update', 'update')->name('mds.customer.booking.update');
             Route::get('mds/customer/booking/edit/{id}', 'edit')->name('mds.customer.booking.edit');
             Route::delete('/mds/customer/booking/delete/{id}', 'delete')->name('mds.customer.booking.delete');

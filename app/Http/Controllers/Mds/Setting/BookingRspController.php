@@ -90,9 +90,9 @@ class BookingRspController extends Controller
 
             return  [
                 'id' => $op->id,
-                // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$op->id. '</div>',
-                'title' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $op->title . '</div>',
-                'status' => '<span class="badge badge-phoenix fs--2 badge-phoenix-' . $op->active_status->color . ' " style="cursor: pointer;" id="editDriverStatus" data-id="' . $op->id . '" data-table="drivers_table"><span class="badge-label">' . $op->active_status->name . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
+                // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' .$op->id. '</div>',
+                'title' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $op->title . '</div>',
+                'status' => '<span class="badge badge-phoenix fs--2 ms-3 badge-phoenix-' . $op->active_status->color . ' " style="cursor: pointer;" id="editDriverStatus" data-id="' . $op->id . '" data-table="drivers_table"><span class="badge-label">' . $op->active_status->name . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
                 'actions' => $actions,
                 'created_at' => format_date($op->created_at,  'H:i:s'),
                 'updated_at' => format_date($op->updated_at, 'H:i:s'),

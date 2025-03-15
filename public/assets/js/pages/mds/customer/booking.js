@@ -67,7 +67,27 @@ $(document).ready(function () {
         calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
             themeSystem: "bootstrap5",
-            events: "/mds/customer/booking/schedule/" + venue_id,
+            // events: "/mds/customer/booking/schedule/" + venue_id,
+            events: function(info, successCallback, failureCallback) {
+                $.ajax({
+                    url: '/mds/customer/booking/schedule',
+                    method: 'post', // Change to GET if you want
+                    data: { // Our data
+                        venue_id: venue_id,   // Team ID
+                    },
+                    headers: {
+                        "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        console.log(data);
+                        successCallback(data);
+                    },
+                    error: function(error) {
+                        alert(error);
+                    }
+                });
+            },
             // eventBackgroundColor: "green",
             eventDisplay: "block",
             selectable: true,
@@ -198,12 +218,12 @@ $(document).ready(function () {
                 console.log("venue_id id", venue_id);
                 console.log("info.startStr: ", info.dateStr);
                 $.ajax({
-                    url:
-                        "/mds/customer/booking/times/cal/" +
-                        info.dateStr +
-                        "/" +
-                        venue_id,
-                    type: "get",
+                    url: "/mds/customer/booking/times/cal",
+                    method: "post",
+                    data: {
+                        venue_id: venue_id,
+                        date: info.dateStr,
+                    },
                     headers: {
                         "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
                     },
@@ -242,7 +262,7 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
-                        console.log("before available-time");
+                        console.log('before available-time');
 
                         $("#cover-spin").hide();
                     },
@@ -280,12 +300,12 @@ $(document).ready(function () {
                 console.log("convertedDate", convertedDate);
                 console.log("eventObj id", eventObj.id);
                 $.ajax({
-                    url:
-                        "/mds/customer/booking/times/cal/" +
-                        convertedDate +
-                        "/" +
-                        venue_id,
-                    type: "get",
+                    url: "/mds/customer/booking/times/cal",
+                    method: "post",
+                    data: {
+                        venue_id: venue_id,
+                        date: info.dateStr,
+                    },
                     headers: {
                         "X-CSRF-TOKEN": $('input[name="_token"]').attr("value"), // Replace with your method of getting the CSRF token
                     },
@@ -296,6 +316,7 @@ $(document).ready(function () {
                             "response length: " + response.venue.length
                         );
                         // var len = response.length;
+
                         $("#add_schedule_times_cal")
                             .empty("")
                             .html(
@@ -309,7 +330,8 @@ $(document).ready(function () {
                                 grey = null;
                             }
 
-                            $("#add_booking_date").val(convertedDate);
+                            $("#add_booking_date").val(info.dateStr);
+
                             $("#add_schedule_times_cal").append(
                                 '<option value="' +
                                     value.id +
@@ -322,6 +344,7 @@ $(document).ready(function () {
                                     ")</option>"
                             );
                         });
+                        console.log('before available-time');
 
                         $("#cover-spin").hide();
                     },

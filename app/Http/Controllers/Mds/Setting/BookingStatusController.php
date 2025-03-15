@@ -64,8 +64,8 @@ class BookingStatusController extends Controller
             return  [
                 'id' => $status->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$status->id. '</div>',
-                'title' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $status->title . '</div>',
-                'color' => '<span class="badge badge-phoenix badge-phoenix-' . $status->color . '">' . $status->title . '</span>',
+                'title' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $status->title . '</div>',
+                'color' => '<span class="badge badge-phoenix ms-3 badge-phoenix-' . $status->color . '">' . $status->title . '</span>',
                 'created_at' => format_date($status->created_at,  'H:i:s'),
                 'updated_at' => format_date($status->updated_at, 'H:i:s'),
             ];

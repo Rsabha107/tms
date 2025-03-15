@@ -81,7 +81,7 @@ class BookingController extends Controller
         return view('mds.customer.dashboard.index');
     }
 
-    public function listEvent(Request $request, String $id)
+    public function listEvent(Request $request)
     {
         $start = date('Y-m-d', strtotime($request->start));
         $end = date('Y-m-d', strtotime($request->end));
@@ -111,7 +111,7 @@ class BookingController extends Controller
         // Log::info('today is greator than ..'. ($date->gt($now)));
         // Log::info('today is less than ..'. ($date->lt($now)));
         // Log::info('BookingController::listEvent carbon subDay: ' . $prevDate);
-        $events = BookingSlot::where('venue_id', $id)
+        $events = BookingSlot::where('venue_id', $request->venue_id)
             ->where('event_id', session()->get('EVENT_ID'))
             ->where('bookings_slots_all', '>', 0)
             ->where('slot_visibility', '<=', Carbon::now())
@@ -231,40 +231,40 @@ class BookingController extends Controller
             return  [
                 'id' => $op->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$op->id. '</div>',
-                'delivery_status_id' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->status->title . '</div>',
-                'booking_ref_number' => '<div class="align-middle white-space-wrap fw-bold fs-10 ms-2">
+                'delivery_status_id' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->status->title . '</div>',
+                'booking_ref_number' => '<div class="align-middle white-space-wrap fs-9 ms-2">
                         <a href="javascript:void(0)" data-table="bookings_table" id="bookingDetails" data-id="'.$op->id.'">' . $op->booking_ref_number . '</a></div>',
-                'venue_id' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' .  $op->venue?->title . '</div>',
-                'rsp_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->schedule->rsp?->title . '</div>',
-                'client_group' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->client?->title . '</div>',
-                'booking_date' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($op->booking_date) . '</div>',
-                // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . time_range_segment($op->schedule_period->period, 'from') . '</div>',
-                'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->schedule->rsp_booking_slot . '</div>',
-                // 'booking_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . ($op->schedule_period->period) . '</div>',
-                'booking_party_company_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->booking_party_company_name . '</div>',
-                'booking_party_contact_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->booking_party_contact_name . '</div>',
-                'booking_party_contact_email' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->booking_party_contact_email . '</div>',
-                'booking_party_contact_number' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->booking_party_contact_number . '</div>',
-                'delivering_party_company_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_company_name . '</div>',
-                'delivering_party_contact_number' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_contact_number . '</div>',
-                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_contact_email . '</div>',
-                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_contact_email . '</div>',
-                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_contact_email . '</div>',
-                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivering_party_contact_email . '</div>',
-                'arrival_date_time' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . format_date($op->arrival_date_time) . '</div>',
-                'driver_first_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->driver->first_name . '</div>',
-                'driver_last_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->driver->last_name . '</div>',
-                'driver_national_id' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->driver->national_identifier_number . '</div>',
-                'driver_phone_number' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->driver->mobile_number . '</div>',
-                'vehicle_make' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->vehicle->make . '</div>',
-                'license_plate' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->vehicle->license_plate . '</div>',
-                'vehicle_type' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->vehicle_type->title . '</div>',
-                'receiver_name' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->receiver_name . '</div>',
-                'receiver_contact_number' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->receiver_contact_number . '</div>',
-                'loading_zone' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->zone->title . '</div>',
-                'cargo' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->cargo->title . '</div>',
-                'delivery_type' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->delivery_type->title . '</div>',
-                'booking' => '<div class="align-middle white-space-wrap fw-bold fs-10 ps-2">' . $op->id . '</div>',
+                'venue_id' => '<div class="align-middle white-space-wrap fs-9 ps-2">' .  $op->venue?->title . '</div>',
+                'rsp_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->schedule->rsp?->title . '</div>',
+                'client_group' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->client?->title . '</div>',
+                'booking_date' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . format_date($op->booking_date) . '</div>',
+                // 'booking_time' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . time_range_segment($op->schedule_period->period, 'from') . '</div>',
+                'booking_time' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->schedule->rsp_booking_slot . '</div>',
+                // 'booking_time' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . ($op->schedule_period->period) . '</div>',
+                'booking_party_company_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_party_company_name . '</div>',
+                'booking_party_contact_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_party_contact_name . '</div>',
+                'booking_party_contact_email' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_party_contact_email . '</div>',
+                'booking_party_contact_number' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_party_contact_number . '</div>',
+                'delivering_party_company_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_company_name . '</div>',
+                'delivering_party_contact_number' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_contact_number . '</div>',
+                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_contact_email . '</div>',
+                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_contact_email . '</div>',
+                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_contact_email . '</div>',
+                'delivering_party_contact_email' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivering_party_contact_email . '</div>',
+                'arrival_date_time' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . format_date($op->arrival_date_time) . '</div>',
+                'driver_first_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->driver->first_name . '</div>',
+                'driver_last_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->driver->last_name . '</div>',
+                'driver_national_id' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->driver->national_identifier_number . '</div>',
+                'driver_phone_number' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->driver->mobile_number . '</div>',
+                'vehicle_make' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->vehicle->make . '</div>',
+                'license_plate' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->vehicle->license_plate . '</div>',
+                'vehicle_type' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->vehicle_type->title . '</div>',
+                'receiver_name' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->receiver_name . '</div>',
+                'receiver_contact_number' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->receiver_contact_number . '</div>',
+                'loading_zone' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->zone->title . '</div>',
+                'cargo' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->cargo->title . '</div>',
+                'delivery_type' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->delivery_type->title . '</div>',
+                'booking' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->id . '</div>',
                 'action' => $actions,
                 'created_at' => format_date($op->created_at,  'H:i:s'),
                 'updated_at' => format_date($op->updated_at, 'H:i:s'),
@@ -664,8 +664,10 @@ class BookingController extends Controller
     //     return response()->json(['venue' => $venue]);
     // }
 
-    public function get_times_cal($date, $venue_id)
+    public function get_times_cal(Request $request)
     {
+        $date = $request->date;
+        $venue_id = $request->venue_id;
         // LOG::info('inside get_times');
         // $formated_date = Carbon::createFromFormat('dmY', $date)->toDateString();
         // LOG::info('formated_date: '.$formated_date);

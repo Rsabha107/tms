@@ -67,7 +67,7 @@ class FunctionalAreaController extends Controller
 
             return  [
                 'id' => $funcarea->id,
-                'title' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $funcarea->title . '</div>',
+                'title' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $funcarea->title . '</div>',
                 'created_at' => format_date($funcarea->created_at,  'H:i:s'),
                 'updated_at' => format_date($funcarea->updated_at, 'H:i:s'),
             ];

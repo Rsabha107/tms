@@ -115,10 +115,10 @@ class DeliveryVehicleController extends Controller
 
             return  [
                 'id' => $venue->id,
-                'vehicle_type_id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->vehicle_type->title . '</div>',
-                'make' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->make . '</div>',
-                'license_plate' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-3">' . $venue->license_plate . '</div>',
-                'status' => '<span class="badge badge-phoenix fs--2 badge-phoenix-' . $venue->status->color . ' " style="cursor: pointer;" id="editVehicleStatus" data-id="' . $venue->id . '" data-table="vehicles_table"><span class="badge-label">' . $venue->status->title . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
+                'vehicle_type_id' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $venue->vehicle_type->title . '</div>',
+                'make' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $venue->make . '</div>',
+                'license_plate' => '<div class="align-middle white-space-wrap fs-9 ps-3">' . $venue->license_plate . '</div>',
+                'status' => '<span class="badge badge-phoenix fs--2 ms-3 badge-phoenix-' . $venue->status->color . ' " style="cursor: pointer;" id="editVehicleStatus" data-id="' . $venue->id . '" data-table="vehicles_table"><span class="badge-label">' . $venue->status->title . '</span><span class="ms-1 uil-edit-alt" style="height:12.8px;width:12.8px;cursor: pointer;"></span></span>',
                 'created_at' => format_date($venue->created_at,  'H:i:s'),
                 'updated_at' => format_date($venue->updated_at, 'H:i:s'),
             ];
