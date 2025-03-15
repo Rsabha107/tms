@@ -32,7 +32,7 @@
                     <!-- parent pages-->
                     <div class="nav-item-wrapper"><a class="nav-link dropdown-indicator  label-1" href="#nv-MDS" role="button" data-bs-toggle="collapse" aria-expanded="true" aria-controls="nv-MDS">
                             <div class="d-flex align-items-center">
-                                <div class="dropdown-indicator-icon-wrapper"><span class="fas fa-caret-right dropdown-indicator-icon"></span></div><span class="nav-link-icon"><span data-feather="phone"></span></span><span class="nav-link-text">MDS</span>
+                                <div class="dropdown-indicator-icon-wrapper"><span class="fas fa-caret-right dropdown-indicator-icon"></span></div><span class="nav-link-icon"><span data-feather="phone"></span></span><span class="nav-link-text">TDS</span>
                             </div>
                         </a>
                         <div class="parent-wrapper label-1">
