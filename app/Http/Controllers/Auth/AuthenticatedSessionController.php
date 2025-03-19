@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('mds.auth.sign-in');
+        return view('tms.auth.sign-in');
     }
 
     /**
@@ -43,10 +43,10 @@ class AuthenticatedSessionController extends Controller
         // Log::info($request->user()->role);
         $url = '';
         if ($request->user()->role === 'admin'){
-            $url = 'mds/admin/booking';
+            $url = 'tms/admin/booking';
             return redirect()->intended($url);
         } elseif  ($request->user()->role === 'user'){
-            $url = 'mds/customer/booking';
+            $url = 'tms/customer/booking';
             return redirect()->intended($url);
         }
 

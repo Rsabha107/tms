@@ -97,7 +97,7 @@
                                 {{-- @hasrole('xxx') --}}
                                 <div
                                     data-list='{"valueNames":["title"]}'>
-                                    <form class="position-relative" action="{{ route('mds.admin.booking.event.switch') }}" method="POST">
+                                    <form class="position-relative" action="{{ route('tms.admin.booking.event.switch') }}" method="POST">
                                         @csrf
                                         <select class="form-select mb-3" name="event_id" required>
                                             <option value="" selected>Select ..</option>
@@ -110,7 +110,7 @@
                                     </form>
                                 </div>
                                 {{-- @endhasrole --}}
-                                <a class="btn btn-lg btn-secondary w-100" href="{{ route('mds.admin') }}">Request Access</a>
+                                <a class="btn btn-lg btn-secondary w-100" href="{{ route('tms.admin') }}">Request Access</a>
                             </div>
                         </div>
                     </div>

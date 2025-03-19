@@ -302,7 +302,7 @@ max-height: 660px;
 
 .offcanvas-global-modal.in {
     transition: all 0.5s ease;
-    width: 65%;
+    /* width: 65%; */
     right: 0px;
 
     /* @include media-breakpoint-down(sm){

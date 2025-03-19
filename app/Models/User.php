@@ -6,7 +6,7 @@ namespace App\Models;
 
 use App\Models\GeneralSettings\GlobalAttachment;
 use App\Models\Mds\FunctionalArea;
-use App\Models\Mds\MdsEvent;
+use App\Models\Tms\Setting\Event;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function events()
     {
-        return $this->belongsToMany(MdsEvent::class, 'user_event', 'user_id', 'event_id');
+        return $this->belongsToMany(Event::class, 'user_event', 'user_id', 'event_id');
     }
 
     public function fa()

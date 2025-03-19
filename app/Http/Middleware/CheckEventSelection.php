@@ -21,9 +21,9 @@ class CheckEventSelection
             // Log::info('CheckEventSelection: Checking event selection: '. session()->has('EVENT_ID'));
             if (!session()->has('EVENT_ID') && auth()->check()) {
                 if (auth()->user()->is_admin) {
-                    return redirect()->route('mds.admin.booking.pick');
+                    return redirect()->route('tms.admin.booking.pick');
                 } else {
-                    return redirect()->route('mds.customer.booking.pick');
+                    return redirect()->route('tms.customer.booking.pick');
                 }
                 // return redirect()->route('mds.admin.booking.pick');
             }

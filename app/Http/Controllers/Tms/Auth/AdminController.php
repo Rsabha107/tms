@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Mds\Auth;
+namespace App\Http\Controllers\Tms\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\SendForgotPasswordMail;

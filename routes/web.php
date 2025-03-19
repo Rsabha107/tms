@@ -6,7 +6,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\CommunicationChannels;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\Backend\RoleController;
-use App\Http\Controllers\Bookapp\BookAppController;
+use App\Http\Controllers\Tms\BookingController as tmsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Mds\Setting\BookingStatusController;
 use App\Http\Controllers\Mds\Setting\DeliveryCargoController;
@@ -18,21 +18,23 @@ use App\Http\Controllers\Mds\Setting\FunctionalAreaController;
 use App\Http\Controllers\Mds\Setting\IntervalController;
 use App\Http\Controllers\Mds\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Mds\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Mds\Auth\AdminController as AuthAdminController;
+use App\Http\Controllers\Tms\Auth\AdminController as AuthAdminController;
 use App\Http\Controllers\Mds\Customer\BookingController as CustomerBookingController;
 use App\Http\Controllers\Mds\Customer\UserController as CustomerUserController;
 use App\Http\Controllers\Mds\Manager\BookingController as ManagerBookingController;
 use App\Http\Controllers\Mds\Manager\UserController as ManagerUserController;
-use App\Http\Controllers\Mds\Setting\BookingEventController;
+use App\Http\Controllers\Tms\Setting\BookingEventController;
 use App\Http\Controllers\Mds\Setting\BookingRspController;
 use App\Http\Controllers\Mds\Setting\BookingSlotController;
-use App\Http\Controllers\Mds\Setting\ScheduleController;
+use App\Http\Controllers\Tms\Setting\ScheduleController;
 use App\Http\Controllers\StatusController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Mds\Setting\VehicleTypeController;
 use App\Http\Controllers\Mds\Setting\VenueController;
 use App\Http\Controllers\Mds\Setting\ZoneController;
+use App\Http\Controllers\Tms\Setting\BookingDestinationController;
+use App\Http\Controllers\Tms\Setting\BookingTeamController;
 use App\Http\Controllers\UtilController;
 
 /*
@@ -50,15 +52,80 @@ use App\Http\Controllers\UtilController;
 //     return view('welcome');
 // });
 
-Route::get('/bookapp/create', [BookAppController::class, 'create'])->name('bookapp.create');
-Route::get('/bookapp', [BookAppController::class, 'index'])->name('bookapp');
-Route::get('/bookapp/booking', [BookAppController::class, 'index'])->name('bookapp.booking');
-Route::get('/bookapp/admin/booking/list', [BookAppController::class, 'list'])->name('bookapp.admin.booking.list');
-// Route::get('/bookapp/booking/schedule/{event_id}', [BookingAppController::class, 'listEvent'])->name('bookapp.booking.schedule'); // for calendar
-Route::post('/bookapp/booking/schedule', [BookAppController::class, 'listEvent'])->name('bookapp.booking.schedule.post'); // for calendar
-Route::post('/bookapp/booking/times/cal', [BookAppController::class,'get_times_cal'])->name('bookapp.booking.times.cal');
-Route::post('/bookapp/booking/store', [BookAppController::class, 'store'])->name('bookapp.booking.store');
-Route::DELETE('/bookapp/admin/booking/delete/{id}', [BookAppController::class, 'delete'])->name('bookapp.admin.booking.delete');
+Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function () {
+
+    // Route::get('/tracki/auth/login', [AdminController::class, 'login'])->name('tracki.auth.login')->middleware('prevent-back-history');
+    Route::get('/tms/auth/login', [AuthAdminController::class, 'login'])->name('tms.auth.login')->middleware('prevent-back-history');
+    Route::get('/tms/auth/forgot', [AdminController::class, 'forgotPassword'])->name('tms.auth.forgot');
+    Route::post('forget-password', [AdminController::class, 'submitForgetPasswordForm'])->name('tms.forgot.password.post');
+    Route::get('tms/auth/reset/{token}', [AdminController::class, 'showResetPasswordForm'])->name('tms.reset.password.get');
+    Route::post('reset-password', [AdminController::class, 'submitResetPasswordForm'])->name('tms.reset.password.post');
+    Route::get('/tms/logout', [AuthAdminController::class, 'logout'])->name('tms.logout');
+    Route::get('/tms/auth/signup', [AuthAdminController::class, 'signUp'])->name('tms.auth.signup');
+    Route::post('/signup/store', [UserController::class, 'store'])->name('admin.signup.store');
+
+    Route::middleware(['auth', 'prevent-back-history'])->group(function () {
+        Route::get('/tms/admin/booking/pick', function () {
+            return view('/tms/admin/booking/pick');
+        })->name('tms.admin.booking.pick')->middleware('role:SuperAdmin');
+        Route::post('/tms/admin/events/switch', [tmsController::class, 'pickEvent'])->name('tms.admin.booking.event.switch')->middleware('role:SuperAdmin');
+    });
+
+    Route::middleware(['auth', 'otp', 'mutli.event', 'XssSanitizer', 'role:SuperAdmin', 'prevent-back-history', 'auth.session'])->group(function () {
+        Route::controller(tmsController::class)->group(function () {
+            Route::get('/tms/admin/create', 'create')->name('tms.admin.create');
+            Route::get('/tms/admin', 'index')->name('tms.admin');
+            Route::get('/tms/admin/booking', 'index')->name('tms.admin.booking');
+            Route::get('/tms/admin/booking/list', 'list')->name('tms.admin.booking.list');
+            // Route::get('/tms/booking/schedule/{event_id}', [BookingAppController::class, 'listEvent')->name('tms.booking.schedule'); // for calendar
+            Route::post('/tms/admin/booking/schedule', 'listEvent')->name('tms.admin.booking.schedule.post'); // for calendar
+            Route::post('/tms/admin/booking/times/cal', 'get_times_cal')->name('tms.admin.booking.times.cal');
+            Route::post('/tms/admin/booking/store', 'store')->name('tms.admin.booking.store');
+            Route::get('/tms/admin/dashboard', 'dashboard')->name('tms.admin.dashboard');
+            Route::DELETE('/tms/admin/booking/delete/{id}', 'delete')->name('tms.admin.booking.delete');
+        });
+
+        //Event
+        Route::controller(BookingEventController::class)->group(function () {
+            Route::get('/tms/setting/event', 'index')->name('tms.setting.event');
+            Route::get('/tms/setting/event/list', 'list')->name('tms.setting.event.list');
+            Route::get('/tms/setting/event/get/{id}', 'get')->name('tms.setting.event.get');
+            Route::post('tms/setting/event/update', 'update')->name('tms.setting.event.update');
+            Route::delete('/tms/setting/event/delete/{id}', 'delete')->name('tms.setting.event.delete');
+            Route::post('/tms/setting/event/store', 'store')->name('tms.setting.event.store');
+        });
+
+        //Team
+        Route::controller(BookingTeamController::class)->group(function () {
+            Route::get('/tms/setting/team', 'index')->name('tms.setting.team');
+            Route::get('/tms/setting/team/list', 'list')->name('tms.setting.team.list');
+            Route::get('/tms/setting/team/get/{id}', 'get')->name('tms.setting.team.get');
+            Route::post('tms/setting/team/update', 'update')->name('tms.setting.team.update');
+            Route::delete('/tms/setting/team/delete/{id}', 'delete')->name('tms.setting.team.delete');
+            Route::post('/tms/setting/team/store', 'store')->name('tms.setting.team.store');
+        });
+
+        //Destination
+        Route::controller(BookingDestinationController::class)->group(function () {
+            Route::get('/tms/setting/destination', 'index')->name('tms.setting.destination');
+            Route::get('/tms/setting/destination/list', 'list')->name('tms.setting.destination.list');
+            Route::get('/tms/setting/destination/get/{id}', 'get')->name('tms.setting.destination.get');
+            Route::post('tms/setting/destination/update', 'update')->name('tms.setting.destination.update');
+            Route::delete('/tms/setting/destination/delete/{id}', 'delete')->name('tms.setting.destination.delete');
+            Route::post('/tms/setting/destination/store', 'store')->name('tms.setting.destination.store');
+        });
+
+        //Schedule
+        Route::controller(ScheduleController::class)->group(function () {
+            Route::get('/tms/setting/schedule', 'index')->name('tms.setting.schedule');
+            Route::get('/tms/setting/schedule/list', 'list')->name('tms.setting.schedule.list');
+            Route::get('/tms/setting/schedule/get/{id}', 'get')->name('tms.setting.schedule.get');
+            Route::post('tms/setting/schedule/update', 'update')->name('tms.setting.schedule.update');
+            Route::delete('/tms/setting/schedule/delete/{id}', 'delete')->name('tms.setting.schedule.delete');
+            Route::post('/tms/setting/schedule/store', 'store')->name('tms.setting.schedule.store');
+        });
+    });
+});
 
 Route::get('/onedrivetest', [AdminController::class, 'testonedrive']);
 
@@ -93,9 +160,9 @@ Route::get('/ganttok', function () {
 Route::get('/', function () {
     if (auth()->check()) {
         if (auth()->user()->is_admin) {
-            return redirect()->route('mds.admin');
+            return redirect()->route('tms.admin');
         } else {
-            return redirect()->route('mds.customer');
+            return redirect()->route('tms.customer');
         }
     } else {
         return redirect()->route('login');
@@ -187,29 +254,29 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
         Route::controller(VehicleTypeController::class)->group(function () {
 
             // Vehicle Type
-            Route::get('/mds/setting/vehicle_type', 'index')->name('mds.setting.vehicle_type');
-            Route::get('/mds/setting/vehicle_type/list', 'list')->name('mds.setting.vehicle_type.list');
-            Route::get('/mds/setting/vehicle_type/get/{id}', 'get')->name('mds.setting.vehicle_type.get');
-            Route::post('mds/setting/vehicle_type/update', 'update')->name('mds.setting.vehicle_type.update');
-            Route::delete('/mds/setting/vehicle_type/delete/{id}', 'delete')->name('mds.setting.vehicle_type.delete');
-            Route::post('/mds/setting/vehicle_type/store', 'store')->name('mds.setting.vehicle_type.store');
+            Route::get('/tms/setting/vehicle_type', 'index')->name('tms.setting.vehicle_type');
+            Route::get('/tms/setting/vehicle_type/list', 'list')->name('tms.setting.vehicle_type.list');
+            Route::get('/tms/setting/vehicle_type/get/{id}', 'get')->name('tms.setting.vehicle_type.get');
+            Route::post('tms/setting/vehicle_type/update', 'update')->name('tms.setting.vehicle_type.update');
+            Route::delete('/tms/setting/vehicle_type/delete/{id}', 'delete')->name('tms.setting.vehicle_type.delete');
+            Route::post('/tms/setting/vehicle_type/store', 'store')->name('tms.setting.vehicle_type.store');
         });
 
         // schedules
         Route::controller(ScheduleController::class)->group(function () {
-            Route::get('/mds/setting/schedule', 'index')->name('mds.setting.schedule');
-            Route::get('/mds/setting/schedule/list', 'list')->name('mds.setting.schedule.list');
-            Route::get('/mds/setting/schedule/get/{id}', 'get')->name('mds.setting.schedule.get');
-            Route::post('mds/setting/schedule/update', 'update')->name('mds.setting.schedule.update');
-            Route::delete('/mds/setting/schedule/delete/{id}', 'delete')->name('mds.setting.schedule.delete');
-            Route::post('/mds/setting/schedule/store', 'store')->name('mds.setting.schedule.store');
-            Route::get('/mds/setting/schedule/mv/get/{id}', 'getScheduleView')->name('mds.setting.schedule.get.mv');
+            Route::get('/tms/setting/schedule', 'index')->name('tms.setting.schedule');
+            Route::get('/tms/setting/schedule/list', 'list')->name('tms.setting.schedule.list');
+            Route::get('/tms/setting/schedule/get/{id}', 'get')->name('tms.setting.schedule.get');
+            Route::post('tms/setting/schedule/update', 'update')->name('tms.setting.schedule.update');
+            Route::delete('/tms/setting/schedule/delete/{id}', 'delete')->name('tms.setting.schedule.delete');
+            Route::post('/tms/setting/schedule/store', 'store')->name('tms.setting.schedule.store');
+            Route::get('/tms/setting/schedule/mv/get/{id}', 'getScheduleView')->name('tms.setting.schedule.get.mv');
         });
 
         // schedules
         Route::controller(BookingSlotController::class)->group(function () {
-            Route::get('/mds/setting/schedule/import', 'showImportForm')->name('mds.setting.schedule.import');
-            Route::post('/import', 'import')->name('mds.setting.scheudle.import');
+            Route::get('/tms/setting/schedule/import', 'showImportForm')->name('tms.setting.schedule.import');
+            Route::post('/import', 'import')->name('tms.setting.scheudle.import');
         });
 
         // intervals
@@ -275,23 +342,13 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
         });
 
         //Event
-        Route::controller(BookingEventController::class)->group(function () {
-            Route::get('/mds/setting/event', 'index')->name('mds.setting.event');
-            Route::get('/mds/setting/event/list', 'list')->name('mds.setting.event.list');
-            Route::get('/mds/setting/event/get/{id}', 'get')->name('mds.setting.event.get');
-            Route::post('mds/setting/event/update', 'update')->name('mds.setting.event.update');
-            Route::delete('/mds/setting/event/delete/{id}', 'delete')->name('mds.setting.event.delete');
-            Route::post('/mds/setting/event/store', 'store')->name('mds.setting.event.store');
-        });
-
-        //Event
         Route::controller(BookingRspController::class)->group(function () {
-            Route::get('/mds/setting/rsp', 'index')->name('mds.setting.rsp');
-            Route::get('/mds/setting/rsp/list', 'list')->name('mds.setting.rsp.list');
-            Route::get('/mds/setting/rsp/get/{id}', 'get')->name('mds.setting.rsp.get');
-            Route::post('mds/setting/rsp/update', 'update')->name('mds.setting.rsp.update');
-            Route::delete('/mds/setting/rsp/delete/{id}', 'delete')->name('mds.setting.rsp.delete');
-            Route::post('/mds/setting/rsp/store', 'store')->name('mds.setting.rsp.store');
+            Route::get('/tms/setting/rsp', 'index')->name('tms.setting.rsp');
+            Route::get('/tms/setting/rsp/list', 'list')->name('tms.setting.rsp.list');
+            Route::get('/tms/setting/rsp/get/{id}', 'get')->name('tms.setting.rsp.get');
+            Route::post('tms/setting/rsp/update', 'update')->name('tms.setting.rsp.update');
+            Route::delete('/tms/setting/rsp/delete/{id}', 'delete')->name('tms.setting.rsp.delete');
+            Route::post('/tms/setting/rsp/store', 'store')->name('tms.setting.rsp.store');
         });
 
         //Booking Status
@@ -413,8 +470,8 @@ Route::group(['middleware' => 'prevent-back-history', 'XssSanitizer'], function 
 Route::group(['middleware' => 'prevent-back-history'], function () {
 
     // Add User
-    Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
-    Route::post('/signup/store', [UserController::class, 'store'])->name('admin.signup.store');
+    // Route::get('/mds/auth/signup', [AuthAdminController::class, 'signUp'])->name('mds.auth.signup');
+    // Route::post('/signup/store', [UserController::class, 'store'])->name('admin.signup.store');
 
     Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
@@ -429,17 +486,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         })->name('b');
         /*************************************** End Play ground */
 
-        Route::get('/mds/admin/booking/pick', function () {
-            return view('/mds/admin/booking/pick');
-        })->name('mds.admin.booking.pick')->middleware('role:SuperAdmin');
-        Route::post('/mds/admin/events/switch', [AdminBookingController::class, 'pickEvent'])->name('mds.admin.booking.event.switch')->middleware('role:SuperAdmin');
-
         Route::get('/mds/customer/booking/pick', function () {
             return view('/mds/customer/booking/pick');
         })->name('mds.customer.booking.pick')->middleware('role:Customer');
         Route::post('/mds/customer/events/switch', [CustomerBookingController::class, 'pickEvent'])->name('mds.customer.booking.event.switch')->middleware('role:Customer');
 
-        Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
+        // Route::get('/mds/logout', [AuthAdminController::class, 'logout'])->name('mds.logout');
 
         Route::get('/mds/admin/booking/confirmation', function () {
             return view('/mds/admin/booking/confirmation');
@@ -494,12 +546,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::middleware(['prevent-back-history'])->group(function () {
 
         // Route::get('/tracki/auth/login', [AdminController::class, 'login'])->name('tracki.auth.login')->middleware('prevent-back-history');
-        Route::get('/mds/auth/login', [AuthAdminController::class, 'login'])->name('mds.auth.login')->middleware('prevent-back-history');
+        // Route::get('/mds/auth/login', [AuthAdminController::class, 'login'])->name('mds.auth.login')->middleware('prevent-back-history');
 
-        Route::get('/mds/auth/forgot', [AdminController::class, 'forgotPassword'])->name('mds.auth.forgot');
-        Route::post('forget-password', [AdminController::class, 'submitForgetPasswordForm'])->name('forgot.password.post');
-        Route::get('tracki/auth/reset/{token}', [AdminController::class, 'showResetPasswordForm'])->name('reset.password.get');
-        Route::post('reset-password', [AdminController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+        // Route::get('/mds/auth/forgot', [AdminController::class, 'forgotPassword'])->name('mds.auth.forgot');
+        // Route::post('forget-password', [AdminController::class, 'submitForgetPasswordForm'])->name('forgot.password.post');
+        // Route::get('tracki/auth/reset/{token}', [AdminController::class, 'showResetPasswordForm'])->name('reset.password.get');
+        // Route::post('reset-password', [AdminController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 
         Route::get('/send-mail', [SendMailController::class, 'index']);

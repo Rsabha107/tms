@@ -148,7 +148,7 @@
         <script src="{{ asset('assets/vendors/list.js/list.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/feather-icons/feather.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/dayjs/dayjs.min.js') }}"></script>
-        <script src="{{ asset('assets/assets/js/phoenix.js') }}"></script>
+        <script src="{{ asset('fnx/assets/js/phoenix.js') }}"></script>
 
     </body>
 

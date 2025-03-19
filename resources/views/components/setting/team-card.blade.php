@@ -6,11 +6,11 @@
             {{$slot}}
             <input type="hidden" id="data_type" value="status">
             <div class="mx-2 mb-2">
-                <table  id="event_table"
+                <table  id="team_table"
                         data-toggle="table"
                         data-classes="table table-hover  fs-9 mb-0 border-top border-translucent"
                         data-loading-template="loadingTemplate"
-                        data-url="{{ route('tms.setting.event.list') }}"
+                        data-url="{{ route('tms.setting.team.list') }}"
                         data-icons-prefix="bx"
                         data-icons="icons"
                         data-show-export="true"
@@ -41,7 +41,6 @@
                             <th data-sortable="true" data-field="actions">Actions</th>
                             <th data-sortable="true" data-field="created_at" data-visible="false"><?= get_label('created_at', 'Created at') ?></th>
                             <th data-sortable="true" data-field="updated_at" data-visible="false"><?= get_label('updated_at', 'Updated at') ?></th>
-                            {{-- <th data-formatter="actionsFormatter"><?= get_label('actions', 'Actions') ?></th> --}}
                         </tr>
                     </thead>
                 </table>
