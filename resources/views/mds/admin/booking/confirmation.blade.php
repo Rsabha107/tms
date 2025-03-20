@@ -1,5 +1,5 @@
 {{-- @extends('mds.admin.layout.dashboard') --}}
-@extends('mds.admin.layout.admin_template')
+@extends('layouts.tms.admin_template')
 
 @section('main')
 

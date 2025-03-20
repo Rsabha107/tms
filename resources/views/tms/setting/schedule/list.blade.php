@@ -34,8 +34,8 @@
                                                     data-bs-target="#staticBackdrop" aria-haspopup="true" aria-expanded="false"
                                                     data-bs-reference="parent"><span class="fas fa-plus me-2"></span>Add
                                                     Deal</button> -->
-            <a class="btn btn-sm btn-phoenix-warning preview-btn ms-2"
-                href="{{ route('tms.setting.schedule.import') }}"><span class="fa-solid fa-add"></span>Import</a>
+            <!-- <a class="btn btn-sm btn-phoenix-warning preview-btn ms-2"
+                href="{{ route('tms.setting.schedule.import') }}"><span class="fa-solid fa-add"></span>Import</a> -->
 
             <div class="col-12 col-sm-auto">
                 <div class="btn-group position-static" role="group">
@@ -48,25 +48,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="py-0 me-2">
-                        <select class="form-select form-select-sm py-2 ms-n2 border-0 shadow-none"
-                            id="mds_schedule_venue_filter">
-                            <option value="" selected>Filter by Venue .... </option>
-                            @foreach ($venues as $key => $item)
-                                <option value="{{ $item->id }}">{{ $item->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="py-0 me-2">
-                        <select class="form-select form-select-sm py-2 ms-n2 border-0 shadow-none"
-                            id="mds_schedule_rsp_filter">
-                            <option value="" selected>Filter by RSP .... </option>
-                            @foreach ($rsps as $key => $item)
-                                <option value="{{ $item->id }}">{{ $item->title }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <!-- <button class="btn btn-sm btn-phoenix-secondary px-7 flex-shrink-0">More filters</button> -->
                 </div>
             </div>

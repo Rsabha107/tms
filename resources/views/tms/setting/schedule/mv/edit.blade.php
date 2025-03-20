@@ -56,13 +56,20 @@
                 </div>
                 <div class="col-sm-12 col-md-12 mb-3">
                     <div class="form-floating">
-                        <input name="rsp_booking_slot" class="form-control" id="add_rsp_booking_slot"
+                        <input name="booking_slot" class="form-control" id="add_booking_slot"
                             type="text" placeholder="Booking Slot" value="{{ $schedule->booking_slot }}" />
-                        <label for="floatingInputBookingSlot">Booking Slot Time</label>
+                        <label for="floatingInputBookingSlot">Booking Slot</label>
                     </div>
                 </div>
             </div>
             <div class="row mb-3">
+            <div class="col-sm-12 col-md-12 mb-3">
+                    <div class="form-floating">
+                        <input name="maximum_slots" class="form-control" id="add_available_slots"
+                            type="number" step="1" placeholder="Budget"  value="{{ $schedule->maximum_slots }}" />
+                        <label for="floatingInputBudget">Maximum Slots</label>
+                    </div>
+                </div>
                 <div class="col-sm-12 col-md-12 mb-3">
                     <div class="form-floating">
                         <input name="available_slots" class="form-control" id="add_available_slots"

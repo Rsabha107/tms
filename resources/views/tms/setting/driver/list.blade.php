@@ -8,17 +8,17 @@ $roles = auth()->user()->getRoleNames();
 {{ logger($is_customer? 'i am customer':'not customer') }}
 {{ logger($roles) }} --}}
 
-@extends($is_customer?'mds.customer.layout.customer_template':'mds.admin.layout.admin_template')
+@extends($is_customer?'mds.customer.layout.customer_template':'layouts.tms.admin_template')
 @section('main')
 
 
 
 {{-- @if(auth()->user()->role('SuperAdmin'))
-@extends('mds.admin.layout.admin_template')
+@extends('layouts.tms.admin_template')
 @endif --}}
 
 {{-- @hasrole('SuperAdmin')
-@extends('mds.admin.layout.admin_template')
+@extends('layouts.tms.admin_template')
 @endhasrole --}}
 
 

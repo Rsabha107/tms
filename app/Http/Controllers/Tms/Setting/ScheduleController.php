@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Tms\Setting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mds\DeliveryRsp;
+// use App\Models\Mds\DeliveryRsp;
 // use App\Models\Mds\DeliverySchedule;
-use App\Models\Mds\DeliveryVenue;
+// use App\Models\Mds\DeliveryVenue;
 use App\Models\Location;
 use App\Models\Tms\Setting\BookingSlots;
 use App\Models\Tms\Setting\Event;
@@ -24,10 +24,9 @@ class ScheduleController extends Controller
     {
         $schedules = BookingSlots::all();
         $events = Event::all();
-        $venues = DeliveryVenue::all();
-        $rsps = DeliveryRsp::all();
 
-        return view('tms.setting.schedule.list', compact('schedules', 'venues', 'rsps', 'events'));
+
+        return view('tms.setting.schedule.list', compact('schedules', 'events'));
     }
 
     public function get($id)
@@ -45,11 +44,8 @@ class ScheduleController extends Controller
 
         $rules = [
             'event_id' => 'required',
-            'venue_id' => 'required',
             'booking_date' => 'required',
-            'rsp_id' => 'required',
-            'bookings_slots_cat' => 'required',
-            'slot_visibility' => 'required',
+            'booking_slot' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -62,24 +58,13 @@ class ScheduleController extends Controller
             $error = false;
             $message = 'Schedule updated succesfully.' . $op->id;
 
-            $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
-            $op->event_name = Event::find($request->event_id)->name;
-            $op->venue_name = DeliveryVenue::find($request->venue_id)->title;
-            $op->remote_search_park = DeliveryRsp::find($request->rsp_id)->title;
+            // $op->event_name = Event::find($request->event_id)->name;
             $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
-            $op->rsp_booking_slot = $request->rsp_booking_slot;
-            $op->venue_arrival_time = $request->venue_arrival_time;
-            $op->bookings_slots_all = $request->bookings_slots_all;
-            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->booking_slot = $request->booking_slot;
+            $op->maximum_slots = $request->maximum_slots;
             $op->available_slots = $request->available_slots;
             $op->used_slots = $request->used_slots;
-            $op->bookings_slots_cat = $request->bookings_slots_cat;
-            $op->slot_visibility = Carbon::createFromFormat('d/m/Y', $request->slot_visibility)->toDateString();
-            $op->rsp_id = $request->rsp_id;
-            $op->match_day = $request->match_day;
-            $op->comments = $request->comments;
-            $op->created_by = $user_id;
             $op->updated_by = $user_id;
 
             $op->save();
@@ -153,18 +138,11 @@ class ScheduleController extends Controller
                 'id' => $op->id,
                 // 'id' => '<div class="align-middle white-space-wrap fw-bold fs-8 ps-2">' .$venue->id. '</div>',
                 'event' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->event?->name . '</div>',
-                'venue' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->venue?->title . '</div>',
                 'booking_date' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . format_date($op->booking_date) . '</div>',
-                'rsp_booking_slot' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->rsp_booking_slot . '</div>',
-                'venue_arrival_time' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->venue_arrival_time . '</div>',
-                'bookings_slots_all' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_slot . '</div>',
+                'booking_slot' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->booking_slot . '</div>',
+                'maximum_slots' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->maximum_slots . '</div>',
                 'available_slots' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->available_slots . '</div>',
                 'used_slots' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->used_slots . '</div>',
-                'bookings_slots_cat' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->bookings_slots_cat . '</div>',
-                'slot_visibility' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . format_date($op->slot_visibility) . '</div>',
-                'rsp_id' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->rsp?->title . '</div>',
-                'match_day' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->match_day . '</div>',
-                'comments' => '<div class="align-middle white-space-wrap fs-9 ps-2">' . $op->comments . '</div>',
                 'actions' => $actions,
                 'created_at' => format_date($op->created_at,  'H:i:s'),
                 'updated_at' => format_date($op->updated_at, 'H:i:s'),
@@ -186,11 +164,8 @@ class ScheduleController extends Controller
 
         $rules = [
             'event_id' => 'required',
-            'venue_id' => 'required',
             'booking_date' => 'required',
-            'rsp_id' => 'required',
-            'bookings_slots_cat' => 'required',
-            'slot_visibility' => 'required',
+            'booking_slot' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -203,23 +178,13 @@ class ScheduleController extends Controller
             $error = false;
             $message = 'Schedule created succesfully.' . $op->id;
 
-            $op->venue_id = $request->venue_id;
             $op->event_id = $request->event_id;
-            $op->event_name = Event::find($request->event_id)->name;
-            $op->venue_name = DeliveryVenue::find($request->venue_id)->title;
-            $op->remote_search_park = DeliveryRsp::find($request->rsp_id)->title;
+            // $op->event_name = Event::find($request->event_id)->name;
             $op->booking_date = Carbon::createFromFormat('d/m/Y', $request->booking_date)->toDateString();
-            $op->rsp_booking_slot = $request->rsp_booking_slot;
-            $op->venue_arrival_time = $request->venue_arrival_time;
-            $op->bookings_slots_all = $request->bookings_slots_all;
-            $op->bookings_slots_cat = $request->bookings_slots_cat;
+            $op->booking_slot = $request->booking_slot;
+            $op->maximum_slots = $request->maximum_slots;
             $op->available_slots = $request->available_slots;
             $op->used_slots = $request->used_slots;
-            $op->bookings_slots_cat = $request->bookings_slots_cat;
-            $op->slot_visibility = Carbon::createFromFormat('d/m/Y', $request->slot_visibility)->toDateString();
-            $op->rsp_id = $request->rsp_id;
-            $op->match_day = $request->match_day;
-            $op->comments = $request->comments;
             $op->created_by = $user_id;
             $op->updated_by = $user_id;
 
@@ -255,13 +220,9 @@ class ScheduleController extends Controller
     {
         $schedule = BookingSlots::find($id);
         $events = Event::all();
-        $venues = DeliveryVenue::all();
-        $rsps = DeliveryRsp::all();
 
         $view = view('/tms/setting/schedule/mv/edit', [
             'schedule' => $schedule,
-            'venues' => $venues,
-            'rsps' => $rsps,
             'events' => $events,
         ])->render();
 

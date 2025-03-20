@@ -1,4 +1,4 @@
-@extends('mds.admin.layout.admin_template')
+@extends('layout.tms.admin_template')
 @section('main')
 
 

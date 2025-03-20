@@ -36,7 +36,8 @@
                             <!-- <th data-sortable="true" data-field="id" class="align-middle white-space-wrap fw-bold fs-9"><?= get_label('id', 'ID') ?></th> -->
                             <th data-sortable="true" data-field="event">Event</th>
                             <th data-sortable="true" data-field="booking_date">Booking Date</th>
-                            <th data-sortable="true" data-field="bookings_slots_all">Booking Slots</th>
+                            <th data-sortable="true" data-field="booking_slot">Booking Slots</th>
+                            <th data-sortable="true" data-field="maximum_slots">Maximum Slots</th>
                             <th data-sortable="true" data-field="available_slots">Available Slots</th>
                             <th data-sortable="true" data-field="used_slots">Used Slots</th>
                             <th data-sortable="true" data-field="comments">Comments</th>

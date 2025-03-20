@@ -14,16 +14,16 @@
                     <div class="card-body">
 
                         <div class="row mb-3">
-                            <div class="col-sm-6 col-md-4  mb-3">
+                            <div class="col-sm-12 col-md-12  mb-3">
                                 <div class="form-floating input-group">
                                     <select name="event_id"
                                         class="form-select  @error('project_type_id') is-invalid @enderror"
                                         id="add_project_project_type" required>
                                         <option selected="selected" value="">Select event...</option>
                                         @foreach ($events as $key => $item)
-                                            <option value="{{ $item->id }}">
-                                                {{ $item->name }}
-                                            </option>
+                                        <option value="{{ $item->id }}"
+                                            {{ $item->name }}
+                                        </option>
                                         @endforeach
                                     </select>
                                     <button type="button" class="btn btn-phoenix-primary px-3" data-bs-toggle="modal"
@@ -38,11 +38,11 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-6 col-md-3 mb-3">
+                            <div class="col-sm-12 col-md-12 mb-3">
                                 <div class="flatpickr-input-container">
                                     <div class="form-floating">
                                         <input class="form-control datetimepicker" id="floatingInputBookingDate"
-                                            type="date" placeholder="dd/mm/yyyy" placeholder="booking date"
+                                            type="text" placeholder="dd/mm/yyyy" placeholder="booking date"
                                             name="booking_date"
                                             data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}' required />
                                         <div class="invalid-feedback">
@@ -53,33 +53,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3 mb-3">
+                            <div class="col-sm-12 col-md-12 mb-3">
                                 <div class="form-floating">
-                                    <input name="rsp_booking_slot" class="form-control" id="add_rsp_booking_slot"
-                                        type="text"  placeholder="Booking Slot" />
-                                    <label for="floatingInputBookingSlot">Booking Slot Time</label>
+                                    <input name="booking_slot" class="form-control" id="add_booking_slot"
+                                        type="text" placeholder="Booking Slot"  />
+                                    <label for="floatingInputBookingSlot">Booking Slot</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-sm-6 col-md-3">
+                            <div class="col-sm-12 col-md-12 mb-3">
                                 <div class="form-floating">
-                                    <input name="bookings_slots_all" class="form-control" id="add_bookings_slots_all"
-                                        type="number" step="1" placeholder="Budget" value="0" />
-                                    <label for="floatingInputBudget">Booking Slot</label>
+                                    <input name="maximum_slots" class="form-control" id="add_available_slots"
+                                        type="number" step="1" placeholder=""  />
+                                    <label for="floatingInputBudget">Maximum Slots</label>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3 mb-3">
+                            <div class="col-sm-12 col-md-12 mb-3">
                                 <div class="form-floating">
                                     <input name="available_slots" class="form-control" id="add_available_slots"
-                                        type="number" step="1" placeholder="Budget" value="0" />
+                                        type="number" step="1" placeholder=""  />
                                     <label for="floatingInputBudget">Available Slots</label>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-3 mb-3">
+                            <div class="col-sm-12 col-md-12 mb-3">
                                 <div class="form-floating">
                                     <input name="used_slots" class="form-control" id="add_used_slots" type="number"
-                                        step="1" placeholder="Budget" value="0" />
+                                        step="1" placeholder="Budget"  />
                                     <label for="floatingInputBudget">Used Slots</label>
                                 </div>
                             </div>
@@ -95,8 +95,7 @@
                                     </button>
                                 </a>
                                 <div class="col-auto">
-                                    <button class="btn btn-primary px-5 px-sm-15" id="submit_btn">Create
-                                        Project</button>
+                                    <button class="btn btn-primary px-5" id="submit_btn">Save</button>
                                 </div>
                             </div>
                         </div>
